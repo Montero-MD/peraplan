@@ -23,4 +23,3 @@ This project is made in partial fulfillment of the requirements of the subject S
   * Matthew David Montero
   * Regino Gallena
   * John Lorenz Leonor
-![image](https://github.com/Montero-MD/peraplan/assets/99379541/a48b77df-fb6a-4072-beb9-f62410a0cca6)
