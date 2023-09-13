@@ -1,16 +1,26 @@
-# peraplan
+# PeraPlan 
+### ***Empowering your pesos with precision: Tracking finances the Filipino way, making every centavo count!***
 
-A new Flutter project.
+PeraPlan is a Filipino-centric expense and income tracking application for Android Devices that emerges as a solution designed with a clear focus on user-friendliness and accessibility.
 
-## Getting Started
+PeraPlan aims to democratize financial tracking as it would be able to let the users track their expenses and their income.
 
-This project is a starting point for a Flutter application.
+## Background
 
-A few resources to get you started if this is your first Flutter project:
+This project is made in partial fulfillment of the requirements of the subject Software Engineering 2 (or CCS227).
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### ***Project Team:***
+* **Project Manager:** Allana Yzabelle Diaz
+* **UI/UX Developers:** 
+  * Allana Yzabelle Diaz
+  * John Lorenz Leonor
+  * Aaron Raif Torres
+* **Frontend Developers:**
+  * Allana Yzabelle Diaz
+  * Matthew David Montero
+  * Regino Gallena
+* **Backend Developers:**
+  * Matthew David Montero
+  * Regino Gallena
+  * John Lorenz Leonor
+![image](https://github.com/Montero-MD/peraplan/assets/99379541/a48b77df-fb6a-4072-beb9-f62410a0cca6)
