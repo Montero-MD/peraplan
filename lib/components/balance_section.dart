@@ -23,7 +23,7 @@ class _DynamicBalanceDisplayState extends State<BalanceSection> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         RoundedTextBackground(
-            userName: 'Allana Balance', balanceAmount: balanceAmount),
+            userName: 'Allana\'s Balance', balanceAmount: balanceAmount),
         SizedBox(height: small),
       ],
     );

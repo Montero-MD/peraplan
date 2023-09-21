@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:peraplan/pages/peraout_page.dart';
 import 'package:peraplan/utils/styles.dart';
 import 'package:peraplan/pages/perain_page.dart';
 
@@ -30,7 +31,7 @@ class PeraButton extends StatelessWidget {
       GestureDetector(
           onTap: () {
             Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => const PeraInPage(),
+              builder: (context) => const PeraOutPage(),
             ));
           },
           child: Container(

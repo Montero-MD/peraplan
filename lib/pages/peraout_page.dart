@@ -3,8 +3,8 @@ import 'package:peraplan/components/balance_section.dart';
 import 'package:peraplan/utils/styles.dart';
 import 'package:peraplan/components/heading_section.dart';
 
-class PeraOutnPage extends StatelessWidget {
-  const PeraOutnPage({super.key});
+class PeraOutPage extends StatelessWidget {
+  const PeraOutPage({super.key});
 
   @override
   Widget build(BuildContext context) {
