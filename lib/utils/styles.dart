@@ -32,26 +32,31 @@ TextStyle subPlan = TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.w700,
     color: text);
+TextStyle inpAmt = TextStyle(
+    fontFamily: 'Batangas',
+    fontSize: 20,
+    fontWeight: FontWeight.w700,
+    color: green);
 
 TextStyle pIn =
-    GoogleFonts.lexend(fontSize: 24, fontWeight: FontWeight.w700, color: green);
+    GoogleFonts.lexend(fontSize: 18, fontWeight: FontWeight.w700, color: green);
 TextStyle pOut =
-    GoogleFonts.lexend(fontSize: 24, fontWeight: FontWeight.w700, color: red);
+    GoogleFonts.lexend(fontSize: 18, fontWeight: FontWeight.w700, color: red);
 TextStyle pText =
     GoogleFonts.lexend(fontSize: 16, fontWeight: FontWeight.w400, color: icon);
 TextStyle uName =
     GoogleFonts.lexend(fontSize: 24, fontWeight: FontWeight.w400, color: white);
 TextStyle balAmt =
     GoogleFonts.lexend(fontSize: 32, fontWeight: FontWeight.w600, color: white);
-TextStyle inpAmt =
-    GoogleFonts.lexend(fontSize: 24, fontWeight: FontWeight.w600, color: icon);
+TextStyle hintAmt =
+    GoogleFonts.lexend(fontSize: 20, fontWeight: FontWeight.w600, color: icon);
 
 TextStyle tIn =
     GoogleFonts.lexend(fontSize: 15, fontWeight: FontWeight.w400, color: green);
 TextStyle tOut =
     GoogleFonts.lexend(fontSize: 15, fontWeight: FontWeight.w400, color: red);
 TextStyle tCat =
-    GoogleFonts.lexend(fontSize: 15, fontWeight: FontWeight.w400, color: text);
+    GoogleFonts.lexend(fontSize: 14, fontWeight: FontWeight.w400, color: text);
 
 // Gaps
 var large = 50.0;

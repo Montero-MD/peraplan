@@ -20,7 +20,6 @@ class PeraInPage extends StatelessWidget {
               const HeadingSection(),
               SizedBox(height: small),
               BalanceSection(),
-              SizedBox(height: small),
               const PeraIn()
             ],
           ),
