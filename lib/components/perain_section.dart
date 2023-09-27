@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:peraplan/utils/styles.dart';
-import 'package:pattern_formatter/pattern_formatter.dart';
+import 'package:peraplan/utils/currency_input_formatter.dart';
 
 class PeraIn extends StatefulWidget {
   const PeraIn({super.key});
@@ -12,31 +11,95 @@ class PeraIn extends StatefulWidget {
 
 class _PeraInState extends State<PeraIn> {
   final _formkey = GlobalKey<FormState>();
+  TimeOfDay selectedTime = TimeOfDay.now();
+  DateTime selectedDate = DateTime.now();
+  int selectedPeraIn = 0;
+  int value = 0;
 
   @override
   void setState(VoidCallback fn) {
     super.setState(fn);
   }
 
-  int value = 0;
-  Widget peraIntype(String text, int index) {
-    return TextButton(
+  Widget peraIncategory(String inName, int index, {Icon? icon}) {
+    return OutlinedButton(
       onPressed: () {
         setState(() {
-          value = index;
+          selectedPeraIn = index;
         });
       },
-      style: TextButton.styleFrom(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      style: OutlinedButton.styleFrom(
+        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+        side: BorderSide(
+            width: (selectedPeraIn == index) ? 2.0 : 0.5,
+            color: (selectedPeraIn == index)
+                ? Colors.green
+                : Colors.blue.shade600),
       ),
-      child: Text(
-        text,
-        style: TextStyle(
-          fontFamily: "Lexend",
-          fontSize: 14,
-          fontWeight: FontWeight.normal,
-          color: (value == index) ? Colors.green : Color(0xFF0FA3B1),
-        ),
+      child: Stack(
+        children: [
+          Align(
+            alignment: Alignment.center,
+            child: Text(
+              inName,
+              style: subHeaders,
+            ),
+          ),
+          if (index == 1)
+            const Positioned(
+              left: 15,
+              child: Icon(
+                Icons.payments_rounded,
+                size: 20,
+                color: Color(0xFF0FA3B1),
+              ),
+            ),
+          if (index == 2)
+            const Positioned(
+              left: 15,
+              child: Icon(
+                Icons.account_balance_wallet_rounded,
+                size: 20,
+                color: Color(0xFF0FA3B1),
+              ),
+            ),
+          if (index == 3)
+            const Positioned(
+              left: 15,
+              child: Icon(
+                Icons.inventory_2_rounded,
+                size: 20,
+                color: Color(0xFF0FA3B1),
+              ),
+            ),
+          if (index == 4)
+            const Positioned(
+              left: 15,
+              child: Icon(
+                Icons.notes_rounded,
+                size: 20,
+                color: Color(0xFF0FA3B1),
+              ),
+            ),
+          if (selectedPeraIn == index)
+            const Positioned(
+              bottom: 5,
+              right: 5,
+              child: Icon(
+                Icons.check_circle,
+                size: 15,
+                color: Colors.green,
+              ),
+            ),
+          if (icon != null)
+            Positioned(
+              top: 5,
+              left: 5,
+              child: icon,
+            ),
+        ],
       ),
     );
   }
@@ -81,7 +144,8 @@ class _PeraInState extends State<PeraIn> {
                               border: InputBorder.none,
                             ),
                             inputFormatters: [
-                              ThousandsFormatter(allowFraction: true)
+                              CurrencyInputFormatter(
+                                  leadingSymbol: CurrencySymbols.PESO_SIGN)
                             ],
                           ),
                         ]),
@@ -90,91 +154,107 @@ class _PeraInState extends State<PeraIn> {
               ),
               Row(
                 children: [
-                  Text('Date:', style: subPlan),
+                  Text('Date:', style: headers),
+                  SizedBox(width: xsmall),
                   Flexible(
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            decoration: BoxDecoration(
-                              color: background,
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(
-                                  color: Colors.grey.shade300, width: 1),
-                            ),
-                          ),
-                          TextFormField(
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Invalid/Null date entered';
+                        children: <Widget>[
+                          OutlinedButton(
+                            onPressed: () async {
+                              final DateTime? dateTime = await showDatePicker(
+                                context: context,
+                                initialDate: selectedDate,
+                                firstDate: DateTime(1900),
+                                lastDate: DateTime(2100),
+                              );
+                              if (dateTime != null) {
+                                setState(() {
+                                  selectedDate = dateTime;
+                                });
                               }
-                              return null;
                             },
-                            keyboardType: TextInputType.number,
-                            inputFormatters: [
-                              DateInputFormatter(),
-                            ],
-                            textAlign: TextAlign.center,
-                            cursorColor: hlblue,
-                            style: subPlan,
-                            decoration: InputDecoration(
-                              hintText: 'MM/DD/YYYY',
-                              hintStyle: pText,
-                              border: InputBorder.none,
+                            style: OutlinedButton.styleFrom(
+                              backgroundColor: Colors.grey.shade100,
+                              fixedSize: const Size(105, 20),
                             ),
-                          ),
+                            child: Text(
+                                "${selectedDate.month}/${selectedDate.day}/${selectedDate.year}",
+                                style: subHeaders),
+                          )
                         ]),
                   ),
                   SizedBox(width: small),
-                  Text('Time:', style: subPlan),
+                  Text('Time:', style: headers),
+                  SizedBox(width: xsmall),
                   Flexible(
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            decoration: BoxDecoration(
-                              color: background,
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(
-                                  color: Colors.grey.shade300, width: 1),
-                            ),
-                          ),
-                          TextFormField(
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Invalid/Null time entered';
+                        children: <Widget>[
+                          OutlinedButton(
+                            onPressed: () async {
+                              final TimeOfDay? timeOfDay = await showTimePicker(
+                                context: context,
+                                initialTime: selectedTime,
+                                initialEntryMode: TimePickerEntryMode.dial,
+                                builder: (context, childWidget) {
+                                  return MediaQuery(
+                                      data: MediaQuery.of(context).copyWith(
+                                          alwaysUse24HourFormat: false),
+                                      child: childWidget!);
+                                },
+                              );
+                              if (timeOfDay != null) {
+                                setState(() {
+                                  selectedTime = timeOfDay;
+                                });
                               }
-                              return null;
                             },
-                            keyboardType: TextInputType.datetime,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(r'^[0-9:]+$')),
-                            ],
-                            textAlign: TextAlign.center,
-                            cursorColor: hlblue,
-                            style: subPlan,
-                            decoration: InputDecoration(
-                              hintText: 'hh:mm AM/PM',
-                              hintStyle: pText,
-                              border: InputBorder.none,
+                            style: OutlinedButton.styleFrom(
+                              backgroundColor: Colors.grey.shade100,
+                              fixedSize: const Size(105, 20),
                             ),
-                          ),
+                            child: Text(selectedTime.format(context).toString(),
+                                style: subHeaders),
+                          )
                         ]),
                   ),
                 ],
               ),
-              Text('Category:', style: subPlan),
-              Row(children: <Widget>[
-                Expanded(child: peraIntype("Salary", 1)),
-                Expanded(child: peraIntype("Allowance", 2)),
-              ]),
+              Text('Category:', style: headers),
+              SizedBox(width: large),
               Row(
-                children: <Widget>[
-                  Expanded(child: peraIntype("Investments", 3)),
-                  Expanded(child: peraIntype("Pension", 4)),
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: peraIncategory("Salary", 1),
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Expanded(
+                    child: peraIncategory("Allowance", 2),
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: peraIncategory("Investments", 3),
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Expanded(
+                    child: peraIncategory("Others", 4),
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
                 ],
               ),
               Row(

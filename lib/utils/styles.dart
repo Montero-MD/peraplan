@@ -32,14 +32,28 @@ TextStyle subPlan = TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.w700,
     color: text);
+
+TextStyle headers = TextStyle(
+    fontFamily: 'Lexend',
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
+    color: text);
 TextStyle inpAmt = TextStyle(
-    fontFamily: 'Batangas',
+    fontFamily: 'Lexend',
     fontSize: 20,
     fontWeight: FontWeight.w700,
     color: green);
+TextStyle pIn = TextStyle(
+    fontFamily: 'Lexend',
+    fontSize: 18,
+    fontWeight: FontWeight.bold,
+    color: green);
+TextStyle subHeaders = TextStyle(
+    fontFamily: 'Lexend',
+    fontSize: 15,
+    fontWeight: FontWeight.normal,
+    color: text);
 
-TextStyle pIn =
-    GoogleFonts.lexend(fontSize: 18, fontWeight: FontWeight.w700, color: green);
 TextStyle pOut =
     GoogleFonts.lexend(fontSize: 18, fontWeight: FontWeight.w700, color: red);
 TextStyle pText =
