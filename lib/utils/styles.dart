@@ -40,10 +40,10 @@ TextStyle pOut =
     GoogleFonts.lexend(fontSize: 24, fontWeight: FontWeight.w700, color: red);
 TextStyle pText =
     GoogleFonts.lexend(fontSize: 16, fontWeight: FontWeight.w400, color: icon);
-TextStyle uName =
-    GoogleFonts.lexend(fontSize: 24, fontWeight: FontWeight.w700, color: text);
+TextStyle uName = GoogleFonts.lexend(
+    fontSize: 24, fontWeight: FontWeight.normal, color: white);
 TextStyle balAmt =
-    GoogleFonts.lexend(fontSize: 32, fontWeight: FontWeight.w600, color: text);
+    GoogleFonts.lexend(fontSize: 32, fontWeight: FontWeight.bold, color: white);
 TextStyle transac =
     GoogleFonts.lexend(fontSize: 18, fontWeight: FontWeight.w700, color: text);
 TextStyle inpAmt =
