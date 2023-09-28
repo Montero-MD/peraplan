@@ -41,14 +41,17 @@ class RoundedTextBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+
     return Container(
-      padding: const EdgeInsets.all(16.0),
+      padding:
+          const EdgeInsets.all(20.0), // Add 10 pixels of padding from all edges
       decoration: BoxDecoration(
         gradient: LinearGradient(colors: [hlblue, text]),
         // Background color
         borderRadius: BorderRadius.circular(20.0), // Rounded corners
       ),
-      width: cont,
+      width: screenWidth, // Set the container width to the screen width
       child: Column(
         children: <Widget>[
           Text(

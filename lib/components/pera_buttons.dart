@@ -36,8 +36,8 @@ class PeraButton extends StatelessWidget {
             margin: const EdgeInsets.all(10),
             padding: const EdgeInsets.all(5),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50),
-              color: text,
+              borderRadius: BorderRadius.circular(30),
+              gradient: LinearGradient(colors: [hlblue, text]),
             ),
             child: Icon(
               icon,
