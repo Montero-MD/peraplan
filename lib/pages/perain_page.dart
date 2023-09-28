@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:peraplan/components/balance_section.dart';
 import 'package:peraplan/components/perain_section.dart';
-import 'package:peraplan/components/transactions_section.dart';
 import 'package:peraplan/utils/styles.dart';
 import 'package:peraplan/components/heading_section.dart';
 
@@ -20,10 +19,8 @@ class PeraInPage extends StatelessWidget {
             children: [
               const HeadingSection(),
               SizedBox(height: small),
-              BalanceSection(),
-              const PeraIn(),
-              SizedBox(height: xsmall),
-              const TransactionsSection()
+              const BalanceSection(),
+              const PeraIn()
             ],
           ),
         )));

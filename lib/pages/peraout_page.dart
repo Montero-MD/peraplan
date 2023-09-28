@@ -17,7 +17,7 @@ class PeraOutPage extends StatelessWidget {
             children: [
               const HeadingSection(),
               SizedBox(height: small),
-              BalanceSection(),
+              const BalanceSection(),
             ],
           ),
         )));

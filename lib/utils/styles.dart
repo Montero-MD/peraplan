@@ -45,24 +45,29 @@ TextStyle pIn =
 TextStyle pOut =
     GoogleFonts.lexend(fontSize: 18, fontWeight: FontWeight.w700, color: red);
 TextStyle pText =
-    GoogleFonts.lexend(fontSize: 16, fontWeight: FontWeight.w400, color: icon);
-TextStyle uName = GoogleFonts.lexend(
-    fontSize: 24, fontWeight: FontWeight.normal, color: white);
+    GoogleFonts.lexend(fontSize: 18, fontWeight: FontWeight.w400, color: text);
+TextStyle uName =
+    GoogleFonts.lexend(fontSize: 24, fontWeight: FontWeight.w700, color: white);
 TextStyle balAmt =
-    GoogleFonts.lexend(fontSize: 32, fontWeight: FontWeight.bold, color: white);
+    GoogleFonts.lexend(fontSize: 32, fontWeight: FontWeight.w600, color: white);
 TextStyle transac =
     GoogleFonts.lexend(fontSize: 18, fontWeight: FontWeight.w700, color: text);
 TextStyle hintAmt =
     GoogleFonts.lexend(fontSize: 20, fontWeight: FontWeight.w600, color: icon);
 
 TextStyle tIn =
-    GoogleFonts.lexend(fontSize: 15, fontWeight: FontWeight.w400, color: green);
+    GoogleFonts.lexend(fontSize: 15, fontWeight: FontWeight.w600, color: green);
 TextStyle tOut =
-    GoogleFonts.lexend(fontSize: 15, fontWeight: FontWeight.w400, color: red);
+    GoogleFonts.lexend(fontSize: 15, fontWeight: FontWeight.w600, color: red);
 TextStyle tCat =
-    GoogleFonts.lexend(fontSize: 14, fontWeight: FontWeight.w400, color: text);
+    GoogleFonts.lexend(fontSize: 14, fontWeight: FontWeight.w600, color: text);
 TextStyle tagline = GoogleFonts.lexend(
     fontSize: 12, fontWeight: FontWeight.normal, color: text);
+
+TextStyle subGreen =
+    GoogleFonts.lexend(fontSize: 12, fontWeight: FontWeight.w600, color: green);
+TextStyle subRed =
+    GoogleFonts.lexend(fontSize: 12, fontWeight: FontWeight.w600, color: red);
 
 // Gaps
 var large = 50.0;

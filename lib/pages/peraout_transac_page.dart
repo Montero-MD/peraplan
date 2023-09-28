@@ -4,8 +4,8 @@ import 'package:peraplan/components/transactions_buttons.dart';
 import 'package:peraplan/utils/styles.dart';
 import 'package:peraplan/components/heading_section.dart';
 
-class TransactionPage extends StatelessWidget {
-  const TransactionPage({super.key});
+class PeraOutTransac extends StatelessWidget {
+  const PeraOutTransac({super.key});
 
   @override
   Widget build(BuildContext context) {
