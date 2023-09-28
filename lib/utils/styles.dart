@@ -61,6 +61,8 @@ TextStyle tOut =
     GoogleFonts.lexend(fontSize: 15, fontWeight: FontWeight.w400, color: red);
 TextStyle tCat =
     GoogleFonts.lexend(fontSize: 14, fontWeight: FontWeight.w400, color: text);
+TextStyle tagline = GoogleFonts.lexend(
+    fontSize: 12, fontWeight: FontWeight.normal, color: text);
 
 // Gaps
 var large = 50.0;
