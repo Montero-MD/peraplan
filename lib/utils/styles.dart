@@ -8,6 +8,7 @@ var icon = const Color(0xFFB8BCCB);
 var background = const Color(0xFFF6F6F6);
 var white = const Color(0xFFFFFFFF);
 var black = const Color(0xFF000000);
+var gray = const Color(0xFFE3E3E3);
 var green = const Color(0xFF0FB13C);
 var red = const Color(0xFFB1360F);
 
@@ -58,10 +59,12 @@ TextStyle pOut =
     GoogleFonts.lexend(fontSize: 18, fontWeight: FontWeight.w700, color: red);
 TextStyle pText =
     GoogleFonts.lexend(fontSize: 16, fontWeight: FontWeight.w400, color: icon);
-TextStyle uName =
-    GoogleFonts.lexend(fontSize: 24, fontWeight: FontWeight.w400, color: white);
+TextStyle uName = GoogleFonts.lexend(
+    fontSize: 24, fontWeight: FontWeight.normal, color: white);
 TextStyle balAmt =
-    GoogleFonts.lexend(fontSize: 32, fontWeight: FontWeight.w600, color: white);
+    GoogleFonts.lexend(fontSize: 32, fontWeight: FontWeight.bold, color: white);
+TextStyle transac =
+    GoogleFonts.lexend(fontSize: 18, fontWeight: FontWeight.w700, color: text);
 TextStyle hintAmt =
     GoogleFonts.lexend(fontSize: 20, fontWeight: FontWeight.w600, color: icon);
 
@@ -77,3 +80,5 @@ var large = 50.0;
 var medium = 30.0;
 var small = 16.0;
 var xsmall = 10.0;
+var xxsmall = 5.0;
+var cont = 330.0;
