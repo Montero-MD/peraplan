@@ -17,7 +17,7 @@ class TransactionsSection extends StatelessWidget {
                 horizontal: 10), // Add horizontal padding
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(
-                  20), // Adjust the corner radius as needed
+                  medium), // Adjust the corner radius as needed
               color: gray,
             ),
             child: Row(
@@ -47,7 +47,7 @@ class TransactionsSection extends StatelessWidget {
                   child: Icon(
                     Icons.arrow_right_alt,
                     color: text,
-                    size: 30,
+                    size: 40,
                   ),
                 ),
               ],

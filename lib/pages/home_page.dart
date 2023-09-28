@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:peraplan/components/balance_section.dart';
 import 'package:peraplan/components/pera_buttons.dart';
-import 'package:peraplan/utils/styles.dart';
+import 'package:peraplan/components/transactions_section.dart';
 import 'package:peraplan/components/heading_section.dart';
+import 'package:peraplan/utils/styles.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -17,9 +18,11 @@ class HomePage extends StatelessWidget {
           child: Column(
             children: [
               const HeadingSection(),
+              SizedBox(height: xsmall),
+              const BalanceSection(),
+              const PeraButton(),
               SizedBox(height: small),
-              BalanceSection(),
-              const PeraButton()
+              const TransactionsSection()
             ],
           ),
         )));

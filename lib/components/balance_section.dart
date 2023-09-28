@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:peraplan/utils/styles.dart';
 
 class BalanceSection extends StatefulWidget {
+  const BalanceSection({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _DynamicBalanceDisplayState createState() => _DynamicBalanceDisplayState();
 }
 
@@ -39,12 +42,13 @@ class RoundedTextBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
-        color: text, // Background color
+        gradient: LinearGradient(colors: [hlblue, text]),
+        // Background color
         borderRadius: BorderRadius.circular(20.0), // Rounded corners
       ),
-      width: 330,
+      width: cont,
       child: Column(
         children: <Widget>[
           Text(
