@@ -40,6 +40,8 @@ TextStyle subHeaders = GoogleFonts.lexend(
     fontSize: 15, fontWeight: FontWeight.normal, color: text);
 TextStyle inpAmt =
     GoogleFonts.lexend(fontSize: 20, fontWeight: FontWeight.w700, color: green);
+TextStyle outAmt =
+    GoogleFonts.lexend(fontSize: 20, fontWeight: FontWeight.w700, color: red);
 TextStyle pIn =
     GoogleFonts.lexend(fontSize: 18, fontWeight: FontWeight.bold, color: green);
 TextStyle pOut =
