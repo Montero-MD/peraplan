@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:peraplan/components/pera_buttons.dart';
-import 'package:peraplan/pages/perain_transac_page.dart';
-import 'package:peraplan/pages/peraout_transac_page.dart';
-import 'package:peraplan/pages/transaction_page.dart';
 import 'package:peraplan/utils/styles.dart';
 
 class TransactionsButtons extends StatefulWidget {
