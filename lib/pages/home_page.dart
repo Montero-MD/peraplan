@@ -19,7 +19,9 @@ class HomePage extends StatelessWidget {
             children: [
               const HeadingSection(),
               SizedBox(height: xsmall),
-              const BalanceSection(),
+              BalanceSection(
+                username: '',
+              ),
               const PeraButton(),
               SizedBox(height: small),
               const TransactionsSection()

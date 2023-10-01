@@ -39,8 +39,10 @@ TextStyle headers =
     GoogleFonts.lexend(fontSize: 20, fontWeight: FontWeight.w700, color: text);
 TextStyle inpAmt =
     GoogleFonts.lexend(fontSize: 32, fontWeight: FontWeight.w700, color: text);
+TextStyle outAmt =
+    GoogleFonts.lexend(fontSize: 20, fontWeight: FontWeight.w700, color: red);
 TextStyle subHeaders =
-    GoogleFonts.lexend(fontSize: 14, fontWeight: FontWeight.w400, color: text);
+    GoogleFonts.lexend(fontSize: 15, fontWeight: FontWeight.w400, color: text);
 
 TextStyle pIn =
     GoogleFonts.lexend(fontSize: 20, fontWeight: FontWeight.w700, color: green);
@@ -68,6 +70,9 @@ TextStyle subGreen =
     GoogleFonts.lexend(fontSize: 14, fontWeight: FontWeight.w600, color: green);
 TextStyle subRed =
     GoogleFonts.lexend(fontSize: 14, fontWeight: FontWeight.w600, color: red);
+
+TextStyle tagline = GoogleFonts.lexend(
+    fontSize: 12, fontWeight: FontWeight.normal, color: text);
 
 // Gaps
 var large = 50.0;
