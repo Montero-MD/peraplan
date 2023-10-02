@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:peraplan/components/balance_section.dart';
 import 'package:peraplan/components/transactions_buttons.dart';
@@ -18,7 +20,9 @@ class PeraOutTransac extends StatelessWidget {
             children: [
               const HeadingSection(),
               SizedBox(height: small),
-              const BalanceSection(),
+              BalanceSection(
+                username: '',
+              ),
               const TransactionsButtons(),
             ],
           ),

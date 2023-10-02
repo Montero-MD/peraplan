@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names, prefer_final_fields, avoid_print, prefer_is_empty
+
 /*
 (c) Copyright 2022 Serov Konstantin.
 
@@ -36,15 +38,7 @@ final RegExp _illegalCharsRegexp = RegExp(r'[^0-9-,.]+');
 final RegExp _illegalLeadingOrTrailing = RegExp(r'[-,.+]+');
 
 class CurrencySymbols {
-  static const String DOLLAR_SIGN = '\$';
-  static const String EURO_SIGN = '€';
-  static const String POUND_SIGN = '£';
-  static const String YEN_SIGN = '￥';
-  static const String ETHEREUM_SIGN = 'Ξ';
-  static const String BITCOIN_SIGN = 'Ƀ';
-  static const String SWISS_FRANK_SIGN = '₣';
-  static const String RUBLE_SIGN = '₽';
-  static const String PESO_SIGN = '₱';
+  static const String peso_sign = '₱';
 }
 
 class CurrencyInputFormatter extends TextInputFormatter {

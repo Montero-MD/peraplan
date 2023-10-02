@@ -146,7 +146,7 @@ class _PeraOutState extends State<PeraOut> {
                             ),
                             inputFormatters: [
                               CurrencyInputFormatter(
-                                  leadingSymbol: CurrencySymbols.PESO_SIGN)
+                                  leadingSymbol: CurrencySymbols.peso_sign)
                             ],
                           ),
                         ]),
@@ -267,19 +267,14 @@ class _PeraOutState extends State<PeraOut> {
                       padding: const EdgeInsets.all(5),
                       width: 100,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(12),
                         border: Border.all(width: 2.5, color: red),
                         color: red,
                       ),
-                      child: Transform(
-                        transform: Matrix4.identity()..scale(-1.0, -1.0),
-                        alignment: Alignment
-                            .center, // Align the transformation in the center of the child
-                        child: Icon(
-                          Icons.arrow_outward,
-                          color: white,
-                          size: 35,
-                        ),
+                      child: Icon(
+                        Icons.south_west,
+                        color: white,
+                        size: 35,
                       ),
                     ),
                   ),

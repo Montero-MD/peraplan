@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:peraplan/components/balance_section.dart';
 import 'package:peraplan/components/pera_buttons.dart';
@@ -19,7 +21,9 @@ class HomePage extends StatelessWidget {
             children: [
               const HeadingSection(),
               SizedBox(height: xsmall),
-              const BalanceSection(),
+              BalanceSection(
+                username: '',
+              ),
               const PeraButton(),
               SizedBox(height: small),
               const TransactionsSection()
