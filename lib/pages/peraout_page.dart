@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:peraplan/components/balance_section.dart';
+import 'package:peraplan/components/peraout_section.dart';
+import 'package:peraplan/components/transactions_section.dart';
 import 'package:peraplan/utils/styles.dart';
 import 'package:peraplan/components/heading_section.dart';
 
@@ -9,6 +11,7 @@ class PeraOutPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: background,
         body: SafeArea(
             child: Padding(
@@ -17,7 +20,10 @@ class PeraOutPage extends StatelessWidget {
             children: [
               const HeadingSection(),
               SizedBox(height: small),
-              const BalanceSection(),
+              BalanceSection(),
+              const PeraOut(),
+              SizedBox(height: xsmall),
+              const TransactionsSection()
             ],
           ),
         )));
