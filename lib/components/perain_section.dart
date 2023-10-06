@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:peraplan/data/database.dart';
 import 'package:peraplan/utils/styles.dart';
 import 'package:peraplan/utils/currency_input_formatter.dart';
 
@@ -9,12 +11,49 @@ class PeraIn extends StatefulWidget {
   State<PeraIn> createState() => _PeraInState();
 }
 
+class TimeOfDayAdapter extends TypeAdapter<TimeOfDay> {
+  @override
+  final typeId = 101; // Unique ID for this adapter
+
+  @override
+  TimeOfDay read(BinaryReader reader) {
+    final hour = reader.readByte();
+    final minute = reader.readByte();
+    return TimeOfDay(hour: hour, minute: minute);
+  }
+
+  @override
+  void write(BinaryWriter writer, TimeOfDay time) {
+    writer.writeByte(time.hour);
+    writer.writeByte(time.minute);
+  }
+}
+
 class _PeraInState extends State<PeraIn> {
   final _formkey = GlobalKey<FormState>();
+  final _controller = TextEditingController();
   TimeOfDay selectedTime = TimeOfDay.now();
   DateTime selectedDate = DateTime.now();
   int selectedPeraIn = 0;
   int value = 0;
+
+  // reference our box
+  final _mybox = Hive.box('peraplanDB');
+  PeraPlanDB db = PeraPlanDB();
+
+  // save new Pera In
+  void saveNewPeraIn() {
+    setState(() {
+      db.peraIntransactions.add([
+        _controller.text,
+        selectedDate,
+        selectedTime,
+        selectedPeraIn,
+      ]);
+      _controller.clear();
+      db.updateDatabase();
+    });
+  }
 
   @override
   void setState(VoidCallback fn) {
@@ -131,6 +170,7 @@ class _PeraInState extends State<PeraIn> {
                           }
                           return null;
                         },
+                        controller: _controller,
                         keyboardType: TextInputType.number,
                         textAlign: TextAlign.center,
                         cursorColor: green,
@@ -244,6 +284,7 @@ class _PeraInState extends State<PeraIn> {
               height: xxsmall,
             ),
             Row(
+              // 'radio buttons' for category
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Expanded(
@@ -278,11 +319,13 @@ class _PeraInState extends State<PeraIn> {
               ],
             ),
             Row(
+              // 'Button' to save form
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 GestureDetector(
                   onTap: () {
                     if (_formkey.currentState!.validate()) {
+                      saveNewPeraIn(); // calls the function to save the data
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('Processing Data')),
                       );

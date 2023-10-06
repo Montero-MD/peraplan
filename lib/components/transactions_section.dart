@@ -1,9 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:peraplan/pages/transaction_page.dart';
 import 'package:peraplan/utils/styles.dart';
+import 'package:hive/hive.dart';
 
-class TransactionsSection extends StatelessWidget {
-  const TransactionsSection({Key? key});
+class TransactionsSection extends StatefulWidget {
+  const TransactionsSection({Key? key}) : super(key: key);
+
+  @override
+  _TransactionsSectionState createState() => _TransactionsSectionState();
+}
+
+class _TransactionsSectionState extends State<TransactionsSection> {
+  late Box<dynamic> _mybox;
+
+  @override
+  void initState() {
+    super.initState();
+    // Open the Hive box for transactions
+    _mybox = Hive.box('peraplanDB'); // Replace 'peraplanDB' with your box name
+  }
 
   void _navigateToTransactionPage(BuildContext context) {
     Navigator.of(context).push(
@@ -41,9 +56,8 @@ class TransactionsSection extends StatelessWidget {
                 medium), // Adjust the corner radius as needed
             color: lgray,
           ),
-          child: Row(
-            mainAxisAlignment:
-                MainAxisAlignment.spaceBetween, // Space between text and button
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 'Transactions',
@@ -57,10 +71,32 @@ class TransactionsSection extends StatelessWidget {
                   size: 40,
                 ),
               ),
+              SizedBox(
+                  height:
+                      16), // Add spacing between the button and transaction data
+              _buildTransactionData(), // Display transaction data here
             ],
           ),
         ),
       ],
     );
+  }
+
+  Widget _buildTransactionData() {
+    // Retrieve and display transaction data from the Hive box
+    final transactionData = _mybox.get(
+        'PeraIn_Transactions'); // Replace 'yourTransactionKey' with the actual key
+    if (transactionData != null) {
+      // Handle how you want to display the data here
+      return Text(
+        'Transaction Data: $transactionData',
+        style: TextStyle(fontSize: 16),
+      );
+    } else {
+      return Text(
+        'No Transaction Data',
+        style: TextStyle(fontSize: 16),
+      );
+    }
   }
 }
