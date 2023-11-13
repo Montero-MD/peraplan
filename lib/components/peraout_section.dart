@@ -125,7 +125,7 @@ class _PeraOutState extends State<PeraOut> {
                             decoration: BoxDecoration(
                               color: white,
                               borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: background, width: 1),
+                              border: Border.all(color: white, width: 1),
                             ),
                           ),
                           TextFormField(
