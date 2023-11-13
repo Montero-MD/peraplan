@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:peraplan/components/balance_section.dart';
-import 'package:peraplan/components/pera_buttons.dart';
-import 'package:peraplan/components/transactions_section.dart';
+import 'package:peraplan/components/quick_actions.dart';
 import 'package:peraplan/components/heading_section.dart';
 import 'package:peraplan/utils/styles.dart';
 
@@ -11,7 +10,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: background,
+        backgroundColor: white,
         body: SafeArea(
             child: Padding(
           padding: EdgeInsets.only(left: small, top: small, right: small),
@@ -20,9 +19,8 @@ class HomePage extends StatelessWidget {
               const HeadingSection(),
               SizedBox(height: xsmall),
               const BalanceSection(),
-              const PeraButton(),
+              const QuickActions(),
               SizedBox(height: small),
-              const TransactionsSection()
             ],
           ),
         )));
