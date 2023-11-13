@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 var hlblue = const Color(0xFF0CC0DF);
 var text = const Color(0xFF0FA3B1);
 var icon = const Color(0xFFB8BCCB);
-var background = const Color(0xFFF6F6F6);
 var white = const Color(0xFFFFFFFF);
 var black = const Color(0xFF000000);
 var gray = const Color(0xFFE3E3E3);
@@ -58,11 +57,16 @@ TextStyle hintAmt =
     GoogleFonts.lexend(fontSize: 22, fontWeight: FontWeight.w700, color: dgray);
 
 TextStyle tIn =
-    GoogleFonts.lexend(fontSize: 15, fontWeight: FontWeight.w600, color: green);
+    GoogleFonts.lexend(fontSize: 14, fontWeight: FontWeight.w600, color: green);
 TextStyle tOut =
-    GoogleFonts.lexend(fontSize: 15, fontWeight: FontWeight.w600, color: red);
+    GoogleFonts.lexend(fontSize: 14, fontWeight: FontWeight.w600, color: red);
 TextStyle tCat =
-    GoogleFonts.lexend(fontSize: 15, fontWeight: FontWeight.w600, color: text);
+    GoogleFonts.lexend(fontSize: 14, fontWeight: FontWeight.w600, color: text);
+
+TextStyle lNormal = GoogleFonts.lexend(
+    fontSize: 22, fontWeight: FontWeight.w400, color: hlblue);
+TextStyle lBold = GoogleFonts.lexend(
+    fontSize: 22, fontWeight: FontWeight.w700, color: hlblue);
 
 TextStyle subGreen =
     GoogleFonts.lexend(fontSize: 14, fontWeight: FontWeight.w600, color: green);
