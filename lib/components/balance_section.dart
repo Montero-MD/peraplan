@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:peraplan/utils/styles.dart';
 
 class BalanceSection extends StatefulWidget {
-  const BalanceSection({super.key});
+  const BalanceSection({Key? key}) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
   _DynamicBalanceDisplayState createState() => _DynamicBalanceDisplayState();
 }
 
@@ -23,10 +22,24 @@ class _DynamicBalanceDisplayState extends State<BalanceSection> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
+        Text.rich(
+          TextSpan(
+            children: [
+              TextSpan(text: 'Your ', style: lNormal),
+              TextSpan(
+                text: 'Balance',
+                style: lBold,
+              ),
+            ],
+          ),
+        ),
+        SizedBox(
+            height: xsmall), // Add some space between the text and the balance
         RoundedTextBackground(
-            userName: 'Allana Balance', balanceAmount: balanceAmount),
+            balanceAmount:
+                balanceAmount), // Use the RoundedTextBackground widget
         SizedBox(height: small),
       ],
     );
@@ -34,33 +47,26 @@ class _DynamicBalanceDisplayState extends State<BalanceSection> {
 }
 
 class RoundedTextBackground extends StatelessWidget {
-  final String userName;
   final double balanceAmount;
 
-  RoundedTextBackground({required this.userName, required this.balanceAmount});
+  const RoundedTextBackground({Key? key, required this.balanceAmount})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
 
     return Container(
-      padding:
-          const EdgeInsets.all(20.0), // Add 10 pixels of padding from all edges
+      padding: const EdgeInsets.all(40.0),
       decoration: BoxDecoration(
         gradient: LinearGradient(colors: [hlblue, text]),
-        // Background color
-        borderRadius: BorderRadius.circular(20.0), // Rounded corners
+        borderRadius: BorderRadius.circular(20.0),
       ),
-      width: screenWidth, // Set the container width to the screen width
+      width: screenWidth,
       child: Column(
         children: <Widget>[
           Text(
-            userName,
-            style: uName,
-          ),
-          SizedBox(height: small), // Add spacing between the text elements
-          Text(
-            '\₱$balanceAmount', // Display the balance amount with a peso sign
+            '₱$balanceAmount', // Display the balance amount with a peso sign
             style: balAmt,
           ),
         ],
