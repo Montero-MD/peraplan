@@ -19,7 +19,9 @@ class PeraInPage extends StatelessWidget {
             children: [
               const HeadingSection(),
               SizedBox(height: small),
-              const BalanceSection(),
+              BalanceSection(
+                username: '',
+              ),
               const PeraIn()
             ],
           ),

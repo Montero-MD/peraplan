@@ -297,7 +297,7 @@ class _PeraInState extends State<PeraIn> {
                       color: green,
                     ),
                     child: Icon(
-                      Icons.arrow_outward,
+                      Icons.north_east,
                       color: white,
                       size: 35,
                     ),
