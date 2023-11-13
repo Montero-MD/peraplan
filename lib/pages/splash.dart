@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:peraplan/components/username_section.dart';
 import 'package:peraplan/pages/home_page.dart';
 import 'package:peraplan/utils/styles.dart';
 
@@ -19,7 +18,7 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
     Future.delayed(const Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (_) => const UsernameSec(),
+          builder: (_) => const HomePage(),
         ),
       );
     });
