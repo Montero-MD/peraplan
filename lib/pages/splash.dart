@@ -5,7 +5,6 @@ import 'package:peraplan/utils/styles.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
-
   @override
   State<Splash> createState() => _SplashState();
 }

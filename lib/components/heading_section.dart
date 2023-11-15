@@ -4,7 +4,6 @@ import 'package:peraplan/utils/styles.dart';
 
 class HeadingSection extends StatelessWidget {
   const HeadingSection({Key? key});
-
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -19,7 +18,6 @@ class HeadingSection extends StatelessWidget {
                 },
                 transitionDuration:
                     const Duration(milliseconds: 100), // Set a shorter duration
-
                 transitionsBuilder:
                     (context, animation, secondaryAnimation, child) {
                   const Offset begin = Offset(-1.0, 0.0);
@@ -76,11 +74,11 @@ class HeadingSection extends StatelessWidget {
             padding: const EdgeInsets.all(5),
             decoration: BoxDecoration(
               shape: BoxShape.circle, // Make the container circular
-              border: Border.all(width: 2.5, color: white),
+              border: Border.all(width: 2.5, color: hlblue),
             ),
             child: Icon(
               Icons.question_mark,
-              color: white,
+              color: hlblue,
               size: 35,
             ),
           ),
