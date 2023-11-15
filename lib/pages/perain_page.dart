@@ -13,7 +13,7 @@ class PeraInPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: background,
+        backgroundColor: white,
         body: SafeArea(
             child: Padding(
           padding: EdgeInsets.only(left: small, top: small, right: small),

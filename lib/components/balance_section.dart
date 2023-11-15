@@ -27,8 +27,6 @@ class _DynamicBalanceDisplayState extends State<BalanceSection> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         RoundedTextBackground(
-          userName:
-              '${widget.username}\'s Balance', // Use the username received from the constructor
           balanceAmount: balanceAmount,
         ),
         SizedBox(height: small),
@@ -38,11 +36,9 @@ class _DynamicBalanceDisplayState extends State<BalanceSection> {
 }
 
 class RoundedTextBackground extends StatelessWidget {
-  final String userName;
   final double balanceAmount;
 
-  const RoundedTextBackground(
-      {Key? key, required this.userName, required this.balanceAmount})
+  const RoundedTextBackground({Key? key, required this.balanceAmount})
       : super(key: key);
 
   @override
@@ -58,11 +54,6 @@ class RoundedTextBackground extends StatelessWidget {
       width: screenWidth,
       child: Column(
         children: <Widget>[
-          Text(
-            userName,
-            style: uName,
-          ),
-          SizedBox(height: small),
           Text(
             '₱$balanceAmount',
             style: balAmt,

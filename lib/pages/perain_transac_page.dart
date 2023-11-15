@@ -12,7 +12,7 @@ class PeraInTransac extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: background,
+        backgroundColor: white,
         body: SafeArea(
             child: Padding(
           padding: EdgeInsets.only(left: small, top: small, right: small),

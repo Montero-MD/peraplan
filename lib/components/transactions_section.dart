@@ -48,36 +48,44 @@ class _TransactionsSectionState extends State<TransactionsSection> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
-          padding: const EdgeInsets.symmetric(
-              horizontal: 10), // Add horizontal padding
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(
-                medium), // Adjust the corner radius as needed
-            color: lgray,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Transactions',
-                style: transac,
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text.rich(
+              TextSpan(
+                children: [
+                  TextSpan(text: 'Latest ', style: transacBold),
+                  TextSpan(
+                    text: 'Transactions',
+                    style: transacNormal,
+                  ),
+                ],
               ),
-              GestureDetector(
-                onTap: () => _navigateToTransactionPage(context),
-                child: Icon(
-                  Icons.arrow_right_alt,
-                  color: text,
-                  size: 40,
-                ),
+            ),
+            SizedBox(width: large),
+            GestureDetector(
+              onTap: () => _navigateToTransactionPage(context),
+              child: Icon(
+                Icons.arrow_right_alt,
+                color: text,
+                size: 40,
               ),
-              SizedBox(
-                  height:
-                      16), // Add spacing between the button and transaction data
-              _buildTransactionData(), // Display transaction data here
-            ],
-          ),
+            ),
+            // Add spacing between the button and transaction data
+          ],
         ),
+        SizedBox(height: small),
+        Container(
+            padding: const EdgeInsets.symmetric(
+                horizontal: 10), // Add horizontal padding
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(
+                  medium), // Adjust the corner radius as needed
+              color: lgray,
+            ),
+            child: Column(
+              children: [_buildTransactionData()],
+            ))
       ],
     );
   }
@@ -94,8 +102,8 @@ class _TransactionsSectionState extends State<TransactionsSection> {
       );
     } else {
       return Text(
-        'No Transaction Data',
-        style: TextStyle(fontSize: 16),
+        'Transaction Sheet Empty!',
+        style: txt,
       );
     }
   }

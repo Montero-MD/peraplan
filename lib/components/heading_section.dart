@@ -76,11 +76,11 @@ class HeadingSection extends StatelessWidget {
             padding: const EdgeInsets.all(5),
             decoration: BoxDecoration(
               shape: BoxShape.circle, // Make the container circular
-              border: Border.all(width: 2.5, color: background),
+              border: Border.all(width: 2.5, color: white),
             ),
             child: Icon(
               Icons.question_mark,
-              color: background,
+              color: white,
               size: 35,
             ),
           ),

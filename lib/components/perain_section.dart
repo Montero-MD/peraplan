@@ -38,7 +38,6 @@ class _PeraInState extends State<PeraIn> {
   int value = 0;
 
   // reference our box
-  final _mybox = Hive.box('peraplanDB');
   PeraPlanDB db = PeraPlanDB();
 
   // save new Pera In
@@ -60,138 +59,91 @@ class _PeraInState extends State<PeraIn> {
     super.setState(fn);
   }
 
-  Widget peraIncategory(String inName, int index, {Icon? icon}) {
-    return OutlinedButton(
-      onPressed: () {
-        setState(() {
-          selectedPeraIn = index;
-        });
-      },
-      style: OutlinedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        side: BorderSide(
-            width: (selectedPeraIn == index) ? 2.5 : 1.0,
-            color: (selectedPeraIn == index) ? green : text),
-      ),
-      child: Stack(
-        children: [
-          Container(
-            alignment: Alignment.centerLeft,
-            padding: const EdgeInsets.symmetric(horizontal: 30),
-            child: Text(
-              inName,
-              style: subHeaders,
-            ),
-          ),
-          if (index == 1)
-            const Positioned(
-              left: 5,
-              child: Icon(
-                Icons.payments_rounded,
-                size: 20,
-                color: Color(0xFF0FA3B1),
-              ),
-            ),
-          if (index == 2)
-            const Positioned(
-              left: 5,
-              child: Icon(
-                Icons.account_balance_wallet_rounded,
-                size: 20,
-                color: Color(0xFF0FA3B1),
-              ),
-            ),
-          if (index == 3)
-            const Positioned(
-              left: 5,
-              child: Icon(
-                Icons.inventory_2_rounded,
-                size: 20,
-                color: Color(0xFF0FA3B1),
-              ),
-            ),
-          if (index == 4)
-            const Positioned(
-              left: 5,
-              child: Icon(
-                Icons.notes_rounded,
-                size: 20,
-                color: Color(0xFF0FA3B1),
-              ),
-            ),
-          if (selectedPeraIn == index)
-            const Positioned(
-              bottom: 5,
-              right: 5,
-              child: Icon(
-                Icons.check_circle,
-                size: 16,
-                color: Colors.green,
-              ),
-            ),
-          if (icon != null)
-            Positioned(
-              top: 5,
-              left: 5,
-              child: icon,
-            ),
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+
     return SingleChildScrollView(
       child: Form(
         key: _formkey,
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Text('Pera In', style: pIn),
-            Row(
-              children: [
-                Flexible(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+            Container(
+              width: width,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Pera In', style: pIn),
+                  Icon(
+                    Icons.money,
+                    size: 30,
+                    color: hlblue,
+                  )
+                ],
+              ),
+            ),
+            SizedBox(height: xsmall),
+            Container(
+              padding: const EdgeInsets.all(20.0),
+              width: width * .7,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  gradient: LinearGradient(colors: [hlblue, text]),
+                  boxShadow: [
+                    BoxShadow(
+                        color: dgray,
+                        blurRadius: 5,
+                        spreadRadius: 1,
+                        offset: const Offset(2, 2)),
+                  ]),
+              child: Column(
+                children: [
+                  Row(
                     children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        decoration: BoxDecoration(
-                          color: lgray,
-                          borderRadius: BorderRadius.circular(12),
+                      Flexible(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              decoration: BoxDecoration(
+                                color: lgray,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                            TextFormField(
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Invalid/Null Amount entered';
+                                }
+                                return null;
+                              },
+                              controller: _controller,
+                              keyboardType: TextInputType.number,
+                              textAlign: TextAlign.center,
+                              cursorColor: green,
+                              style: inpAmt,
+                              decoration: InputDecoration(
+                                hintText: 'Enter Amount...',
+                                hintStyle: hintAmt,
+                                border: InputBorder.none,
+                              ),
+                              inputFormatters: [
+                                CurrencyInputFormatter(
+                                  leadingSymbol: CurrencySymbols.peso_sign,
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
-                      ),
-                      TextFormField(
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Invalid/Null Amount entered';
-                          }
-                          return null;
-                        },
-                        controller: _controller,
-                        keyboardType: TextInputType.number,
-                        textAlign: TextAlign.center,
-                        cursorColor: green,
-                        style: inpAmt,
-                        decoration: InputDecoration(
-                          hintText: 'Enter Amount...',
-                          hintStyle: hintAmt,
-                          border: InputBorder.none,
-                          filled: true,
-                          fillColor: lgray,
-                        ),
-                        inputFormatters: [
-                          CurrencyInputFormatter(
-                            leadingSymbol: CurrencySymbols.peso_sign,
-                          ),
-                        ],
-                      ),
+                      )
                     ],
                   ),
-                )
-              ],
+                ],
+              ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -277,45 +229,49 @@ class _PeraInState extends State<PeraIn> {
                 ),
               ],
             ),
-            SafeArea(
-              child: Text('Category:', style: headers),
-            ),
-            SizedBox(
-              height: xxsmall,
-            ),
             Row(
-              // 'radio buttons' for category
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Expanded(
-                  child: peraIncategory("Salary", 1),
-                ),
-                const SizedBox(
-                  width: 20,
-                ),
-                Expanded(
-                  child: peraIncategory("Allowance", 2),
-                ),
-                const SizedBox(
-                  width: 20,
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: peraIncategory("Investments", 3),
-                ),
-                const SizedBox(
-                  width: 20,
-                ),
-                Expanded(
-                  child: peraIncategory("Others", 4),
-                ),
-                const SizedBox(
-                  width: 20,
-                ),
+                Text('Category:', style: headers),
+                Flexible(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        decoration: BoxDecoration(
+                          color: lgray,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      DropdownButtonFormField<String>(
+                        hint: Text(
+                          'Select Category',
+                          textAlign: TextAlign.center,
+                        ),
+                        onChanged: (String? newValue) {},
+                        items: <String>[
+                          'Salary',
+                          'Allowance',
+                          'Investments',
+                          'Others'
+                        ].map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(
+                              value,
+                              style: tCat,
+                            ),
+                          );
+                        }).toList(),
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 16.0, vertical: 10.0),
+                        ),
+                        style: txt,
+                      ),
+                    ],
+                  ),
+                )
               ],
             ),
             Row(
