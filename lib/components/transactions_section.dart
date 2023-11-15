@@ -63,16 +63,6 @@ class _TransactionsSectionState extends State<TransactionsSection> {
                 ],
               ),
             ),
-            SizedBox(width: large),
-            GestureDetector(
-              onTap: () => _navigateToTransactionPage(context),
-              child: Icon(
-                Icons.arrow_right_alt,
-                color: text,
-                size: 40,
-              ),
-            ),
-            // Add spacing between the button and transaction data
           ],
         ),
         SizedBox(height: small),

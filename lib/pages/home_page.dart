@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:peraplan/components/balance_section.dart';
 import 'package:peraplan/components/pera_buttons.dart';
+import 'package:peraplan/components/quick_actions.dart';
 import 'package:peraplan/components/transactions_section.dart';
 import 'package:peraplan/components/heading_section.dart';
 import 'package:peraplan/utils/styles.dart';
@@ -21,10 +22,8 @@ class HomePage extends StatelessWidget {
             children: [
               const HeadingSection(),
               SizedBox(height: xsmall),
-              BalanceSection(
-                username: '',
-              ),
-              const PeraButton(),
+              const BalanceSection(),
+              const QuickActions(),
               SizedBox(height: small),
               const TransactionsSection()
             ],

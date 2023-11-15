@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:peraplan/utils/styles.dart';
 
 class BalanceSection extends StatefulWidget {
-  final String username; // Add a parameter to receive the username
-
-  const BalanceSection({Key? key, required this.username}) : super(key: key);
+  const BalanceSection({Key? key}) : super(key: key);
 
   @override
   _DynamicBalanceDisplayState createState() => _DynamicBalanceDisplayState();

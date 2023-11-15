@@ -20,9 +20,7 @@ class PeraOutTransac extends StatelessWidget {
             children: [
               const HeadingSection(),
               SizedBox(height: small),
-              BalanceSection(
-                username: '',
-              ),
+              const BalanceSection(),
               const TransactionsButtons(),
             ],
           ),

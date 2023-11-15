@@ -18,9 +18,7 @@ class Welcome extends StatelessWidget {
             children: [
               const HeadingSection(),
               SizedBox(height: small),
-              BalanceSection(
-                username: '',
-              ),
+              const BalanceSection(),
               const PeraButton()
             ],
           ),
