@@ -1,5 +1,6 @@
+// ignore_for_file: unused_local_variable, no_leading_underscores_for_local_identifiers
+
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:peraplan/components/perain_section.dart';
 import 'package:peraplan/pages/splash.dart';

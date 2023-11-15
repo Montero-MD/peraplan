@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api, unused_element
+
 import 'package:flutter/material.dart';
 import 'package:peraplan/pages/transaction_page.dart';
 import 'package:peraplan/utils/styles.dart';
@@ -25,7 +27,7 @@ class _TransactionsSectionState extends State<TransactionsSection> {
     Navigator.of(context).push(
       PageRouteBuilder(
         pageBuilder: (context, animation, secondaryAnimation) {
-          return TransactionPage();
+          return const TransactionPage();
         },
         transitionDuration: const Duration(milliseconds: 100),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -143,11 +145,11 @@ class TransactionItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('$category', style: transactxt),
+              Text(category, style: transactxt),
               SizedBox(width: xlarge),
               Column(
                 children: [
-                  Text('$amount', style: tIn),
+                  Text(amount, style: tIn),
                   Row(
                     children: [
                       Text(

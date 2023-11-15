@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:peraplan/data/database.dart';
-import 'package:peraplan/pages/home_page.dart';
 import 'package:peraplan/utils/styles.dart';
 import 'package:peraplan/utils/currency_input_formatter.dart';
 
@@ -24,9 +23,9 @@ class TimeOfDayAdapter extends TypeAdapter<TimeOfDay> {
   }
 
   @override
-  void write(BinaryWriter writer, TimeOfDay time) {
-    writer.writeByte(time.hour);
-    writer.writeByte(time.minute);
+  void write(BinaryWriter writer, TimeOfDay obj) {
+    writer.writeByte(obj.hour);
+    writer.writeByte(obj.minute);
   }
 }
 
@@ -52,7 +51,6 @@ class _PeraInState extends State<PeraIn> {
       ]);
       _pera.clear();
       db.updatePeraInTransactions();
-      Navigator.pop(context);
     });
   }
 
@@ -71,7 +69,7 @@ class _PeraInState extends State<PeraIn> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Container(
+            SizedBox(
               width: width,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -148,7 +146,7 @@ class _PeraInState extends State<PeraIn> {
               ),
             ),
             SizedBox(height: small),
-            Container(
+            SizedBox(
               width: width,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -208,7 +206,7 @@ class _PeraInState extends State<PeraIn> {
                                               hlblue, // Change the primary color
                                           colorScheme: ColorScheme.light(
                                               primary: hlblue),
-                                          buttonTheme: ButtonThemeData(
+                                          buttonTheme: const ButtonThemeData(
                                               textTheme:
                                                   ButtonTextTheme.primary),
                                         ),
@@ -225,7 +223,7 @@ class _PeraInState extends State<PeraIn> {
                                 style: OutlinedButton.styleFrom(
                                   backgroundColor: Colors.transparent,
                                   fixedSize: const Size(100, 30),
-                                  side: BorderSide(
+                                  side: const BorderSide(
                                     color: Colors
                                         .transparent, // Set the outline color to transparent
                                     width: 1.0, // Set the outline width
@@ -277,7 +275,7 @@ class _PeraInState extends State<PeraIn> {
                                                 hlblue, // Change the primary color
                                             colorScheme: ColorScheme.light(
                                                 primary: hlblue),
-                                            buttonTheme: ButtonThemeData(
+                                            buttonTheme: const ButtonThemeData(
                                                 textTheme:
                                                     ButtonTextTheme.primary),
                                           ),
@@ -295,7 +293,7 @@ class _PeraInState extends State<PeraIn> {
                                 style: OutlinedButton.styleFrom(
                                   backgroundColor: Colors.transparent,
                                   fixedSize: const Size(100, 30),
-                                  side: BorderSide(
+                                  side: const BorderSide(
                                     color: Colors
                                         .transparent, // Set the outline color to transparent
                                     width: 1.0, // Set the outline width
@@ -360,7 +358,7 @@ class _PeraInState extends State<PeraIn> {
                                 }).toList(),
                                 icon: Icon(Icons.keyboard_arrow_down,
                                     color: hlblue),
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   border: InputBorder.none,
                                   contentPadding: EdgeInsets.symmetric(
                                       horizontal: 16.0, vertical: 10.0),

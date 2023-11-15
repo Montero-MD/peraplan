@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:peraplan/components/balance_section.dart';
-import 'package:peraplan/components/pera_buttons.dart';
 import 'package:peraplan/utils/styles.dart';
 import 'package:peraplan/components/heading_section.dart';
 
@@ -19,7 +18,6 @@ class Welcome extends StatelessWidget {
               const HeadingSection(),
               SizedBox(height: small),
               const BalanceSection(),
-              const PeraButton()
             ],
           ),
         )));

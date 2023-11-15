@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:peraplan/components/balance_section.dart';
-import 'package:peraplan/components/pera_buttons.dart';
 import 'package:peraplan/components/quick_actions.dart';
 import 'package:peraplan/components/transactions_section.dart';
 import 'package:peraplan/components/heading_section.dart';
