@@ -45,21 +45,35 @@ class RoundedTextBackground extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
 
-    return Container(
-      padding: const EdgeInsets.all(20.0),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(colors: [hlblue, text]),
-        borderRadius: BorderRadius.circular(20.0),
-      ),
-      width: screenWidth,
-      child: Column(
-        children: <Widget>[
-          Text(
-            '₱$balanceAmount',
-            style: balAmt,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text.rich(TextSpan(
+          children: [
+            TextSpan(text: 'Your ', style: lNormal),
+            TextSpan(
+              text: 'Balance',
+              style: lBold,
+            ),
+          ],
+        )),
+        Container(
+          padding: const EdgeInsets.all(20.0),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(colors: [hlblue, text]),
+            borderRadius: BorderRadius.circular(20.0),
           ),
-        ],
-      ),
+          width: screenWidth,
+          child: Column(
+            children: <Widget>[
+              Text(
+                '₱$balanceAmount',
+                style: balAmt,
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

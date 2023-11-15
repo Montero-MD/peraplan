@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:peraplan/data/database.dart';
+import 'package:peraplan/pages/home_page.dart';
 import 'package:peraplan/utils/styles.dart';
 import 'package:peraplan/utils/currency_input_formatter.dart';
 
@@ -31,11 +32,11 @@ class TimeOfDayAdapter extends TypeAdapter<TimeOfDay> {
 
 class _PeraInState extends State<PeraIn> {
   final _formkey = GlobalKey<FormState>();
-  final _controller = TextEditingController();
+  final _pera = TextEditingController();
   TimeOfDay selectedTime = TimeOfDay.now();
   DateTime selectedDate = DateTime.now();
-  int selectedPeraIn = 0;
   int value = 0;
+  String? selectedCategory;
 
   // reference our box
   PeraPlanDB db = PeraPlanDB();
@@ -43,14 +44,15 @@ class _PeraInState extends State<PeraIn> {
   // save new Pera In
   void saveNewPeraIn() {
     setState(() {
-      db.peraIntransactions.add([
-        _controller.text,
+      db.peraInTransactions.add([
+        _pera.text,
         selectedDate,
         selectedTime,
-        selectedPeraIn,
+        selectedCategory,
       ]);
-      _controller.clear();
-      db.updateDatabase();
+      _pera.clear();
+      db.updatePeraInTransactions();
+      Navigator.pop(context);
     });
   }
 
@@ -77,7 +79,7 @@ class _PeraInState extends State<PeraIn> {
                 children: [
                   Text('Pera In', style: pIn),
                   Icon(
-                    Icons.money,
+                    Icons.attach_money_rounded,
                     size: 30,
                     color: hlblue,
                   )
@@ -86,7 +88,7 @@ class _PeraInState extends State<PeraIn> {
             ),
             SizedBox(height: xsmall),
             Container(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(10.0),
               width: width * .7,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
@@ -117,11 +119,11 @@ class _PeraInState extends State<PeraIn> {
                             TextFormField(
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Invalid/Null Amount entered';
+                                  return 'Please Enter an Amount';
                                 }
                                 return null;
                               },
-                              controller: _controller,
+                              controller: _pera,
                               keyboardType: TextInputType.number,
                               textAlign: TextAlign.center,
                               cursorColor: green,
@@ -145,165 +147,287 @@ class _PeraInState extends State<PeraIn> {
                 ],
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text('Date:', style: headers),
-                SizedBox(width: small),
-                Flexible(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      OutlinedButton(
-                        onPressed: () async {
-                          final DateTime? dateTime = await showDatePicker(
-                            context: context,
-                            initialDate: selectedDate,
-                            firstDate: DateTime(1900),
-                            lastDate: DateTime(2100),
-                          );
-                          if (dateTime != null) {
-                            setState(() {
-                              selectedDate = dateTime;
-                            });
-                          }
-                        },
-                        style: OutlinedButton.styleFrom(
-                          backgroundColor: lgray,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          fixedSize: const Size(130, 20),
-                        ),
-                        child: Text(
-                          "${selectedDate.month}/${selectedDate.day}/${selectedDate.year}",
-                          style: subHeaders,
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                SizedBox(width: small),
-                Text('Time:', style: headers),
-                SizedBox(width: small),
-                Flexible(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      OutlinedButton(
-                        onPressed: () async {
-                          final TimeOfDay? timeOfDay = await showTimePicker(
-                            context: context,
-                            initialTime: selectedTime,
-                            initialEntryMode: TimePickerEntryMode.dial,
-                            builder: (context, childWidget) {
-                              return MediaQuery(
-                                data: MediaQuery.of(context).copyWith(
-                                  alwaysUse24HourFormat: false,
-                                ),
-                                child: childWidget!,
-                              );
-                            },
-                          );
-                          if (timeOfDay != null) {
-                            setState(() {
-                              selectedTime = timeOfDay;
-                            });
-                          }
-                        },
-                        style: OutlinedButton.styleFrom(
-                          backgroundColor: lgray,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                12), // Set the radius here
-                          ),
-                          fixedSize: const Size(100, 20),
-                        ),
-                        child: Text(
-                          selectedTime.format(context).toString(),
-                          style: subHeaders,
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ],
+            SizedBox(height: small),
+            Container(
+              width: width,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [Text('Details', style: headers)],
+              ),
             ),
-            Row(
-              children: [
-                Text('Category:', style: headers),
-                Flexible(
-                  child: Column(
+            Container(
+              padding: const EdgeInsets.all(20.0),
+              width: width * .9,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: white,
+                  boxShadow: [
+                    BoxShadow(
+                        color: dgray,
+                        blurRadius: 5,
+                        spreadRadius: 1,
+                        offset: const Offset(2, 2)),
+                  ]),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text('Date', style: subHeaders),
+                      SizedBox(width: xsmall),
+                      Flexible(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.max,
+                          children: <Widget>[
+                            Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: white,
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: dgray,
+                                        blurRadius: 5,
+                                        spreadRadius: 1,
+                                        offset: const Offset(2, 2)),
+                                  ]),
+                              child: OutlinedButton(
+                                onPressed: () async {
+                                  final DateTime? dateTime =
+                                      await showDatePicker(
+                                    context: context,
+                                    initialDate: selectedDate,
+                                    firstDate: DateTime(1900),
+                                    lastDate: DateTime(2100),
+                                    builder:
+                                        (BuildContext context, Widget? child) {
+                                      return Theme(
+                                        data: ThemeData.light().copyWith(
+                                          primaryColor:
+                                              hlblue, // Change the primary color
+                                          colorScheme: ColorScheme.light(
+                                              primary: hlblue),
+                                          buttonTheme: ButtonThemeData(
+                                              textTheme:
+                                                  ButtonTextTheme.primary),
+                                        ),
+                                        child: child!,
+                                      );
+                                    },
+                                  );
+                                  if (dateTime != null) {
+                                    setState(() {
+                                      selectedDate = dateTime;
+                                    });
+                                  }
+                                },
+                                style: OutlinedButton.styleFrom(
+                                  backgroundColor: Colors.transparent,
+                                  fixedSize: const Size(100, 30),
+                                  side: BorderSide(
+                                    color: Colors
+                                        .transparent, // Set the outline color to transparent
+                                    width: 1.0, // Set the outline width
+                                  ),
+                                ),
+                                child: Text(
+                                  "${selectedDate.month}/${selectedDate.day}/${selectedDate.year}",
+                                  style: hltxt,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      SizedBox(width: small),
+                      Text('Time', style: subHeaders),
+                      SizedBox(width: xsmall),
+                      Flexible(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: white,
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: dgray,
+                                        blurRadius: 5,
+                                        spreadRadius: 1,
+                                        offset: const Offset(2, 2)),
+                                  ]),
+                              child: OutlinedButton(
+                                onPressed: () async {
+                                  final TimeOfDay? timeOfDay =
+                                      await showTimePicker(
+                                    context: context,
+                                    initialTime: selectedTime,
+                                    initialEntryMode: TimePickerEntryMode.dial,
+                                    builder: (context, childWidget) {
+                                      return MediaQuery(
+                                        data: MediaQuery.of(context).copyWith(
+                                          alwaysUse24HourFormat: false,
+                                        ),
+                                        child: Theme(
+                                          data: ThemeData.light().copyWith(
+                                            primaryColor:
+                                                hlblue, // Change the primary color
+                                            colorScheme: ColorScheme.light(
+                                                primary: hlblue),
+                                            buttonTheme: ButtonThemeData(
+                                                textTheme:
+                                                    ButtonTextTheme.primary),
+                                          ),
+                                          child: childWidget!,
+                                        ),
+                                      );
+                                    },
+                                  );
+                                  if (timeOfDay != null) {
+                                    setState(() {
+                                      selectedTime = timeOfDay;
+                                    });
+                                  }
+                                },
+                                style: OutlinedButton.styleFrom(
+                                  backgroundColor: Colors.transparent,
+                                  fixedSize: const Size(100, 30),
+                                  side: BorderSide(
+                                    color: Colors
+                                        .transparent, // Set the outline color to transparent
+                                    width: 1.0, // Set the outline width
+                                  ),
+                                ),
+                                child: Text(
+                                  selectedTime.format(context).toString(),
+                                  style: hltxt,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: small),
+                  Row(
+                    children: [
+                      Text('Category', style: subHeaders),
+                      SizedBox(width: xsmall),
+                      Flexible(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: white,
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: dgray,
+                                        blurRadius: 5,
+                                        spreadRadius: 1,
+                                        offset: const Offset(2, 2)),
+                                  ]),
+                              child: DropdownButtonFormField<String>(
+                                value: selectedCategory,
+                                hint: Text(
+                                  'Select Category',
+                                  textAlign: TextAlign.center,
+                                  style: txt,
+                                ),
+                                onChanged: (String? newValue) {
+                                  setState(() {
+                                    selectedCategory = newValue;
+                                  });
+                                },
+                                items: <String>[
+                                  'Salary',
+                                  'Allowance',
+                                  'Investments',
+                                  'Others'
+                                ].map<DropdownMenuItem<String>>((String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(
+                                      value,
+                                      style: tCat,
+                                    ),
+                                  );
+                                }).toList(),
+                                icon: Icon(Icons.keyboard_arrow_down,
+                                    color: hlblue),
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  contentPadding: EdgeInsets.symmetric(
+                                      horizontal: 16.0, vertical: 10.0),
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please select a category';
+                                  }
+                                  return null;
+                                },
+                                style: txt,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(height: small),
+                  Row(
+                    // 'Button' to save form
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        decoration: BoxDecoration(
-                          color: lgray,
-                          borderRadius: BorderRadius.circular(12),
+                      GestureDetector(
+                        onTap: () {
+                          if (_formkey.currentState!.validate()) {
+                            saveNewPeraIn(); // calls the function to save the data
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text('Pera In Saved Successfully!')),
+                            );
+                          }
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(5),
+                          width: 185,
+                          height: 50,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(35),
+                              gradient: LinearGradient(colors: [hlblue, text]),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: dgray,
+                                    blurRadius: 5,
+                                    spreadRadius: 1,
+                                    offset: const Offset(2, 2)),
+                              ]),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text('Pera In', style: hintAmt),
+                              SizedBox(width: small),
+                              Icon(
+                                Icons.arrow_forward,
+                                size: 32,
+                                color: white,
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                      DropdownButtonFormField<String>(
-                        hint: Text(
-                          'Select Category',
-                          textAlign: TextAlign.center,
-                        ),
-                        onChanged: (String? newValue) {},
-                        items: <String>[
-                          'Salary',
-                          'Allowance',
-                          'Investments',
-                          'Others'
-                        ].map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(
-                              value,
-                              style: tCat,
-                            ),
-                          );
-                        }).toList(),
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(
-                              horizontal: 16.0, vertical: 10.0),
-                        ),
-                        style: txt,
                       ),
                     ],
                   ),
-                )
-              ],
-            ),
-            Row(
-              // 'Button' to save form
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    if (_formkey.currentState!.validate()) {
-                      saveNewPeraIn(); // calls the function to save the data
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Processing Data')),
-                      );
-                    }
-                  },
-                  child: Container(
-                    margin: const EdgeInsets.all(10),
-                    padding: const EdgeInsets.all(5),
-                    width: 100,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(width: 2.5, color: green),
-                      color: green,
-                    ),
-                    child: Icon(
-                      Icons.north_east,
-                      color: white,
-                      size: 35,
-                    ),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         ),

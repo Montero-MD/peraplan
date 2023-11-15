@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:peraplan/pages/transaction_page.dart';
 import 'package:peraplan/utils/styles.dart';
 import 'package:hive/hive.dart';
+import 'package:intl/intl.dart';
 
 class TransactionsSection extends StatefulWidget {
   const TransactionsSection({Key? key}) : super(key: key);
@@ -96,9 +97,10 @@ class _TransactionsSectionState extends State<TransactionsSection> {
         'PeraIn_Transactions'); // Replace 'yourTransactionKey' with the actual key
     if (transactionData != null) {
       // Handle how you want to display the data here
-      return Text(
-        'Transaction Data: $transactionData',
-        style: TextStyle(fontSize: 16),
+      return Column(
+        children: transactionData.map<Widget>((transaction) {
+          return TransactionItem(transaction: transaction);
+        }).toList(),
       );
     } else {
       return Text(
@@ -106,5 +108,74 @@ class _TransactionsSectionState extends State<TransactionsSection> {
         style: txt,
       );
     }
+  }
+}
+
+class TransactionItem extends StatelessWidget {
+  final List<dynamic> transaction;
+  const TransactionItem({Key? key, required this.transaction})
+      : super(key: key);
+
+  String formatDateTime(DateTime dateTime) {
+    final String monthName = DateFormat.MMMM().format(dateTime);
+    final int day = dateTime.day;
+
+    return '$monthName $day';
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // Extract data from the transaction list
+    String amount = transaction[0].toString();
+    DateTime date = transaction[1];
+    TimeOfDay time = transaction[2];
+    String category = transaction[3].toString();
+    double width = MediaQuery.of(context).size.width;
+
+    return Container(
+      width: width,
+      padding: const EdgeInsets.all(10.0),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: white,
+          boxShadow: [
+            BoxShadow(
+                color: dgray,
+                blurRadius: 5,
+                spreadRadius: 1,
+                offset: const Offset(2, 2)),
+          ]),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text('$category', style: transactxt),
+              SizedBox(width: xlarge),
+              Column(
+                children: [
+                  Text('$amount', style: tIn),
+                  Row(
+                    children: [
+                      Text(
+                        ' ${formatDateTime(date)}',
+                        style: hltxt,
+                      ),
+                      Text(
+                        ', ${time.format(context)}',
+                        style: hltxt,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          )
+        ],
+      ),
+    );
   }
 }
