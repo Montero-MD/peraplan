@@ -5,6 +5,7 @@ import 'package:peraplan/pages/transaction_page.dart';
 import 'package:peraplan/utils/styles.dart';
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
+import 'package:peraplan/data/database.dart';
 
 class TransactionsSection extends StatefulWidget {
   const TransactionsSection({Key? key}) : super(key: key);
@@ -15,12 +16,28 @@ class TransactionsSection extends StatefulWidget {
 
 class _TransactionsSectionState extends State<TransactionsSection> {
   late Box<dynamic> _mybox;
+  late PeraPlanDB _peraPlanDB;
 
   @override
   void initState() {
     super.initState();
-    // Open the Hive box for transactions
-    _mybox = Hive.box('peraplanDB'); // Replace 'peraplanDB' with your box name
+    _mybox = Hive.box('peraplanDB');
+    _peraPlanDB = PeraPlanDB();
+    _peraPlanDB.loadPeraInTransactions();
+    _peraPlanDB.loadPeraOutTransactions();
+  }
+
+  List<dynamic> getLatestEntries(List<dynamic> transactions, int count) {
+    // Ensure the transactions list is not null and not empty
+    if (transactions.isNotEmpty) {
+      // Sort the transactions by date in descending order
+      transactions.sort((a, b) => b[1].compareTo(a[1]));
+
+      // Take the first 'count' transactions
+      return transactions.take(count).toList();
+    }
+
+    return [];
   }
 
   void _navigateToTransactionPage(BuildContext context) {
@@ -49,25 +66,13 @@ class _TransactionsSectionState extends State<TransactionsSection> {
 
   @override
   Widget build(BuildContext context) {
+    // Get the latest 5 entries for Pera In transactions
+    final latestPeraIn = getLatestEntries(_peraPlanDB.peraInTransactions, 5);
+
+    // Get the latest 5 entries for Pera Out transactions
+    final latestPeraOut = getLatestEntries(_peraPlanDB.peraOutTransactions, 5);
     return Column(
       children: [
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text.rich(
-              TextSpan(
-                children: [
-                  TextSpan(text: 'Latest ', style: transacBold),
-                  TextSpan(
-                    text: 'Transactions',
-                    style: transacNormal,
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-        SizedBox(height: small),
         Container(
             padding: const EdgeInsets.symmetric(
                 horizontal: 10), // Add horizontal padding
@@ -77,26 +82,39 @@ class _TransactionsSectionState extends State<TransactionsSection> {
               color: lgray,
             ),
             child: Column(
-              children: [_buildTransactionData()],
+              children: [
+                _buildTransactionData(latestPeraIn),
+                SizedBox(height: small),
+                // Display the latest 5 entries for Pera Out transactions
+                _buildTransactionData(latestPeraOut),
+              ],
             ))
       ],
     );
   }
 
-  Widget _buildTransactionData() {
-    // Retrieve and display transaction data from the Hive box
-    final transactionData = _mybox.get(
-        'PeraIn_Transactions'); // Replace 'yourTransactionKey' with the actual key
-    if (transactionData != null) {
-      // Handle how you want to display the data here
+  Widget _buildTransactionData(List<dynamic> transactions) {
+    if (transactions.isNotEmpty) {
       return Column(
-        children: transactionData.map<Widget>((transaction) {
-          return TransactionItem(transaction: transaction);
-        }).toList(),
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(medium),
+              color: lgray,
+            ),
+            child: Stack(
+              children: transactions.map<Widget>((transaction) {
+                return TransactionItem(transaction: transaction);
+              }).toList(),
+            ),
+          ),
+        ],
       );
     } else {
       return Text(
-        'Transaction Sheet Empty!',
+        'No transactions available.',
         style: txt,
       );
     }
@@ -126,7 +144,7 @@ class TransactionItem extends StatelessWidget {
 
     return Container(
       width: width,
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           color: white,
@@ -137,35 +155,29 @@ class TransactionItem extends StatelessWidget {
                 spreadRadius: 1,
                 offset: const Offset(2, 2)),
           ]),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
+          Text(category, style: transactxt),
+          SizedBox(width: xlarge),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text(category, style: transactxt),
-              SizedBox(width: xlarge),
-              Column(
+              Text(amount, style: tIn),
+              Row(
                 children: [
-                  Text(amount, style: tIn),
-                  Row(
-                    children: [
-                      Text(
-                        ' ${formatDateTime(date)}',
-                        style: hltxt,
-                      ),
-                      Text(
-                        ', ${time.format(context)}',
-                        style: hltxt,
-                      ),
-                    ],
+                  Text(
+                    ' ${formatDateTime(date)}',
+                    style: hltxt,
+                  ),
+                  Text(
+                    ', ${time.format(context)}',
+                    style: hltxt,
                   ),
                 ],
               ),
             ],
-          )
+          ),
         ],
       ),
     );
