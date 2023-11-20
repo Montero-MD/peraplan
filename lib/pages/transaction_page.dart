@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:peraplan/components/balance_section.dart';
 import 'package:peraplan/components/transactions_buttons.dart';
+import 'package:peraplan/components/transactions_section.dart';
 import 'package:peraplan/utils/styles.dart';
 import 'package:peraplan/components/heading_section.dart';
 
@@ -22,6 +23,7 @@ class TransactionPage extends StatelessWidget {
               SizedBox(height: small),
               const BalanceSection(),
               const TransactionsButtons(),
+              const TransactionsSection(),
             ],
           ),
         )));

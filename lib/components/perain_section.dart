@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:peraplan/data/database.dart';
+import 'package:peraplan/pages/home_page.dart';
 import 'package:peraplan/utils/styles.dart';
-import 'package:peraplan/utils/currency_input_formatter.dart';
 
 class PeraIn extends StatefulWidget {
   const PeraIn({super.key});
@@ -32,6 +33,7 @@ class TimeOfDayAdapter extends TypeAdapter<TimeOfDay> {
 class _PeraInState extends State<PeraIn> {
   final _formkey = GlobalKey<FormState>();
   final _pera = TextEditingController();
+  double? finalpera;
   TimeOfDay selectedTime = TimeOfDay.now();
   DateTime selectedDate = DateTime.now();
   int value = 0;
@@ -41,10 +43,10 @@ class _PeraInState extends State<PeraIn> {
   PeraPlanDB db = PeraPlanDB();
 
   // save new Pera In
-  void saveNewPeraIn() {
+  void saveNewPeraIn(double? finalpera) {
     setState(() {
       db.peraInTransactions.add([
-        _pera.text,
+        finalpera,
         selectedDate,
         selectedTime,
         selectedCategory,
@@ -52,6 +54,10 @@ class _PeraInState extends State<PeraIn> {
       _pera.clear();
       db.updatePeraInTransactions();
     });
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const HomePage()),
+    );
   }
 
   @override
@@ -119,6 +125,9 @@ class _PeraInState extends State<PeraIn> {
                                 if (value == null || value.isEmpty) {
                                   return 'Please Enter an Amount';
                                 }
+                                if (double.tryParse(value) == null) {
+                                  return 'Invalid Double';
+                                }
                                 return null;
                               },
                               controller: _pera,
@@ -130,10 +139,11 @@ class _PeraInState extends State<PeraIn> {
                                 hintText: 'Enter Amount...',
                                 hintStyle: hintAmt,
                                 border: InputBorder.none,
+                                prefixText: '₱',
                               ),
                               inputFormatters: [
-                                CurrencyInputFormatter(
-                                  leadingSymbol: CurrencySymbols.peso_sign,
+                                FilteringTextInputFormatter.allow(
+                                  RegExp(r'^\d+\.?\d{0,2}$'),
                                 ),
                               ],
                             ),
@@ -384,8 +394,12 @@ class _PeraInState extends State<PeraIn> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          if (_formkey.currentState!.validate()) {
-                            saveNewPeraIn(); // calls the function to save the data
+                          if (_pera.text.isNotEmpty &&
+                              _formkey.currentState!.validate()) {
+                            double finalPera = double.parse(_pera.text);
+
+                            saveNewPeraIn(
+                                finalPera); // calls the function to save the data
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                   content: Text('Pera In Saved Successfully!')),

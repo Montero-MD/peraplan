@@ -6,6 +6,7 @@ import 'package:peraplan/utils/styles.dart';
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 import 'package:peraplan/data/database.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class TransactionsSection extends StatefulWidget {
   const TransactionsSection({Key? key}) : super(key: key);
@@ -38,6 +39,18 @@ class _TransactionsSectionState extends State<TransactionsSection> {
     }
 
     return [];
+  }
+
+  double calculateBalance() {
+    double peraInTotal = _peraPlanDB.peraInTransactions
+        .map<double>((transaction) => transaction[0] as double)
+        .fold(0, (prev, amount) => prev + amount);
+
+    double peraOutTotal = _peraPlanDB.peraOutTransactions
+        .map<double>((transaction) => transaction[0] as double)
+        .fold(0, (prev, amount) => prev + amount);
+
+    return peraInTotal - peraOutTotal;
   }
 
   void _navigateToTransactionPage(BuildContext context) {
@@ -83,17 +96,17 @@ class _TransactionsSectionState extends State<TransactionsSection> {
             ),
             child: Column(
               children: [
-                _buildTransactionData(latestPeraIn),
+                _buildTransactionData(latestPeraIn, "Pera In"),
                 SizedBox(height: small),
                 // Display the latest 5 entries for Pera Out transactions
-                _buildTransactionData(latestPeraOut),
+                _buildTransactionData(latestPeraOut, "Pera Out"),
               ],
             ))
       ],
     );
   }
 
-  Widget _buildTransactionData(List<dynamic> transactions) {
+  Widget _buildTransactionData(List<dynamic> transactions, String title) {
     if (transactions.isNotEmpty) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -106,7 +119,7 @@ class _TransactionsSectionState extends State<TransactionsSection> {
             ),
             child: Stack(
               children: transactions.map<Widget>((transaction) {
-                return TransactionItem(transaction: transaction);
+                return TransactionItem(transaction: transaction, title: title);
               }).toList(),
             ),
           ),
@@ -114,7 +127,7 @@ class _TransactionsSectionState extends State<TransactionsSection> {
       );
     } else {
       return Text(
-        'No transactions available.',
+        'No $title Transactions Available',
         style: txt,
       );
     }
@@ -123,7 +136,9 @@ class _TransactionsSectionState extends State<TransactionsSection> {
 
 class TransactionItem extends StatelessWidget {
   final List<dynamic> transaction;
-  const TransactionItem({Key? key, required this.transaction})
+  final String title;
+  const TransactionItem(
+      {Key? key, required this.transaction, required this.title})
       : super(key: key);
 
   String formatDateTime(DateTime dateTime) {
@@ -142,28 +157,54 @@ class TransactionItem extends StatelessWidget {
     String category = transaction[3].toString();
     double width = MediaQuery.of(context).size.width;
 
+    TextStyle unique = GoogleFonts.lexend(
+      fontSize: 14,
+      fontWeight: FontWeight.w600,
+      color: title == "Pera In" ? Colors.green : Colors.red,
+    );
+
+    if (title == "Pera Out") {
+      amount = "-₱$amount";
+    } else {
+      amount = "+₱$amount";
+    }
     return Container(
       width: width,
       padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          color: white,
-          boxShadow: [
-            BoxShadow(
-                color: dgray,
-                blurRadius: 5,
-                spreadRadius: 1,
-                offset: const Offset(2, 2)),
-          ]),
+        borderRadius: BorderRadius.circular(20),
+        color: white,
+        boxShadow: [
+          BoxShadow(
+            color: dgray,
+            blurRadius: 5,
+            spreadRadius: 1,
+            offset: const Offset(2, 2),
+          ),
+        ],
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(category, style: transactxt),
-          SizedBox(width: xlarge),
+          Row(
+            children: [
+              Container(
+                width: 40,
+                height: 40,
+                margin: const EdgeInsets.only(right: 8),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: title == "Pera In" ? Colors.green : Colors.red,
+                ),
+              ),
+              Text(category, style: transactxt),
+            ],
+          ),
+          SizedBox(width: large),
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text(amount, style: tIn),
+              Text(amount, style: unique),
               Row(
                 children: [
                   Text(

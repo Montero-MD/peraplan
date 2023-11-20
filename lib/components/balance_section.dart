@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:peraplan/utils/styles.dart';
+import 'package:hive/hive.dart';
+import 'package:peraplan/data/database.dart';
 
 class BalanceSection extends StatefulWidget {
   const BalanceSection({Key? key}) : super(key: key);
@@ -11,39 +13,55 @@ class BalanceSection extends StatefulWidget {
 }
 
 class _DynamicBalanceDisplayState extends State<BalanceSection> {
-  double balanceAmount = 0.0; // Initial balance amount
-
-  void addBalance() {
-    // Simulate updating the balance amount
-    setState(() {
-      balanceAmount +=
-          10.0; // Increment the balance amount (you can replace this with your own logic)
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        RoundedTextBackground(
-          balanceAmount: balanceAmount,
-        ),
+        const RoundedTextBackground(),
         SizedBox(height: small),
       ],
     );
   }
 }
 
-class RoundedTextBackground extends StatelessWidget {
-  final double balanceAmount;
+class RoundedTextBackground extends StatefulWidget {
+  const RoundedTextBackground({super.key});
 
-  const RoundedTextBackground({Key? key, required this.balanceAmount})
-      : super(key: key);
+  @override
+  State<RoundedTextBackground> createState() => _RoundedTextBackgroundState();
+}
+
+class _RoundedTextBackgroundState extends State<RoundedTextBackground> {
+  late Box<dynamic> _mybox;
+
+  late PeraPlanDB _peraPlanDB;
+
+  @override
+  void initState() {
+    super.initState();
+    _mybox = Hive.box('peraplanDB');
+    _peraPlanDB = PeraPlanDB();
+    _peraPlanDB.loadPeraInTransactions();
+    _peraPlanDB.loadPeraOutTransactions();
+  }
+
+  double calculateBalance() {
+    double peraInTotal = _peraPlanDB.peraInTransactions
+        .map<double>((transaction) => transaction[0] as double)
+        .fold(0, (prev, amount) => prev + amount);
+
+    double peraOutTotal = _peraPlanDB.peraOutTransactions
+        .map<double>((transaction) => transaction[0] as double)
+        .fold(0, (prev, amount) => prev + amount);
+
+    return peraInTotal - peraOutTotal;
+  }
 
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
+    double balanceAmount = calculateBalance();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

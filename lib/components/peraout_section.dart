@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:peraplan/data/database.dart';
+import 'package:peraplan/pages/home_page.dart';
 import 'package:peraplan/utils/styles.dart';
-import 'package:peraplan/utils/currency_input_formatter.dart';
 
 class PeraOut extends StatefulWidget {
   const PeraOut({super.key});
@@ -32,6 +33,8 @@ class TimeOfDayAdapter extends TypeAdapter<TimeOfDay> {
 class _PeraOutState extends State<PeraOut> {
   final _formkey = GlobalKey<FormState>();
   final _pera = TextEditingController();
+  double? finalpera;
+
   TimeOfDay selectedTime = TimeOfDay.now();
   DateTime selectedDate = DateTime.now();
   int value = 0;
@@ -41,10 +44,10 @@ class _PeraOutState extends State<PeraOut> {
   PeraPlanDB db = PeraPlanDB();
 
   // save new Pera Out
-  void saveNewPeraOut() {
+  void saveNewPeraOut(double? finalPera) {
     setState(() {
       db.peraOutTransactions.add([
-        _pera.text,
+        finalPera,
         selectedDate,
         selectedTime,
         selectedCategory,
@@ -52,6 +55,10 @@ class _PeraOutState extends State<PeraOut> {
       _pera.clear();
       db.updatePeraOutTransactions();
     });
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const HomePage()),
+    );
   }
 
   @override
@@ -130,10 +137,11 @@ class _PeraOutState extends State<PeraOut> {
                                 hintText: 'Enter Amount...',
                                 hintStyle: hintAmt,
                                 border: InputBorder.none,
+                                prefixText: '₱',
                               ),
                               inputFormatters: [
-                                CurrencyInputFormatter(
-                                  leadingSymbol: CurrencySymbols.peso_sign,
+                                FilteringTextInputFormatter.allow(
+                                  RegExp(r'^\d+\.?\d{0,2}$'),
                                 ),
                               ],
                             ),
@@ -384,8 +392,12 @@ class _PeraOutState extends State<PeraOut> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          if (_formkey.currentState!.validate()) {
-                            saveNewPeraOut(); // calls the function to save the data
+                          if (_pera.text.isNotEmpty &&
+                              _formkey.currentState!.validate()) {
+                            double finalPera = double.parse(_pera.text);
+
+                            saveNewPeraOut(
+                                finalPera); // calls the function to save the data
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                   content:
@@ -413,7 +425,7 @@ class _PeraOutState extends State<PeraOut> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text('Pera Out', style: hintAmt),
-                              SizedBox(width: small),
+                              SizedBox(width: xsmall),
                               Icon(
                                 Icons.arrow_forward,
                                 size: 32,
