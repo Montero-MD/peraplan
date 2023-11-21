@@ -38,15 +38,8 @@ class _DynamicBalanceDisplayState extends State<BalanceSection> {
         SizedBox(
             height: xsmall), // Add some space between the text and the balance
         RoundedTextBackground(
-<<<<<<< HEAD
             balanceAmount:
                 balanceAmount), // Use the RoundedTextBackground widget
-=======
-          userName:
-              '${widget.username}\'s Balance', // Use the username received from the constructor
-          balanceAmount: balanceAmount,
-        ),
->>>>>>> 00816b7203ef018318706057e5b189f887ee2d1b
         SizedBox(height: small),
       ],
     );
@@ -56,12 +49,7 @@ class _DynamicBalanceDisplayState extends State<BalanceSection> {
 class RoundedTextBackground extends StatelessWidget {
   final double balanceAmount;
 
-<<<<<<< HEAD
   const RoundedTextBackground({Key? key, required this.balanceAmount})
-=======
-  const RoundedTextBackground(
-      {Key? key, required this.userName, required this.balanceAmount})
->>>>>>> 00816b7203ef018318706057e5b189f887ee2d1b
       : super(key: key);
 
   @override
@@ -69,11 +57,7 @@ class RoundedTextBackground extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
 
     return Container(
-<<<<<<< HEAD
       padding: const EdgeInsets.all(40.0),
-=======
-      padding: const EdgeInsets.all(20.0),
->>>>>>> 00816b7203ef018318706057e5b189f887ee2d1b
       decoration: BoxDecoration(
         gradient: LinearGradient(colors: [hlblue, text]),
         borderRadius: BorderRadius.circular(20.0),
@@ -82,16 +66,7 @@ class RoundedTextBackground extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Text(
-<<<<<<< HEAD
             '₱$balanceAmount', // Display the balance amount with a peso sign
-=======
-            userName,
-            style: uName,
-          ),
-          SizedBox(height: small),
-          Text(
-            '₱$balanceAmount',
->>>>>>> 00816b7203ef018318706057e5b189f887ee2d1b
             style: balAmt,
           ),
         ],
