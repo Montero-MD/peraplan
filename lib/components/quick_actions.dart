@@ -29,7 +29,7 @@ class QuickActions extends StatelessWidget {
           children: [
             QuickActionButton(
               text: 'Pera In',
-              icon: Icons.attach_money_rounded, // Replace with the desired icon
+              imagePath: 'assets/images/perain.png',
               textStyle: tIn, // Text style for the first button
               onPressed: () {
                 // Navigate to the screen for "Pera In"
@@ -42,7 +42,7 @@ class QuickActions extends StatelessWidget {
             ),
             QuickActionButton(
               text: 'Pera Out',
-              icon: Icons.money_off, // Replace with the desired icon
+              imagePath: 'assets/images/peraout.png',
               textStyle: tOut, // Text style for the second button
               onPressed: () {
                 // Navigate to the screen for "Pera Out"
@@ -55,7 +55,8 @@ class QuickActions extends StatelessWidget {
             ),
             QuickActionButton(
               text: 'History',
-              icon: Icons.history, // Replace with the desired icon
+              imagePath: 'assets/images/transaction.png',
+
               textStyle: tCat, // Text style for the third button
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
@@ -74,13 +75,13 @@ class QuickActions extends StatelessWidget {
 
 class QuickActionButton extends StatelessWidget {
   final String text;
-  final IconData icon;
+  final String imagePath;
   final TextStyle textStyle;
   final VoidCallback onPressed;
 
   const QuickActionButton({
     required this.text,
-    required this.icon,
+    required this.imagePath,
     required this.textStyle,
     required this.onPressed,
     Key? key,
@@ -108,10 +109,11 @@ class QuickActionButton extends StatelessWidget {
                 text,
                 style: textStyle, // Set the provided text style
               ),
-              Icon(
-                icon,
-                color: hlblue, // Set icon color
-                size: 40, // Set icon size
+              Image.asset(
+                imagePath,
+                color: hlblue, // Set image color
+                width: 40, // Set image width
+                height: 40, // Set image height
               ),
             ],
           ),
