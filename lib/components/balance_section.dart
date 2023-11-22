@@ -80,6 +80,13 @@ class _RoundedTextBackgroundState extends State<RoundedTextBackground> {
           decoration: BoxDecoration(
             gradient: LinearGradient(colors: [hlblue, text]),
             borderRadius: BorderRadius.circular(20.0),
+            boxShadow: [
+              BoxShadow(
+                  color: dgray,
+                  blurRadius: 5,
+                  spreadRadius: 1,
+                  offset: const Offset(0, 4)),
+            ],
           ),
           width: screenWidth,
           child: Column(
