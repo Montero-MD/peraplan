@@ -94,7 +94,14 @@ class QuickActionButton extends StatelessWidget {
           height: 100, // Adjust the height as needed
           // Add spacing between buttons
           decoration: BoxDecoration(
-            color: lgray, // Set the background color
+            color: white, // Set the background color
+            boxShadow: [
+              BoxShadow(
+                  color: dgray,
+                  blurRadius: 5,
+                  spreadRadius: 1,
+                  offset: const Offset(0, 4)),
+            ],
             borderRadius: BorderRadius.circular(15.0), // Rounded corners
           ),
           child: Column(
