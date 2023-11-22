@@ -83,6 +83,7 @@ class _PeraOutState extends State<PeraOut> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('Pera Out', style: pOut),
+                  const SizedBox(width: 5),
                   Image.asset(
                     'assets/images/peraout.png',
                     height: 30,
@@ -328,55 +329,100 @@ class _PeraOutState extends State<PeraOut> {
                           children: [
                             Container(
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: white,
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: dgray,
-                                        blurRadius: 5,
-                                        spreadRadius: 1,
-                                        offset: const Offset(2, 2)),
-                                  ]),
-                              child: DropdownButtonFormField<String>(
-                                value: selectedCategory,
-                                hint: Text(
-                                  'Select Category',
-                                  textAlign: TextAlign.center,
+                                borderRadius: BorderRadius.circular(20),
+                                color: white,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: dgray,
+                                    blurRadius: 5,
+                                    spreadRadius: 1,
+                                    offset: const Offset(2, 2),
+                                  ),
+                                ],
+                              ),
+                              child: SizedBox(
+                                height: 50, // Set the height for the dropdown
+                                child: DropdownButtonFormField<String>(
+                                  value: selectedCategory,
+                                  hint: Text(
+                                    'Select Category',
+                                    textAlign: TextAlign.center,
+                                    style: txt,
+                                  ),
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      selectedCategory = newValue;
+                                    });
+                                  },
+                                  items: <String>[
+                                    'Food',
+                                    'Travel',
+                                    'School',
+                                    'Shopping',
+                                    'Bills',
+                                    'Fitness',
+                                    'Subscriptions',
+                                    'Vacation',
+                                    'Others'
+                                  ].map<DropdownMenuItem<String>>(
+                                      (String value) {
+                                    Map<String, IconData> categoryIcons = {
+                                      'Food': Icons.restaurant,
+                                      'Travel': Icons.directions_bus,
+                                      'School': Icons.account_balance,
+                                      'Shopping': Icons.shopping_cart_checkout,
+                                      'Bills': Icons.bolt,
+                                      'Fitness': Icons.fitness_center_rounded,
+                                      'Subscriptions': Icons.credit_card,
+                                      'Vacation': Icons.card_travel,
+                                      'Others': Icons.category,
+                                    };
+                                    Map<String, Color> categoryColors = {
+                                      'Food': red,
+                                      'Travel': red,
+                                      'School': red,
+                                      'Shopping': red,
+                                      'Bills': red,
+                                      'Fitness': red,
+                                      'Subscriptions': red,
+                                      'Vacation': red,
+                                      'Others': red,
+                                    };
+
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Row(
+                                        children: [
+                                          Icon(
+                                            categoryIcons[value]!,
+                                            color: categoryColors[value],
+                                          ),
+                                          SizedBox(width: xsmall),
+                                          Text(
+                                            value,
+                                            style: tCat,
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }).toList(),
+                                  icon: Icon(Icons.keyboard_arrow_down,
+                                      color: hlblue),
+                                  decoration: const InputDecoration(
+                                    border: InputBorder.none,
+                                    contentPadding: EdgeInsets.symmetric(
+                                      horizontal: 16.0,
+                                      vertical: 10.0,
+                                    ),
+                                  ),
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please select a category';
+                                    }
+                                    return null;
+                                  },
                                   style: txt,
                                 ),
-                                onChanged: (String? newValue) {
-                                  setState(() {
-                                    selectedCategory = newValue;
-                                  });
-                                },
-                                items: <String>[
-                                  'Food',
-                                  'Travel',
-                                  'School',
-                                  'Others'
-                                ].map<DropdownMenuItem<String>>((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(
-                                      value,
-                                      style: tCat,
-                                    ),
-                                  );
-                                }).toList(),
-                                icon: Icon(Icons.keyboard_arrow_down,
-                                    color: hlblue),
-                                decoration: const InputDecoration(
-                                  border: InputBorder.none,
-                                  contentPadding: EdgeInsets.symmetric(
-                                      horizontal: 16.0, vertical: 10.0),
-                                ),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Please select a category';
-                                  }
-                                  return null;
-                                },
-                                style: txt,
                               ),
                             ),
                           ],
