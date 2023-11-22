@@ -14,11 +14,9 @@ This project is made in partial fulfillment of the requirements of the subject S
 * **UI/UX Developers:** 
   * Allana Yzabelle Diaz
   * John Lorenz Leonor
-  * Aaron Raif Torres
 * **Frontend Developers:**
   * Allana Yzabelle Diaz
   * Matthew David Montero
-  * Regino Gallena
 * **Backend Developers:**
   * Matthew David Montero
   * Regino Gallena
