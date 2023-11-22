@@ -50,7 +50,7 @@ class _TransactionsButtonsState extends State<TransactionsButtons> {
           border:
               isSelected ? Border.all(width: 2.5, color: borderColor) : null,
           borderRadius: BorderRadius.circular(10),
-          color: gray, // Background color
+          color: lgray, // Background color
         ),
         child: Text(
           label,
