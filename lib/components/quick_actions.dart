@@ -29,10 +29,9 @@ class QuickActions extends StatelessWidget {
           children: [
             QuickActionButton(
               text: 'Pera In',
-              icon: Icons.attach_money_rounded, // Replace with the desired icon
-              textStyle: tIn, // Text style for the first button
+              imagePath: 'assets/images/perain.png',
+              textStyle: tIn,
               onPressed: () {
-                // Navigate to the screen for "Pera In"
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) {
                     return const PeraInPage();
@@ -42,10 +41,9 @@ class QuickActions extends StatelessWidget {
             ),
             QuickActionButton(
               text: 'Pera Out',
-              icon: Icons.money_off, // Replace with the desired icon
-              textStyle: tOut, // Text style for the second button
+              imagePath: 'assets/images/peraout.png',
+              textStyle: tOut,
               onPressed: () {
-                // Navigate to the screen for "Pera Out"
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) {
                     return const PeraOutPage();
@@ -55,8 +53,8 @@ class QuickActions extends StatelessWidget {
             ),
             QuickActionButton(
               text: 'History',
-              icon: Icons.history, // Replace with the desired icon
-              textStyle: tCat, // Text style for the third button
+              imagePath: 'assets/images/transaction.png',
+              textStyle: tCat,
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) {
@@ -74,13 +72,13 @@ class QuickActions extends StatelessWidget {
 
 class QuickActionButton extends StatelessWidget {
   final String text;
-  final IconData icon;
+  final String imagePath;
   final TextStyle textStyle;
   final VoidCallback onPressed;
 
   const QuickActionButton({
     required this.text,
-    required this.icon,
+    required this.imagePath,
     required this.textStyle,
     required this.onPressed,
     Key? key,
@@ -91,22 +89,14 @@ class QuickActionButton extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       child: Material(
-        // elevation: 1, // Add a shadow (you can adjust the elevation)
-        // color: Colors.transparent,
         child: Container(
           width: 100, // Adjust the width as needed
           height: 100, // Adjust the height as needed
           // Add spacing between buttons
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              color: white,
-              boxShadow: [
-                BoxShadow(
-                    color: dgray,
-                    blurRadius: 5,
-                    spreadRadius: 1,
-                    offset: const Offset(0, 4)),
-              ]),
+            color: lgray, // Set the background color
+            borderRadius: BorderRadius.circular(15.0), // Rounded corners
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -114,10 +104,9 @@ class QuickActionButton extends StatelessWidget {
                 text,
                 style: textStyle, // Set the provided text style
               ),
-              Icon(
-                icon,
-                color: hlblue, // Set icon color
-                size: 40, // Set icon size
+              Image.asset(
+                imagePath,
+                height: 70, // Set image height
               ),
             ],
           ),
