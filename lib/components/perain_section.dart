@@ -82,6 +82,7 @@ class _PeraInState extends State<PeraIn> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('Pera In', style: pIn),
+                  const SizedBox(width: 5),
                   Image.asset(
                     'assets/images/perain.png',
                     height: 30,
@@ -330,15 +331,17 @@ class _PeraInState extends State<PeraIn> {
                           children: [
                             Container(
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: white,
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: dgray,
-                                        blurRadius: 5,
-                                        spreadRadius: 1,
-                                        offset: const Offset(2, 2)),
-                                  ]),
+                                borderRadius: BorderRadius.circular(20),
+                                color: white,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: dgray,
+                                    blurRadius: 5,
+                                    spreadRadius: 1,
+                                    offset: const Offset(2, 2),
+                                  ),
+                                ],
+                              ),
                               child: DropdownButtonFormField<String>(
                                 value: selectedCategory,
                                 hint: Text(
@@ -357,11 +360,34 @@ class _PeraInState extends State<PeraIn> {
                                   'Investments',
                                   'Others'
                                 ].map<DropdownMenuItem<String>>((String value) {
+                                  // Map each category to its respective icon
+                                  Map<String, IconData> categoryIcons = {
+                                    'Salary': Icons.payment,
+                                    'Allowance':
+                                        Icons.account_balance_wallet_rounded,
+                                    'Investments': Icons.account_balance,
+                                    'Others': Icons.category,
+                                  };
+                                  Map<String, Color> categoryColors = {
+                                    'Salary':
+                                        green, // Replace with your green color
+                                    'Allowance': green,
+                                    'Investments': green,
+                                    'Others': green,
+                                  };
+
                                   return DropdownMenuItem<String>(
                                     value: value,
-                                    child: Text(
-                                      value,
-                                      style: tCat,
+                                    child: Row(
+                                      children: [
+                                        Icon(categoryIcons[value]!,
+                                            color: categoryColors[value]),
+                                        SizedBox(width: xsmall),
+                                        Text(
+                                          value,
+                                          style: tCat,
+                                        ),
+                                      ],
                                     ),
                                   );
                                 }).toList(),
