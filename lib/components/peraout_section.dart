@@ -83,10 +83,9 @@ class _PeraOutState extends State<PeraOut> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('Pera Out', style: pOut),
-                  Icon(
-                    Icons.money_off,
-                    size: 30,
-                    color: hlblue,
+                  Image.asset(
+                    'assets/images/peraout.png',
+                    height: 30,
                   )
                 ],
               ),

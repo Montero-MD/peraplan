@@ -82,10 +82,9 @@ class _PeraInState extends State<PeraIn> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('Pera In', style: pIn),
-                  Icon(
-                    Icons.attach_money_rounded,
-                    size: 30,
-                    color: hlblue,
+                  Image.asset(
+                    'assets/images/perain.png',
+                    height: 30,
                   )
                 ],
               ),
