@@ -33,27 +33,27 @@ class RoundedTextBackground extends StatefulWidget {
 }
 
 class _RoundedTextBackgroundState extends State<RoundedTextBackground> {
-  late Box<dynamic> _mybox;
-
-  late PeraPlanDB _peraPlanDB;
+  late Box<Transaction> _transactionBox;
 
   @override
   void initState() {
     super.initState();
-    _mybox = Hive.box('peraplanDB');
-    _peraPlanDB = PeraPlanDB();
-    _peraPlanDB.loadPeraInTransactions();
-    _peraPlanDB.loadPeraOutTransactions();
+    _transactionBox = Hive.box<Transaction>('transactions');
   }
 
   double calculateBalance() {
-    double peraInTotal = _peraPlanDB.peraInTransactions
-        .map<double>((transaction) => transaction[0] as double)
-        .fold(0, (prev, amount) => prev + amount);
+    double peraInTotal = 0.0;
+    double peraOutTotal = 0.0;
 
-    double peraOutTotal = _peraPlanDB.peraOutTransactions
-        .map<double>((transaction) => transaction[0] as double)
-        .fold(0, (prev, amount) => prev + amount);
+    for (int i = 0; i < _transactionBox.length; i++) {
+      final transaction = _transactionBox.getAt(i);
+
+      if (transaction is PeraIn) {
+        peraInTotal += transaction.amount;
+      } else if (transaction is PeraOut) {
+        peraOutTotal += transaction.amount;
+      }
+    }
 
     return peraInTotal - peraOutTotal;
   }
@@ -78,9 +78,15 @@ class _RoundedTextBackgroundState extends State<RoundedTextBackground> {
         Container(
           padding: const EdgeInsets.all(20.0),
           decoration: BoxDecoration(
-            gradient: LinearGradient(colors: [hlblue, text]),
-            borderRadius: BorderRadius.circular(20.0),
-          ),
+              gradient: LinearGradient(colors: [hlblue, text]),
+              borderRadius: BorderRadius.circular(20.0),
+              boxShadow: [
+                BoxShadow(
+                    color: dgray,
+                    blurRadius: 5,
+                    spreadRadius: 1,
+                    offset: const Offset(2, 2)),
+              ]),
           width: screenWidth,
           child: Column(
             children: <Widget>[

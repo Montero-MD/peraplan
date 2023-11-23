@@ -5,55 +5,45 @@ import 'package:peraplan/data/database.dart';
 import 'package:peraplan/pages/home_page.dart';
 import 'package:peraplan/utils/styles.dart';
 
-class PeraIn extends StatefulWidget {
-  const PeraIn({super.key});
+class PeraInSection extends StatefulWidget {
+  const PeraInSection({super.key});
 
   @override
-  State<PeraIn> createState() => _PeraInState();
+  State<PeraInSection> createState() => _PeraInSectionState();
 }
 
-class TimeOfDayAdapter extends TypeAdapter<TimeOfDay> {
-  @override
-  final typeId = 101; // Unique ID for this adapter
-
-  @override
-  TimeOfDay read(BinaryReader reader) {
-    final hour = reader.readByte();
-    final minute = reader.readByte();
-    return TimeOfDay(hour: hour, minute: minute);
-  }
-
-  @override
-  void write(BinaryWriter writer, TimeOfDay obj) {
-    writer.writeByte(obj.hour);
-    writer.writeByte(obj.minute);
-  }
-}
-
-class _PeraInState extends State<PeraIn> {
+class _PeraInSectionState extends State<PeraInSection> {
   final _formkey = GlobalKey<FormState>();
-  final _pera = TextEditingController();
-  double? finalpera;
-  TimeOfDay selectedTime = TimeOfDay.now();
-  DateTime selectedDate = DateTime.now();
   int value = 0;
-  String? selectedCategory;
+  late Box<Transaction> _transactionBox;
+  TextEditingController _amountController = TextEditingController();
+  DateTime _selectedDate = DateTime.now();
+  TimeOfDay _selectedTime = TimeOfDay.now();
+  String? _selectedCategory;
 
-  // reference our box
-  PeraPlanDB db = PeraPlanDB();
+  @override
+  void initState() {
+    super.initState();
+    _transactionBox = Hive.box<Transaction>('transactions');
+  }
 
   // save new Pera In
-  void saveNewPeraIn(double? finalpera) {
-    setState(() {
-      db.peraInTransactions.add([
-        finalpera,
-        selectedDate,
-        selectedTime,
-        selectedCategory,
-      ]);
-      _pera.clear();
-      db.updatePeraInTransactions();
-    });
+  void saveNewPeraIn() {
+    // Parse the amount from the string to double
+    double parsedAmount = double.tryParse(_amountController.text) ?? 0.0;
+    Transaction newTransaction;
+
+    newTransaction = PeraIn(
+      amount: parsedAmount,
+      date: _selectedDate,
+      time: _selectedTime,
+      category: _selectedCategory,
+    );
+
+    _transactionBox.add(newTransaction);
+    _amountController.clear();
+
+    setState(() {});
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => const HomePage()),
@@ -82,10 +72,10 @@ class _PeraInState extends State<PeraIn> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('Pera In', style: pIn),
-                  Icon(
-                    Icons.attach_money_rounded,
-                    size: 30,
-                    color: hlblue,
+                  const SizedBox(width: 5),
+                  Image.asset(
+                    'assets/images/perain.png',
+                    height: 30,
                   )
                 ],
               ),
@@ -130,7 +120,7 @@ class _PeraInState extends State<PeraIn> {
                                 }
                                 return null;
                               },
-                              controller: _pera,
+                              controller: _amountController,
                               keyboardType: TextInputType.number,
                               textAlign: TextAlign.center,
                               cursorColor: green,
@@ -139,7 +129,7 @@ class _PeraInState extends State<PeraIn> {
                                 hintText: 'Enter Amount...',
                                 hintStyle: hintAmt,
                                 border: InputBorder.none,
-                                prefixText: '₱',
+                                prefixText: '+    ₱',
                               ),
                               inputFormatters: [
                                 FilteringTextInputFormatter.allow(
@@ -205,7 +195,7 @@ class _PeraInState extends State<PeraIn> {
                                   final DateTime? dateTime =
                                       await showDatePicker(
                                     context: context,
-                                    initialDate: selectedDate,
+                                    initialDate: _selectedDate,
                                     firstDate: DateTime(1900),
                                     lastDate: DateTime(2100),
                                     builder:
@@ -226,7 +216,7 @@ class _PeraInState extends State<PeraIn> {
                                   );
                                   if (dateTime != null) {
                                     setState(() {
-                                      selectedDate = dateTime;
+                                      _selectedDate = dateTime;
                                     });
                                   }
                                 },
@@ -240,7 +230,7 @@ class _PeraInState extends State<PeraIn> {
                                   ),
                                 ),
                                 child: Text(
-                                  "${selectedDate.month}/${selectedDate.day}/${selectedDate.year}",
+                                  "${_selectedDate.month}/${_selectedDate.day}/${_selectedDate.year}",
                                   style: hltxt,
                                 ),
                               ),
@@ -272,7 +262,7 @@ class _PeraInState extends State<PeraIn> {
                                   final TimeOfDay? timeOfDay =
                                       await showTimePicker(
                                     context: context,
-                                    initialTime: selectedTime,
+                                    initialTime: _selectedTime,
                                     initialEntryMode: TimePickerEntryMode.dial,
                                     builder: (context, childWidget) {
                                       return MediaQuery(
@@ -296,7 +286,7 @@ class _PeraInState extends State<PeraIn> {
                                   );
                                   if (timeOfDay != null) {
                                     setState(() {
-                                      selectedTime = timeOfDay;
+                                      _selectedTime = timeOfDay;
                                     });
                                   }
                                 },
@@ -310,7 +300,7 @@ class _PeraInState extends State<PeraIn> {
                                   ),
                                 ),
                                 child: Text(
-                                  selectedTime.format(context).toString(),
+                                  _selectedTime.format(context).toString(),
                                   style: hltxt,
                                 ),
                               ),
@@ -341,7 +331,7 @@ class _PeraInState extends State<PeraIn> {
                                         offset: const Offset(2, 2)),
                                   ]),
                               child: DropdownButtonFormField<String>(
-                                value: selectedCategory,
+                                value: _selectedCategory,
                                 hint: Text(
                                   'Select Category',
                                   textAlign: TextAlign.center,
@@ -349,7 +339,7 @@ class _PeraInState extends State<PeraIn> {
                                 ),
                                 onChanged: (String? newValue) {
                                   setState(() {
-                                    selectedCategory = newValue;
+                                    _selectedCategory = newValue;
                                   });
                                 },
                                 items: <String>[
@@ -358,11 +348,33 @@ class _PeraInState extends State<PeraIn> {
                                   'Investments',
                                   'Others'
                                 ].map<DropdownMenuItem<String>>((String value) {
+                                  // Map each category to its respective icon
+                                  Map<String, IconData> categoryIcons = {
+                                    'Salary': Icons.payment,
+                                    'Allowance':
+                                        Icons.account_balance_wallet_rounded,
+                                    'Investments': Icons.account_balance,
+                                    'Others': Icons.category,
+                                  };
+                                  Map<String, Color> categoryColors = {
+                                    'Salary':
+                                        green, // Replace with your green color
+                                    'Allowance': green,
+                                    'Investments': green,
+                                    'Others': green,
+                                  };
                                   return DropdownMenuItem<String>(
                                     value: value,
-                                    child: Text(
-                                      value,
-                                      style: tCat,
+                                    child: Row(
+                                      children: [
+                                        Icon(categoryIcons[value]!,
+                                            color: categoryColors[value]),
+                                        SizedBox(width: xsmall),
+                                        Text(
+                                          value,
+                                          style: tCat,
+                                        ),
+                                      ],
                                     ),
                                   );
                                 }).toList(),
@@ -394,17 +406,11 @@ class _PeraInState extends State<PeraIn> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          if (_pera.text.isNotEmpty &&
-                              _formkey.currentState!.validate()) {
-                            double finalPera = double.parse(_pera.text);
-
-                            saveNewPeraIn(
-                                finalPera); // calls the function to save the data
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content: Text('Pera In Saved Successfully!')),
-                            );
-                          }
+                          saveNewPeraIn(); // calls the function to save the data
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('Pera In Saved Successfully!')),
+                          );
                         },
                         child: Container(
                           margin: const EdgeInsets.all(10),

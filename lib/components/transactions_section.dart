@@ -1,12 +1,11 @@
 // ignore_for_file: library_private_types_in_public_api, unused_element
 
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:peraplan/pages/transaction_page.dart';
 import 'package:peraplan/utils/styles.dart';
-import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 import 'package:peraplan/data/database.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class TransactionsSection extends StatefulWidget {
   const TransactionsSection({Key? key}) : super(key: key);
@@ -16,43 +15,15 @@ class TransactionsSection extends StatefulWidget {
 }
 
 class _TransactionsSectionState extends State<TransactionsSection> {
-  late Box<dynamic> _mybox;
-  late PeraPlanDB _peraPlanDB;
+  late Box<Transaction> _transactionBox;
 
   @override
   void initState() {
     super.initState();
-    _mybox = Hive.box('peraplanDB');
-    _peraPlanDB = PeraPlanDB();
-    _peraPlanDB.loadPeraInTransactions();
-    _peraPlanDB.loadPeraOutTransactions();
+    _transactionBox = Hive.box<Transaction>('transactions');
   }
 
-  List<dynamic> getLatestEntries(List<dynamic> transactions, int count) {
-    // Ensure the transactions list is not null and not empty
-    if (transactions.isNotEmpty) {
-      // Sort the transactions by date in descending order
-      transactions.sort((a, b) => b[1].compareTo(a[1]));
-
-      // Take the first 'count' transactions
-      return transactions.take(count).toList();
-    }
-
-    return [];
-  }
-
-  double calculateBalance() {
-    double peraInTotal = _peraPlanDB.peraInTransactions
-        .map<double>((transaction) => transaction[0] as double)
-        .fold(0, (prev, amount) => prev + amount);
-
-    double peraOutTotal = _peraPlanDB.peraOutTransactions
-        .map<double>((transaction) => transaction[0] as double)
-        .fold(0, (prev, amount) => prev + amount);
-
-    return peraInTotal - peraOutTotal;
-  }
-
+  // page animation
   void _navigateToTransactionPage(BuildContext context) {
     Navigator.of(context).push(
       PageRouteBuilder(
@@ -79,11 +50,6 @@ class _TransactionsSectionState extends State<TransactionsSection> {
 
   @override
   Widget build(BuildContext context) {
-    // Get the latest 5 entries for Pera In transactions
-    final latestPeraIn = getLatestEntries(_peraPlanDB.peraInTransactions, 5);
-
-    // Get the latest 5 entries for Pera Out transactions
-    final latestPeraOut = getLatestEntries(_peraPlanDB.peraOutTransactions, 5);
     return Column(
       children: [
         Container(
@@ -96,130 +62,55 @@ class _TransactionsSectionState extends State<TransactionsSection> {
             ),
             child: Column(
               children: [
-                _buildTransactionData(latestPeraIn, "Pera In"),
-                SizedBox(height: small),
-                // Display the latest 5 entries for Pera Out transactions
-                _buildTransactionData(latestPeraOut, "Pera Out"),
+                _buildTransactionData(),
               ],
             ))
       ],
     );
   }
 
-  Widget _buildTransactionData(List<dynamic> transactions, String title) {
-    if (transactions.isNotEmpty) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(medium),
-              color: lgray,
-            ),
-            child: Stack(
-              children: transactions.map<Widget>((transaction) {
-                return TransactionItem(transaction: transaction, title: title);
-              }).toList(),
-            ),
-          ),
-        ],
-      );
-    } else {
-      return Text(
-        'No $title Transactions Available',
-        style: txt,
-      );
-    }
-  }
-}
-
-class TransactionItem extends StatelessWidget {
-  final List<dynamic> transaction;
-  final String title;
-  const TransactionItem(
-      {Key? key, required this.transaction, required this.title})
-      : super(key: key);
-
-  String formatDateTime(DateTime dateTime) {
-    final String monthName = DateFormat.MMMM().format(dateTime);
-    final int day = dateTime.day;
-
-    return '$monthName $day';
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // Extract data from the transaction list
-    String amount = transaction[0].toString();
-    DateTime date = transaction[1];
-    TimeOfDay time = transaction[2];
-    String category = transaction[3].toString();
+// needs frontend makeover
+  Widget _buildTransactionData() {
     double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.width;
 
-    TextStyle unique = GoogleFonts.lexend(
-      fontSize: 14,
-      fontWeight: FontWeight.w600,
-      color: title == "Pera In" ? Colors.green : Colors.red,
-    );
-
-    if (title == "Pera Out") {
-      amount = "-₱$amount";
-    } else {
-      amount = "+₱$amount";
-    }
     return Container(
-      width: width,
-      padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+      width: width * 0.8, // Set a fixed height
+      height: height * 0.5, // Set a fixed height
+      padding: const EdgeInsets.all(10.0),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: white,
-        boxShadow: [
-          BoxShadow(
-            color: dgray,
-            blurRadius: 5,
-            spreadRadius: 1,
-            offset: const Offset(2, 2),
-          ),
-        ],
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            children: [
-              Container(
-                width: 40,
-                height: 40,
-                margin: const EdgeInsets.only(right: 8),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: title == "Pera In" ? Colors.green : Colors.red,
-                ),
-              ),
-              Text(category, style: transactxt),
-            ],
-          ),
-          SizedBox(width: large),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(amount, style: unique),
-              Row(
-                children: [
-                  Text(
-                    ' ${formatDateTime(date)}',
-                    style: hltxt,
-                  ),
-                  Text(
-                    ', ${time.format(context)}',
-                    style: hltxt,
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ],
+          borderRadius: BorderRadius.circular(20),
+          color: white,
+          boxShadow: [
+            BoxShadow(
+                color: dgray,
+                blurRadius: 5,
+                spreadRadius: 1,
+                offset: const Offset(2, 2)),
+          ]),
+      child: ValueListenableBuilder(
+        valueListenable: _transactionBox.listenable(),
+        builder: (context, Box<Transaction> box, _) {
+          return ListView.builder(
+            itemCount: box.length,
+            itemBuilder: (context, index) {
+              final transaction = box.getAt(index);
+              // Determine the transaction type
+              String transactionType = '';
+              if (transaction is PeraIn) {
+                transactionType = 'Pera In';
+              } else if (transaction is PeraOut) {
+                transactionType = 'Pera Out';
+              }
+
+              return ListTile(
+                title: Text(transactionType),
+                subtitle: Text(
+                    'Amount: ${transaction?.amount}\nDate: ${DateFormat('yyyy-MM-dd').format(transaction?.date ?? DateTime.now())}\nTime: ${transaction?.time ?? TimeOfDay.now()}\nCategory: ${transaction?.category}'),
+              );
+            },
+          );
+        },
       ),
     );
   }

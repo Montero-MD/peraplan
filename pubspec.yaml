@@ -37,7 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   google_fonts: ^5.1.0
   flutter_multi_formatter: ^2.11.11
-  hive: ^2.2.3
+  hive: ^2.0.4
   hive_flutter: ^1.1.0
 
 dev_dependencies:
@@ -63,8 +63,10 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+    - assets/images/perain.png
+    - assets/images/peraout.png
+    - assets/images/transaction.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

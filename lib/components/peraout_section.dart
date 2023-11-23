@@ -5,56 +5,45 @@ import 'package:peraplan/data/database.dart';
 import 'package:peraplan/pages/home_page.dart';
 import 'package:peraplan/utils/styles.dart';
 
-class PeraOut extends StatefulWidget {
-  const PeraOut({super.key});
+class PeraOutSection extends StatefulWidget {
+  const PeraOutSection({super.key});
 
   @override
-  State<PeraOut> createState() => _PeraOutState();
+  State<PeraOutSection> createState() => _PeraOutSectionState();
 }
 
-class TimeOfDayAdapter extends TypeAdapter<TimeOfDay> {
-  @override
-  final typeId = 101; // Unique ID for this adapter
-
-  @override
-  TimeOfDay read(BinaryReader reader) {
-    final hour = reader.readByte();
-    final minute = reader.readByte();
-    return TimeOfDay(hour: hour, minute: minute);
-  }
-
-  @override
-  void write(BinaryWriter writer, TimeOfDay obj) {
-    writer.writeByte(obj.hour);
-    writer.writeByte(obj.minute);
-  }
-}
-
-class _PeraOutState extends State<PeraOut> {
+class _PeraOutSectionState extends State<PeraOutSection> {
   final _formkey = GlobalKey<FormState>();
-  final _pera = TextEditingController();
-  double? finalpera;
-
-  TimeOfDay selectedTime = TimeOfDay.now();
-  DateTime selectedDate = DateTime.now();
   int value = 0;
-  String? selectedCategory;
+  late Box<Transaction> _transactionBox;
+  TextEditingController _amountController = TextEditingController();
+  DateTime _selectedDate = DateTime.now();
+  TimeOfDay _selectedTime = TimeOfDay.now();
+  String? _selectedCategory;
 
-  // reference our box
-  PeraPlanDB db = PeraPlanDB();
+  @override
+  void initState() {
+    super.initState();
+    _transactionBox = Hive.box<Transaction>('transactions');
+  }
 
   // save new Pera Out
-  void saveNewPeraOut(double? finalPera) {
-    setState(() {
-      db.peraOutTransactions.add([
-        finalPera,
-        selectedDate,
-        selectedTime,
-        selectedCategory,
-      ]);
-      _pera.clear();
-      db.updatePeraOutTransactions();
-    });
+  void saveNewPeraOut() {
+    // Parse the amount from the string to double
+    double parsedAmount = double.tryParse(_amountController.text) ?? 0.0;
+    Transaction newTransaction;
+
+    newTransaction = PeraOut(
+      amount: parsedAmount,
+      date: _selectedDate,
+      time: _selectedTime,
+      category: _selectedCategory,
+    );
+
+    _transactionBox.add(newTransaction);
+    _amountController.clear();
+
+    setState(() {});
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => const HomePage()),
@@ -83,10 +72,10 @@ class _PeraOutState extends State<PeraOut> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('Pera Out', style: pOut),
-                  Icon(
-                    Icons.money_off,
-                    size: 30,
-                    color: hlblue,
+                  const SizedBox(width: 5),
+                  Image.asset(
+                    'assets/images/peraout.png',
+                    height: 30,
                   )
                 ],
               ),
@@ -126,9 +115,12 @@ class _PeraOutState extends State<PeraOut> {
                                 if (value == null || value.isEmpty) {
                                   return 'Please Enter an Amount';
                                 }
+                                if (double.tryParse(value) == null) {
+                                  return 'Invalid Double';
+                                }
                                 return null;
                               },
-                              controller: _pera,
+                              controller: _amountController,
                               keyboardType: TextInputType.number,
                               textAlign: TextAlign.center,
                               cursorColor: red,
@@ -137,7 +129,7 @@ class _PeraOutState extends State<PeraOut> {
                                 hintText: 'Enter Amount...',
                                 hintStyle: hintAmt,
                                 border: InputBorder.none,
-                                prefixText: '₱',
+                                prefixText: '-    ₱',
                               ),
                               inputFormatters: [
                                 FilteringTextInputFormatter.allow(
@@ -203,7 +195,7 @@ class _PeraOutState extends State<PeraOut> {
                                   final DateTime? dateTime =
                                       await showDatePicker(
                                     context: context,
-                                    initialDate: selectedDate,
+                                    initialDate: _selectedDate,
                                     firstDate: DateTime(1900),
                                     lastDate: DateTime(2100),
                                     builder:
@@ -224,7 +216,7 @@ class _PeraOutState extends State<PeraOut> {
                                   );
                                   if (dateTime != null) {
                                     setState(() {
-                                      selectedDate = dateTime;
+                                      _selectedDate = dateTime;
                                     });
                                   }
                                 },
@@ -238,7 +230,7 @@ class _PeraOutState extends State<PeraOut> {
                                   ),
                                 ),
                                 child: Text(
-                                  "${selectedDate.month}/${selectedDate.day}/${selectedDate.year}",
+                                  "${_selectedDate.month}/${_selectedDate.day}/${_selectedDate.year}",
                                   style: hltxt,
                                 ),
                               ),
@@ -270,7 +262,7 @@ class _PeraOutState extends State<PeraOut> {
                                   final TimeOfDay? timeOfDay =
                                       await showTimePicker(
                                     context: context,
-                                    initialTime: selectedTime,
+                                    initialTime: _selectedTime,
                                     initialEntryMode: TimePickerEntryMode.dial,
                                     builder: (context, childWidget) {
                                       return MediaQuery(
@@ -294,7 +286,7 @@ class _PeraOutState extends State<PeraOut> {
                                   );
                                   if (timeOfDay != null) {
                                     setState(() {
-                                      selectedTime = timeOfDay;
+                                      _selectedTime = timeOfDay;
                                     });
                                   }
                                 },
@@ -308,7 +300,7 @@ class _PeraOutState extends State<PeraOut> {
                                   ),
                                 ),
                                 child: Text(
-                                  selectedTime.format(context).toString(),
+                                  _selectedTime.format(context).toString(),
                                   style: hltxt,
                                 ),
                               ),
@@ -338,46 +330,89 @@ class _PeraOutState extends State<PeraOut> {
                                         spreadRadius: 1,
                                         offset: const Offset(2, 2)),
                                   ]),
-                              child: DropdownButtonFormField<String>(
-                                value: selectedCategory,
-                                hint: Text(
-                                  'Select Category',
-                                  textAlign: TextAlign.center,
+                              child: SizedBox(
+                                height: 50,
+                                child: DropdownButtonFormField<String>(
+                                  value: _selectedCategory,
+                                  hint: Text(
+                                    'Select Category',
+                                    textAlign: TextAlign.center,
+                                    style: txt,
+                                  ),
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      _selectedCategory = newValue;
+                                    });
+                                  },
+                                  items: <String>[
+                                    'Food',
+                                    'Travel',
+                                    'School',
+                                    'Shopping',
+                                    'Bills',
+                                    'Fitness',
+                                    'Subscriptions',
+                                    'Vacation',
+                                    'Others'
+                                  ].map<DropdownMenuItem<String>>(
+                                      (String value) {
+                                    Map<String, IconData> categoryIcons = {
+                                      'Food': Icons.restaurant,
+                                      'Travel': Icons.directions_bus,
+                                      'School': Icons.account_balance,
+                                      'Shopping': Icons.shopping_cart_checkout,
+                                      'Bills': Icons.bolt,
+                                      'Fitness': Icons.fitness_center_rounded,
+                                      'Subscriptions': Icons.credit_card,
+                                      'Vacation': Icons.card_travel,
+                                      'Others': Icons.category,
+                                    };
+                                    Map<String, Color> categoryColors = {
+                                      'Food': red,
+                                      'Travel': red,
+                                      'School': red,
+                                      'Shopping': red,
+                                      'Bills': red,
+                                      'Fitness': red,
+                                      'Subscriptions': red,
+                                      'Vacation': red,
+                                      'Others': red,
+                                    };
+
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Row(
+                                        children: [
+                                          Icon(
+                                            categoryIcons[value]!,
+                                            color: categoryColors[value],
+                                          ),
+                                          SizedBox(width: xsmall),
+                                          Text(
+                                            value,
+                                            style: tCat,
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }).toList(),
+                                  icon: Icon(Icons.keyboard_arrow_down,
+                                      color: hlblue),
+                                  decoration: const InputDecoration(
+                                    border: InputBorder.none,
+                                    contentPadding: EdgeInsets.symmetric(
+                                      horizontal: 16.0,
+                                      vertical: 10.0,
+                                    ),
+                                  ),
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please select a category';
+                                    }
+                                    return null;
+                                  },
                                   style: txt,
                                 ),
-                                onChanged: (String? newValue) {
-                                  setState(() {
-                                    selectedCategory = newValue;
-                                  });
-                                },
-                                items: <String>[
-                                  'Food',
-                                  'Travel',
-                                  'School',
-                                  'Others'
-                                ].map<DropdownMenuItem<String>>((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(
-                                      value,
-                                      style: tCat,
-                                    ),
-                                  );
-                                }).toList(),
-                                icon: Icon(Icons.keyboard_arrow_down,
-                                    color: hlblue),
-                                decoration: const InputDecoration(
-                                  border: InputBorder.none,
-                                  contentPadding: EdgeInsets.symmetric(
-                                      horizontal: 16.0, vertical: 10.0),
-                                ),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Please select a category';
-                                  }
-                                  return null;
-                                },
-                                style: txt,
                               ),
                             ),
                           ],
@@ -392,18 +427,11 @@ class _PeraOutState extends State<PeraOut> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          if (_pera.text.isNotEmpty &&
-                              _formkey.currentState!.validate()) {
-                            double finalPera = double.parse(_pera.text);
-
-                            saveNewPeraOut(
-                                finalPera); // calls the function to save the data
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content:
-                                      Text('Pera Out Saved Successfully!')),
-                            );
-                          }
+                          saveNewPeraOut(); // calls the function to save the data
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('Pera In Saved Successfully!')),
+                          );
                         },
                         child: Container(
                           margin: const EdgeInsets.all(10),
@@ -425,7 +453,7 @@ class _PeraOutState extends State<PeraOut> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text('Pera Out', style: hintAmt),
-                              SizedBox(width: xsmall),
+                              SizedBox(width: small),
                               Icon(
                                 Icons.arrow_forward,
                                 size: 32,

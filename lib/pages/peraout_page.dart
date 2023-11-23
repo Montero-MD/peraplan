@@ -22,7 +22,7 @@ class PeraOutPage extends StatelessWidget {
               const HeadingSection(),
               SizedBox(height: small),
               const BalanceSection(),
-              const PeraOut(),
+              PeraOutSection(),
               SizedBox(height: xsmall),
             ],
           ),

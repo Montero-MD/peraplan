@@ -21,7 +21,7 @@ class HomePage extends StatelessWidget {
           child: Column(
             children: [
               const HeadingSection(),
-              SizedBox(height: xsmall),
+              SizedBox(height: small),
               const BalanceSection(),
               const QuickActions(),
               SizedBox(height: small),
