@@ -1,7 +1,9 @@
 // ignore_for_file: library_private_types_in_public_api, unused_element
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:peraplan/pages/home_page.dart';
 import 'package:peraplan/pages/transaction_page.dart';
 import 'package:peraplan/utils/styles.dart';
 import 'package:intl/intl.dart';
@@ -69,49 +71,561 @@ class _TransactionsSectionState extends State<TransactionsSection> {
     );
   }
 
-// needs frontend makeover
   Widget _buildTransactionData() {
     double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.width;
-
+    double height = MediaQuery.of(context).size.height;
     return Container(
-      width: width * 0.8, // Set a fixed height
-      height: height * 0.5, // Set a fixed height
-      padding: const EdgeInsets.all(10.0),
+      width: width * 0.8, // Set a fixed width
+      constraints: BoxConstraints(
+        maxHeight: height * 0.4,
+      ),
+      padding: const EdgeInsets.all(20.0),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          color: white,
-          boxShadow: [
-            BoxShadow(
-                color: dgray,
-                blurRadius: 5,
-                spreadRadius: 1,
-                offset: const Offset(2, 2)),
-          ]),
+        borderRadius: BorderRadius.circular(20),
+        color: white,
+        boxShadow: [
+          BoxShadow(
+            color: dgray,
+            blurRadius: 5,
+            spreadRadius: 1,
+            offset: const Offset(2, 2),
+          ),
+        ],
+      ),
       child: ValueListenableBuilder(
         valueListenable: _transactionBox.listenable(),
         builder: (context, Box<Transaction> box, _) {
-          return ListView.builder(
-            itemCount: box.length,
-            itemBuilder: (context, index) {
-              final transaction = box.getAt(index);
-              // Determine the transaction type
-              String transactionType = '';
-              if (transaction is PeraIn) {
-                transactionType = 'Pera In';
-              } else if (transaction is PeraOut) {
-                transactionType = 'Pera Out';
-              }
+          if (box.isEmpty) {
+            return Center(
+              child: Text(
+                'No Transactions Available',
+                style: transacBold,
+              ),
+            );
+          }
 
-              return ListTile(
-                title: Text(transactionType),
-                subtitle: Text(
-                    'Amount: ${transaction?.amount}\nDate: ${DateFormat('yyyy-MM-dd').format(transaction?.date ?? DateTime.now())}\nTime: ${transaction?.time ?? TimeOfDay.now()}\nCategory: ${transaction?.category}'),
-              );
-            },
+          // Display only the 5 latest entries
+          int endIndex = box.length - 1;
+          int startIndex = endIndex - 4; // Display the latest 5 entries
+          if (startIndex < 0) {
+            startIndex = 0;
+          }
+
+          return Column(
+            children: [
+              for (int index = endIndex; index >= startIndex; index--)
+                Column(
+                  children: [
+                    _buildTransactionItem(box, index),
+                    SizedBox(height: 16.0),
+                  ],
+                ),
+            ],
           );
         },
       ),
+    );
+  }
+
+  Widget _buildTransactionItem(Box<Transaction> box, int index) {
+    final transaction = box.getAt(index);
+    // Determine the transaction type
+    String transactionType = '';
+    String imageAsset = '';
+    Color amountColor = Colors.black;
+    String amount = '';
+
+    if (transaction is PeraIn) {
+      transactionType = 'Pera In';
+      imageAsset = 'assets/images/perain.png';
+      amountColor = Colors.green;
+      amount = "+₱${transaction.amount}";
+    } else if (transaction is PeraOut) {
+      transactionType = 'Pera Out';
+      imageAsset = 'assets/images/peraout.png';
+      amountColor = Colors.red;
+      amount = "-₱${transaction.amount}";
+    }
+
+    TextStyle unique = GoogleFonts.lexend(
+      fontSize: 14,
+      fontWeight: FontWeight.w600,
+      color: amountColor,
+    );
+
+    return GestureDetector(
+      onLongPress: () {
+        // Show delete confirmation or directly delete the transaction
+        _showDeleteDialog(transaction, index);
+      },
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              Image.asset(
+                imageAsset,
+                width: 32, // Adjust the width as needed
+                height: 32, // Adjust the height as needed
+              ),
+              SizedBox(width: 8),
+              Text(
+                '${transaction?.category}',
+                style: transactxt,
+              ),
+            ],
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(amount, style: unique),
+              // Date and Time
+              Text(
+                '${DateFormat('MMMM dd').format(transaction?.date ?? DateTime.now())}, ${DateFormat.jm().format(DateTime(2022, 1, 1, transaction?.time?.hour ?? 0, transaction?.time?.minute ?? 0))}',
+                style: dateTime,
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showDeleteDialog(Transaction? transaction, int index) {
+    String transactionType = '';
+    Color txtColor = Colors.black;
+
+    if (transaction is PeraIn) {
+      transactionType = 'Pera In';
+      txtColor = green;
+    }
+
+    if (transaction is PeraOut) {
+      transactionType = 'Pera Out';
+      txtColor = red;
+    }
+
+    TextStyle unique = GoogleFonts.lexend(
+      fontSize: 16,
+      fontWeight: FontWeight.w700,
+      color: txtColor,
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          title: Row(
+            children: [
+              Text('Delete $transactionType?', style: pOut),
+              const SizedBox(width: 5),
+              Icon(Icons.delete, color: red),
+            ],
+          ),
+          content: Text.rich(
+            TextSpan(
+              children: [
+                TextSpan(
+                    text: 'Are you sure you want to delete this ',
+                    style: transactxt),
+                TextSpan(
+                  text: transactionType,
+                  style: unique,
+                ),
+                TextSpan(text: ' transaction?', style: transactxt),
+              ],
+            ),
+          ),
+          actions: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.all(5),
+                    padding: const EdgeInsets.all(5),
+                    width: 135,
+                    height: 40,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: hlblue, width: 1),
+                        borderRadius: BorderRadius.circular(35),
+                        color: white,
+                        boxShadow: [
+                          BoxShadow(
+                              color: dgray,
+                              blurRadius: 5,
+                              spreadRadius: 1,
+                              offset: const Offset(2, 2)),
+                        ]),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text('Cancel', style: headers),
+                      ],
+                    ),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    _deleteTransaction(index);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                          content:
+                              Text('$transactionType Deleted Successfully!')),
+                    );
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.all(5),
+                    padding: const EdgeInsets.all(5),
+                    width: 135,
+                    height: 40,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(35),
+                        color: red,
+                        boxShadow: [
+                          BoxShadow(
+                              color: dgray,
+                              blurRadius: 5,
+                              spreadRadius: 1,
+                              offset: const Offset(2, 2)),
+                        ]),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text('Delete', style: hintAmt),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _deleteTransaction(int index) {
+    _transactionBox.deleteAt(index);
+
+    setState(() {});
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const HomePage()),
+    );
+  }
+}
+
+class AllTransactionsSection extends StatefulWidget {
+  const AllTransactionsSection({Key? key}) : super(key: key);
+
+  @override
+  _AllTransactionsSectionState createState() => _AllTransactionsSectionState();
+}
+
+class _AllTransactionsSectionState extends State<AllTransactionsSection> {
+  late Box<Transaction> _transactionBox;
+
+  @override
+  void initState() {
+    super.initState();
+    _transactionBox = Hive.box<Transaction>('transactions');
+  }
+
+  // page animation
+  void _navigateToTransactionPage(BuildContext context) {
+    Navigator.of(context).push(
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) {
+          return const TransactionPage();
+        },
+        transitionDuration: const Duration(milliseconds: 100),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          const begin = Offset(1, 0.0);
+          const end = Offset.zero;
+          const curve = Curves.easeInOut;
+          var tween =
+              Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+          var offsetAnimation = animation.drive(tween);
+
+          return SlideTransition(
+            position: offsetAnimation,
+            child: child,
+          );
+        },
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+            padding: const EdgeInsets.symmetric(
+                horizontal: 10), // Add horizontal padding
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(
+                  medium), // Adjust the corner radius as needed
+              color: lgray,
+            ),
+            child: Column(
+              children: [
+                _buildTransactionData(),
+              ],
+            ))
+      ],
+    );
+  }
+
+  Widget _buildTransactionData() {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+    return Container(
+      width: width * 0.9,
+      height: height * 0.6,
+      padding: const EdgeInsets.all(20.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        color: white,
+        boxShadow: [
+          BoxShadow(
+            color: dgray,
+            blurRadius: 5,
+            spreadRadius: 1,
+            offset: const Offset(2, 2),
+          ),
+        ],
+      ),
+      child: ValueListenableBuilder(
+        valueListenable: _transactionBox.listenable(),
+        builder: (context, Box<Transaction> box, _) {
+          if (box.isEmpty) {
+            return Center(
+              child: Text(
+                'No Transactions Available',
+                style: transacBold,
+              ),
+            );
+          }
+
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                for (int index = box.length - 1; index >= 0; index--)
+                  Column(
+                    children: [
+                      _buildTransactionItem(box, index),
+                      SizedBox(height: 16.0),
+                    ],
+                  ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildTransactionItem(Box<Transaction> box, int index) {
+    final transaction = box.getAt(index);
+    // Determine the transaction type
+    String transactionType = '';
+    String imageAsset = '';
+    Color amountColor = Colors.black;
+    String amount = '';
+
+    if (transaction is PeraIn) {
+      transactionType = 'Pera In';
+      imageAsset = 'assets/images/perain.png';
+      amountColor = Colors.green;
+      amount = "+₱${transaction.amount}";
+    } else if (transaction is PeraOut) {
+      transactionType = 'Pera Out';
+      imageAsset = 'assets/images/peraout.png';
+      amountColor = Colors.red;
+      amount = "-₱${transaction.amount}";
+    }
+
+    TextStyle unique = GoogleFonts.lexend(
+      fontSize: 14,
+      fontWeight: FontWeight.w600,
+      color: amountColor,
+    );
+
+    return GestureDetector(
+      onLongPress: () {
+        // Show delete confirmation or directly delete the transaction
+        _showDeleteDialog(transaction, index);
+      },
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              Image.asset(
+                imageAsset,
+                width: 32, // Adjust the width as needed
+                height: 32, // Adjust the height as needed
+              ),
+              SizedBox(width: 8),
+              Text(
+                '${transaction?.category}',
+                style: transactxt,
+              ),
+            ],
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(amount, style: unique),
+              // Date and Time
+              Text(
+                '${DateFormat('MMMM dd').format(transaction?.date ?? DateTime.now())}, ${DateFormat.jm().format(DateTime(2022, 1, 1, transaction?.time?.hour ?? 0, transaction?.time?.minute ?? 0))}',
+                style: dateTime,
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showDeleteDialog(Transaction? transaction, int index) {
+    String transactionType = '';
+    Color txtColor = Colors.black;
+
+    if (transaction is PeraIn) {
+      transactionType = 'Pera In';
+      txtColor = green;
+    }
+
+    if (transaction is PeraOut) {
+      transactionType = 'Pera Out';
+      txtColor = red;
+    }
+
+    TextStyle unique = GoogleFonts.lexend(
+      fontSize: 16,
+      fontWeight: FontWeight.w700,
+      color: txtColor,
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          title: Row(
+            children: [
+              Text('Delete $transactionType?', style: pOut),
+              const SizedBox(width: 5),
+              Icon(Icons.delete, color: red),
+            ],
+          ),
+          content: Text.rich(
+            TextSpan(
+              children: [
+                TextSpan(
+                    text: 'Are you sure you want to delete this ',
+                    style: transactxt),
+                TextSpan(
+                  text: transactionType,
+                  style: unique,
+                ),
+                TextSpan(text: ' transaction?', style: transactxt),
+              ],
+            ),
+          ),
+          actions: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.all(5),
+                    padding: const EdgeInsets.all(5),
+                    width: 135,
+                    height: 40,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: hlblue, width: 1),
+                        borderRadius: BorderRadius.circular(35),
+                        color: white,
+                        boxShadow: [
+                          BoxShadow(
+                              color: dgray,
+                              blurRadius: 5,
+                              spreadRadius: 1,
+                              offset: const Offset(2, 2)),
+                        ]),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text('Cancel', style: headers),
+                      ],
+                    ),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    _deleteTransaction(index);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                          content:
+                              Text('$transactionType Deleted Successfully!')),
+                    );
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.all(5),
+                    padding: const EdgeInsets.all(5),
+                    width: 135,
+                    height: 40,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(35),
+                        color: red,
+                        boxShadow: [
+                          BoxShadow(
+                              color: dgray,
+                              blurRadius: 5,
+                              spreadRadius: 1,
+                              offset: const Offset(2, 2)),
+                        ]),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text('Delete', style: hintAmt),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _deleteTransaction(int index) {
+    _transactionBox.deleteAt(index);
+
+    setState(() {});
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const HomePage()),
     );
   }
 }

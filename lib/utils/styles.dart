@@ -38,6 +38,8 @@ TextStyle headers = GoogleFonts.lexend(
     fontSize: 20, fontWeight: FontWeight.w700, color: hlblue);
 TextStyle subHeaders = GoogleFonts.lexend(
     fontSize: 15, fontWeight: FontWeight.w700, color: hlblue);
+TextStyle dateTime = GoogleFonts.lexend(
+    fontSize: 15, fontWeight: FontWeight.w400, color: hlblue);
 TextStyle hltxt = GoogleFonts.lexend(
     fontSize: 11, fontWeight: FontWeight.w700, color: hlblue);
 TextStyle transactxt = GoogleFonts.lexend(
@@ -46,6 +48,11 @@ TextStyle inpAmt =
     GoogleFonts.lexend(fontSize: 32, fontWeight: FontWeight.w700, color: white);
 TextStyle outAmt =
     GoogleFonts.lexend(fontSize: 20, fontWeight: FontWeight.w700, color: red);
+
+TextStyle alertPeraIn =
+    GoogleFonts.lexend(fontSize: 16, fontWeight: FontWeight.w700, color: green);
+TextStyle alertPeraOut =
+    GoogleFonts.lexend(fontSize: 16, fontWeight: FontWeight.w700, color: red);
 
 TextStyle pIn =
     GoogleFonts.lexend(fontSize: 24, fontWeight: FontWeight.w700, color: green);

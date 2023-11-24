@@ -27,7 +27,7 @@ class HomePage extends StatelessWidget {
               SizedBox(height: small),
               const Transaction_Title(),
               SizedBox(height: small),
-              const TransactionsSection()
+              const TransactionsSection(),
             ],
           ),
         )));

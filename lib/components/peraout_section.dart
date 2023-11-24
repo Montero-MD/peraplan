@@ -427,11 +427,139 @@ class _PeraOutSectionState extends State<PeraOutSection> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          saveNewPeraOut(); // calls the function to save the data
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content: Text('Pera In Saved Successfully!')),
-                          );
+                          if (_formkey.currentState!.validate()) {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return Container(
+                                  decoration:
+                                      BoxDecoration(color: white, boxShadow: [
+                                    BoxShadow(
+                                        color: dgray,
+                                        blurRadius: 5,
+                                        spreadRadius: 1,
+                                        offset: const Offset(2, 2)),
+                                  ]),
+                                  child: AlertDialog(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(20)),
+                                    title: Row(
+                                      children: [
+                                        Text('Pera Out', style: pOut),
+                                        const SizedBox(width: 5),
+                                        Image.asset(
+                                          'assets/images/peraout.png',
+                                          height: 30,
+                                        )
+                                      ],
+                                    ),
+                                    content: Text.rich(
+                                      TextSpan(
+                                        children: [
+                                          TextSpan(
+                                              text:
+                                                  'Are you sure you want to proceed with this ',
+                                              style: transactxt),
+                                          TextSpan(
+                                            text: 'Pera Out',
+                                            style: alertPeraOut,
+                                          ),
+                                          TextSpan(
+                                              text: ' transaction?',
+                                              style: transactxt),
+                                        ],
+                                      ),
+                                    ),
+                                    actions: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: Container(
+                                              margin: const EdgeInsets.all(5),
+                                              padding: const EdgeInsets.all(5),
+                                              width: 135,
+                                              height: 40,
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      color: hlblue, width: 1),
+                                                  borderRadius:
+                                                      BorderRadius.circular(35),
+                                                  color: white,
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                        color: dgray,
+                                                        blurRadius: 5,
+                                                        spreadRadius: 1,
+                                                        offset:
+                                                            const Offset(2, 2)),
+                                                  ]),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Text('Cancel',
+                                                      style: headers),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              saveNewPeraOut();
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                const SnackBar(
+                                                    content: Text(
+                                                        'Pera Out Saved Successfully!')),
+                                              );
+                                            },
+                                            child: Container(
+                                              margin: const EdgeInsets.all(5),
+                                              padding: const EdgeInsets.all(5),
+                                              width: 135,
+                                              height: 40,
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(35),
+                                                  color: red,
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                        color: dgray,
+                                                        blurRadius: 5,
+                                                        spreadRadius: 1,
+                                                        offset:
+                                                            const Offset(2, 2)),
+                                                  ]),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Text('Pera Out',
+                                                      style: hintAmt),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            ); // calls the function to save the data
+                          }
                         },
                         child: Container(
                           margin: const EdgeInsets.all(10),
