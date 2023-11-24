@@ -431,57 +431,81 @@ class _PeraOutState extends State<PeraOut> {
                     ],
                   ),
                   SizedBox(height: small),
-                  Row(
-                    // 'Button' to save form
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          if (_pera.text.isNotEmpty &&
-                              _formkey.currentState!.validate()) {
-                            double finalPera = double.parse(_pera.text);
+                  //...
+SizedBox(height: small),
+Row(
+ // 'Button' to save form
+ mainAxisAlignment: MainAxisAlignment.center,
+ children: [
+    GestureDetector(
+      onTap: () {
+        if (_pera.text.isNotEmpty && _formkey.currentState!.validate()) {
+          double finalPera = double.parse(_pera.text);
 
-                            saveNewPeraOut(
-                                finalPera); // calls the function to save the data
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content:
-                                      Text('Pera Out Saved Successfully!')),
-                            );
-                          }
-                        },
-                        child: Container(
-                          margin: const EdgeInsets.all(10),
-                          padding: const EdgeInsets.all(5),
-                          width: 185,
-                          height: 50,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(35),
-                              gradient: LinearGradient(colors: [hlblue, text]),
-                              boxShadow: [
-                                BoxShadow(
-                                    color: dgray,
-                                    blurRadius: 5,
-                                    spreadRadius: 1,
-                                    offset: const Offset(2, 2)),
-                              ]),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text('Pera Out', style: hintAmt),
-                              SizedBox(width: xsmall),
-                              Icon(
-                                Icons.arrow_forward,
-                                size: 32,
-                                color: white,
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+          // Display confirmation dialog
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text('Confirm Transaction'),
+                content: Text('Are you sure you want to proceed with this transaction of Pera Out: $finalPera ?'),
+                actions: [
+                 TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('Cancel'),
+                 ),
+                 TextButton(
+                    onPressed: () {
+                      saveNewPeraOut(finalPera);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                            content: Text('Pera Out Saved Successfully!')),
+                      );
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('Proceed'),
+                 ),
+                ],
+              );
+            },
+          );
+        }
+      },
+      child: Container(
+        margin: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(5),
+        width: 185,
+        height: 50,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(35),
+            gradient: LinearGradient(colors: [hlblue, text]),
+            boxShadow: [
+              BoxShadow(
+                 color: dgray,
+                 blurRadius: 5,
+                 spreadRadius: 1,
+                 offset: const Offset(2, 2)),
+            ]),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text('Pera Out', style: hintAmt),
+            SizedBox(width: small),
+            Icon(
+              Icons.arrow_forward,
+              size: 32,
+              color: white,
+            )
+          ],
+        ),
+      ),
+    ),
+ ],
+),
+//...
                 ],
               ),
             ),

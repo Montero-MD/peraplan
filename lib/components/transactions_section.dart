@@ -119,7 +119,14 @@ class _TransactionsSectionState extends State<TransactionsSection> {
             ),
             child: Stack(
               children: transactions.map<Widget>((transaction) {
-                return TransactionItem(transaction: transaction, title: title);
+                return TransactionItem(
+                  transaction: transaction,
+                  title: title,
+                  onDelete: () {
+                    // Call the delete function here
+                    _deleteTransaction(context, transaction);
+                  },
+                );
               }).toList(),
             ),
           ),
@@ -132,14 +139,58 @@ class _TransactionsSectionState extends State<TransactionsSection> {
       );
     }
   }
+
+  // Function to delete a transaction
+  void _deleteTransaction(BuildContext context, List<dynamic> transaction) {
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          title: const Text('Delete Transaction'),
+          content: const Text('Are you sure you want to delete this transaction?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                // Close the dialog
+                Navigator.of(dialogContext).pop();
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                // Delete the transaction and update the UI
+                _performDeleteTransaction(transaction);
+                Navigator.of(dialogContext).pop();
+              },
+              child: const Text('Delete'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  // Function to actually delete the transaction
+ void _performDeleteTransaction(List<dynamic> transaction) {
+ setState(() {
+    // Remove the transaction from the list
+    _peraPlanDB.peraInTransactions.remove(transaction);
+    _peraPlanDB.peraOutTransactions.remove(transaction);
+ });
+}
 }
 
 class TransactionItem extends StatelessWidget {
   final List<dynamic> transaction;
   final String title;
-  const TransactionItem(
-      {Key? key, required this.transaction, required this.title})
-      : super(key: key);
+  final VoidCallback onDelete;
+
+  const TransactionItem({
+    Key? key,
+    required this.transaction,
+    required this.title,
+    required this.onDelete,
+  }) : super(key: key);
 
   String formatDateTime(DateTime dateTime) {
     final String monthName = DateFormat.MMMM().format(dateTime);
@@ -160,14 +211,15 @@ class TransactionItem extends StatelessWidget {
     TextStyle unique = GoogleFonts.lexend(
       fontSize: 14,
       fontWeight: FontWeight.w600,
-      color: title == "Pera In" ? Colors.green : Colors.red,
+      color: title == "Pera In" ? const Color.fromARGB(255, 55, 153, 58) : Colors.red,
     );
 
-    if (title == "Pera Out") {
-      amount = "-₱$amount";
-    } else {
+    if (title == "Pera In") {
       amount = "+₱$amount";
+    } else {
+      amount = "₱$amount";
     }
+
     return Container(
       width: width,
       padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
@@ -218,6 +270,10 @@ class TransactionItem extends StatelessWidget {
                 ],
               ),
             ],
+          ),
+          IconButton(
+            icon: const Icon(Icons.delete),
+            onPressed: onDelete,
           ),
         ],
       ),

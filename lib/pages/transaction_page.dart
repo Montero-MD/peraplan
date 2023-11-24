@@ -24,6 +24,7 @@ class TransactionPage extends StatelessWidget {
               const BalanceSection(),
               const TransactionsButtons(),
               const TransactionsSection(),
+            
             ],
           ),
         )));
