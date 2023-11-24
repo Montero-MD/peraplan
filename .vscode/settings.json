@@ -1,3 +1,4 @@
 {
-    "cmake.sourceDirectory": "D:/Desktop/Stuff/Code/peraplan/linux"
+    "cmake.sourceDirectory": "D:/Desktop/Stuff/Code/peraplan/linux",
+    "java.configuration.updateBuildConfiguration": "interactive"
 }

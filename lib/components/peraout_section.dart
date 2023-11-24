@@ -485,7 +485,7 @@ class _PeraOutSectionState extends State<PeraOutSection> {
                                             child: Container(
                                               margin: const EdgeInsets.all(5),
                                               padding: const EdgeInsets.all(5),
-                                              width: 135,
+                                              width: 130,
                                               height: 40,
                                               decoration: BoxDecoration(
                                                   border: Border.all(
@@ -526,7 +526,7 @@ class _PeraOutSectionState extends State<PeraOutSection> {
                                             child: Container(
                                               margin: const EdgeInsets.all(5),
                                               padding: const EdgeInsets.all(5),
-                                              width: 135,
+                                              width: 130,
                                               height: 40,
                                               decoration: BoxDecoration(
                                                   borderRadius:
@@ -547,7 +547,7 @@ class _PeraOutSectionState extends State<PeraOutSection> {
                                                     CrossAxisAlignment.center,
                                                 children: [
                                                   Text('Pera Out',
-                                                      style: hintAmt),
+                                                      style: dialogConfirm),
                                                 ],
                                               ),
                                             ),

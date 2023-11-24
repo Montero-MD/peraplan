@@ -464,7 +464,7 @@ class _PeraInSectionState extends State<PeraInSection> {
                                             child: Container(
                                               margin: const EdgeInsets.all(5),
                                               padding: const EdgeInsets.all(5),
-                                              width: 135,
+                                              width: 130,
                                               height: 40,
                                               decoration: BoxDecoration(
                                                   border: Border.all(
@@ -505,7 +505,7 @@ class _PeraInSectionState extends State<PeraInSection> {
                                             child: Container(
                                               margin: const EdgeInsets.all(5),
                                               padding: const EdgeInsets.all(5),
-                                              width: 135,
+                                              width: 130,
                                               height: 40,
                                               decoration: BoxDecoration(
                                                   borderRadius:
@@ -526,7 +526,7 @@ class _PeraInSectionState extends State<PeraInSection> {
                                                     CrossAxisAlignment.center,
                                                 children: [
                                                   Text('Pera In',
-                                                      style: hintAmt),
+                                                      style: dialogConfirm),
                                                 ],
                                               ),
                                             ),

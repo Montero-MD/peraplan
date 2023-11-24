@@ -39,7 +39,7 @@ TextStyle headers = GoogleFonts.lexend(
 TextStyle subHeaders = GoogleFonts.lexend(
     fontSize: 15, fontWeight: FontWeight.w700, color: hlblue);
 TextStyle dateTime = GoogleFonts.lexend(
-    fontSize: 15, fontWeight: FontWeight.w400, color: hlblue);
+    fontSize: 11, fontWeight: FontWeight.w400, color: hlblue);
 TextStyle hltxt = GoogleFonts.lexend(
     fontSize: 11, fontWeight: FontWeight.w700, color: hlblue);
 TextStyle transactxt = GoogleFonts.lexend(
@@ -66,6 +66,8 @@ TextStyle balAmt =
     GoogleFonts.lexend(fontSize: 32, fontWeight: FontWeight.w600, color: white);
 TextStyle hintAmt =
     GoogleFonts.lexend(fontSize: 24, fontWeight: FontWeight.w700, color: white);
+TextStyle dialogConfirm =
+    GoogleFonts.lexend(fontSize: 20, fontWeight: FontWeight.w700, color: white);
 TextStyle transacNormal = GoogleFonts.lexend(
     fontSize: 24, fontWeight: FontWeight.w400, color: hlblue);
 TextStyle transacBold = GoogleFonts.lexend(

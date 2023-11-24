@@ -8,6 +8,7 @@ import 'package:peraplan/pages/transaction_page.dart';
 import 'package:peraplan/utils/styles.dart';
 import 'package:intl/intl.dart';
 import 'package:peraplan/data/database.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class TransactionsSection extends StatefulWidget {
   const TransactionsSection({Key? key}) : super(key: key);
@@ -72,13 +73,9 @@ class _TransactionsSectionState extends State<TransactionsSection> {
   }
 
   Widget _buildTransactionData() {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
     return Container(
-      width: width * 0.8, // Set a fixed width
-      constraints: BoxConstraints(
-        maxHeight: height * 0.4,
-      ),
+      width: 80.w, // Set a fixed width
+      height: 30.h,
       padding: const EdgeInsets.all(20.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
@@ -100,6 +97,7 @@ class _TransactionsSectionState extends State<TransactionsSection> {
               child: Text(
                 'No Transactions Available',
                 style: transacBold,
+                textAlign: TextAlign.center,
               ),
             );
           }
@@ -389,11 +387,9 @@ class _AllTransactionsSectionState extends State<AllTransactionsSection> {
   }
 
   Widget _buildTransactionData() {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
     return Container(
-      width: width * 0.9,
-      height: height * 0.6,
+      width: 90.w,
+      height: 50.h,
       padding: const EdgeInsets.all(20.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
@@ -415,6 +411,7 @@ class _AllTransactionsSectionState extends State<AllTransactionsSection> {
               child: Text(
                 'No Transactions Available',
                 style: transacBold,
+                textAlign: TextAlign.center,
               ),
             );
           }
@@ -449,18 +446,18 @@ class _AllTransactionsSectionState extends State<AllTransactionsSection> {
     if (transaction is PeraIn) {
       transactionType = 'Pera In';
       imageAsset = 'assets/images/perain.png';
-      amountColor = Colors.green;
+      amountColor = green;
       amount = "+₱${transaction.amount}";
     } else if (transaction is PeraOut) {
       transactionType = 'Pera Out';
       imageAsset = 'assets/images/peraout.png';
-      amountColor = Colors.red;
+      amountColor = red;
       amount = "-₱${transaction.amount}";
     }
 
     TextStyle unique = GoogleFonts.lexend(
-      fontSize: 14,
-      fontWeight: FontWeight.w600,
+      fontSize: 16,
+      fontWeight: FontWeight.w700,
       color: amountColor,
     );
 

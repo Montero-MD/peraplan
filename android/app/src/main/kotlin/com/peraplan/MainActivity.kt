@@ -1,4 +1,4 @@
-package com.example.peraplan
+package com.peraplan
 
 import io.flutter.embedding.android.FlutterActivity
 
