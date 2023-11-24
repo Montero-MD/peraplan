@@ -247,7 +247,7 @@ class _TransactionsSectionState extends State<TransactionsSection> {
                   child: Container(
                     margin: const EdgeInsets.all(5),
                     padding: const EdgeInsets.all(5),
-                    width: 135,
+                    width: 120,
                     height: 40,
                     decoration: BoxDecoration(
                         border: Border.all(color: hlblue, width: 1),
@@ -281,7 +281,7 @@ class _TransactionsSectionState extends State<TransactionsSection> {
                   child: Container(
                     margin: const EdgeInsets.all(5),
                     padding: const EdgeInsets.all(5),
-                    width: 135,
+                    width: 120,
                     height: 40,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(35),
@@ -297,7 +297,7 @@ class _TransactionsSectionState extends State<TransactionsSection> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text('Delete', style: hintAmt),
+                        Text('Delete', style: dialogConfirm),
                       ],
                     ),
                   ),
@@ -557,7 +557,7 @@ class _AllTransactionsSectionState extends State<AllTransactionsSection> {
                   child: Container(
                     margin: const EdgeInsets.all(5),
                     padding: const EdgeInsets.all(5),
-                    width: 135,
+                    width: 120,
                     height: 40,
                     decoration: BoxDecoration(
                         border: Border.all(color: hlblue, width: 1),
@@ -591,7 +591,7 @@ class _AllTransactionsSectionState extends State<AllTransactionsSection> {
                   child: Container(
                     margin: const EdgeInsets.all(5),
                     padding: const EdgeInsets.all(5),
-                    width: 135,
+                    width: 120,
                     height: 40,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(35),
