@@ -1,4 +1,4 @@
-// ignore_for_file: library_private_types_in_public_api, unused_element
+// ignore_for_file: library_private_types_in_public_api, unused_element, unused_local_variable
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -117,7 +117,7 @@ class _TransactionsSectionState extends State<TransactionsSection> {
                 Column(
                   children: [
                     _buildTransactionItem(box, index),
-                    SizedBox(height: 16.0),
+                    const SizedBox(height: 16.0),
                   ],
                 ),
             ],
@@ -168,7 +168,7 @@ class _TransactionsSectionState extends State<TransactionsSection> {
                 width: 32, // Adjust the width as needed
                 height: 32, // Adjust the height as needed
               ),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               Text(
                 '${transaction?.category}',
                 style: transactxt,
@@ -181,7 +181,7 @@ class _TransactionsSectionState extends State<TransactionsSection> {
               Text(amount, style: unique),
               // Date and Time
               Text(
-                '${DateFormat('MMMM dd').format(transaction?.date ?? DateTime.now())}, ${DateFormat.jm().format(DateTime(2022, 1, 1, transaction?.time?.hour ?? 0, transaction?.time?.minute ?? 0))}',
+                '${DateFormat('MMMM dd').format(transaction?.date ?? DateTime.now())}, ${DateFormat.jm().format(DateTime(2022, 1, 1, transaction?.time.hour ?? 0, transaction?.time.minute ?? 0))}',
                 style: dateTime,
               ),
             ],
@@ -324,7 +324,10 @@ class _TransactionsSectionState extends State<TransactionsSection> {
 }
 
 class AllTransactionsSection extends StatefulWidget {
-  const AllTransactionsSection({Key? key}) : super(key: key);
+  final String selectedFilter;
+
+  const AllTransactionsSection({required this.selectedFilter, Key? key})
+      : super(key: key);
 
   @override
   _AllTransactionsSectionState createState() => _AllTransactionsSectionState();
@@ -420,12 +423,13 @@ class _AllTransactionsSectionState extends State<AllTransactionsSection> {
             child: Column(
               children: [
                 for (int index = box.length - 1; index >= 0; index--)
-                  Column(
-                    children: [
-                      _buildTransactionItem(box, index),
-                      SizedBox(height: 16.0),
-                    ],
-                  ),
+                  if (_shouldShowTransaction(box.getAt(index)))
+                    Column(
+                      children: [
+                        _buildTransactionItem(box, index),
+                        const SizedBox(height: 16.0),
+                      ],
+                    ),
               ],
             ),
           );
@@ -475,7 +479,7 @@ class _AllTransactionsSectionState extends State<AllTransactionsSection> {
                 width: 32, // Adjust the width as needed
                 height: 32, // Adjust the height as needed
               ),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               Text(
                 '${transaction?.category}',
                 style: transactxt,
@@ -488,7 +492,7 @@ class _AllTransactionsSectionState extends State<AllTransactionsSection> {
               Text(amount, style: unique),
               // Date and Time
               Text(
-                '${DateFormat('MMMM dd').format(transaction?.date ?? DateTime.now())}, ${DateFormat.jm().format(DateTime(2022, 1, 1, transaction?.time?.hour ?? 0, transaction?.time?.minute ?? 0))}',
+                '${DateFormat('MMMM dd').format(transaction?.date ?? DateTime.now())}, ${DateFormat.jm().format(DateTime(2022, 1, 1, transaction?.time.hour ?? 0, transaction?.time.minute ?? 0))}',
                 style: dateTime,
               ),
             ],
@@ -627,5 +631,16 @@ class _AllTransactionsSectionState extends State<AllTransactionsSection> {
       context,
       MaterialPageRoute(builder: (context) => const HomePage()),
     );
+  }
+
+  bool _shouldShowTransaction(Transaction? transaction) {
+    if (widget.selectedFilter == 'All Transactions') {
+      return true;
+    } else if (widget.selectedFilter == 'Pera In' && transaction is PeraIn) {
+      return true;
+    } else if (widget.selectedFilter == 'Pera Out' && transaction is PeraOut) {
+      return true;
+    }
+    return false;
   }
 }

@@ -1,61 +1,56 @@
-// ignore_for_file: use_key_in_widget_constructors, library_private_types_in_public_api
-
 import 'package:flutter/material.dart';
 import 'package:peraplan/utils/styles.dart';
 
 class TransactionsButtons extends StatefulWidget {
-  const TransactionsButtons({Key? key});
+  final Function(String) onFilterChanged;
+
+  const TransactionsButtons({required this.onFilterChanged, Key? key})
+      : super(key: key);
 
   @override
   _TransactionsButtonsState createState() => _TransactionsButtonsState();
 }
 
 class _TransactionsButtonsState extends State<TransactionsButtons> {
-  String selectedButton = 'All Transactions';
+  String selectedFilter = 'All Transactions';
 
   @override
   Widget build(BuildContext context) {
     return Center(
-      // Center the buttons
       child: Row(
-        mainAxisAlignment:
-            MainAxisAlignment.center, // Center the buttons horizontally
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          _buildButton(context, 'All Transactions', tCat, text),
-          _buildButton(context, 'Pera In', tIn, green),
-          _buildButton(context, 'Pera Out', tOut, red),
+          _buildFilterButton(context, 'All Transactions', tCat, text),
+          _buildFilterButton(context, 'Pera In', tIn, green),
+          _buildFilterButton(context, 'Pera Out', tOut, red),
         ],
       ),
     );
   }
 
-  Widget _buildButton(BuildContext context, String label, TextStyle textStyle,
-      Color borderColor) {
-    final isSelected = selectedButton == label;
+  Widget _buildFilterButton(BuildContext context, String filter,
+      TextStyle textStyle, Color borderColor) {
+    final isSelected = selectedFilter == filter;
     return InkWell(
       onTap: () {
-        // Handle button tap based on the label
         setState(() {
-          selectedButton = label;
+          selectedFilter = filter;
+          widget.onFilterChanged(filter);
         });
-        if (label == 'All Transactions') {
-        } else if (label == 'Pera In') {
-        } else if (label == 'Pera Out') {}
       },
       child: Container(
         margin: const EdgeInsets.all(10),
         padding: const EdgeInsets.all(5),
         decoration: BoxDecoration(
-          shape: BoxShape.rectangle, // Make the container rectangular
+          shape: BoxShape.rectangle,
           border:
               isSelected ? Border.all(width: 2.5, color: borderColor) : null,
           borderRadius: BorderRadius.circular(10),
-          color: gray, // Background color
+          color: lgray,
         ),
         child: Text(
-          label,
-          style: textStyle.copyWith(
-              color: isSelected ? borderColor : null), // Border color
+          filter,
+          style: textStyle.copyWith(color: isSelected ? borderColor : null),
         ),
       ),
     );

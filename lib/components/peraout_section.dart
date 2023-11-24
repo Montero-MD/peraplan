@@ -16,7 +16,7 @@ class _PeraOutSectionState extends State<PeraOutSection> {
   final _formkey = GlobalKey<FormState>();
   int value = 0;
   late Box<Transaction> _transactionBox;
-  TextEditingController _amountController = TextEditingController();
+  final TextEditingController _amountController = TextEditingController();
   DateTime _selectedDate = DateTime.now();
   TimeOfDay _selectedTime = TimeOfDay.now();
   String? _selectedCategory;

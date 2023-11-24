@@ -1,5 +1,3 @@
-import 'dart:js_interop';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
@@ -18,7 +16,7 @@ class _PeraInSectionState extends State<PeraInSection> {
   final _formkey = GlobalKey<FormState>();
   int value = 0;
   late Box<Transaction> _transactionBox;
-  TextEditingController _amountController = TextEditingController();
+  final TextEditingController _amountController = TextEditingController();
   DateTime _selectedDate = DateTime.now();
   TimeOfDay _selectedTime = TimeOfDay.now();
   String? _selectedCategory;
