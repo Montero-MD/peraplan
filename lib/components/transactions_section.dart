@@ -104,7 +104,7 @@ class _TransactionsSectionState extends State<TransactionsSection> {
 
           // Display only the 5 latest entries
           int endIndex = box.length - 1;
-          int startIndex = endIndex - 3; // Display the latest 5 entries
+          int startIndex = endIndex - 4; // Display the latest 5 entries
           if (startIndex < 0) {
             startIndex = 0;
           }
