@@ -14,7 +14,7 @@ class TransactionsButtons extends StatefulWidget {
 }
 
 class _TransactionsButtonsState extends State<TransactionsButtons> {
-  String selectedFilter = 'All Transactions';
+  String selectedFilter = 'All';
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class _TransactionsButtonsState extends State<TransactionsButtons> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          _buildFilterButton(context, 'All Transactions', tCat, text),
+          _buildFilterButton(context, 'All', tCat, text),
           _buildFilterButton(context, 'Pera In', tIn, green),
           _buildFilterButton(context, 'Pera Out', tOut, red),
         ],

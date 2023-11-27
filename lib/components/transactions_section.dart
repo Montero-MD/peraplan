@@ -55,12 +55,29 @@ class _TransactionsSectionState extends State<TransactionsSection> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text.rich(
+              TextSpan(
+                children: [
+                  TextSpan(text: 'Latest ', style: transacBold),
+                  TextSpan(
+                    text: 'Transactions',
+                    style: transacNormal,
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+        SizedBox(
+          height: xxsmall,
+        ),
         Container(
-            padding: const EdgeInsets.symmetric(
-                horizontal: 10), // Add horizontal padding
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(
-                  medium), // Adjust the corner radius as needed
+              borderRadius: BorderRadius.circular(medium),
               color: lgray,
             ),
             child: Column(
@@ -102,9 +119,9 @@ class _TransactionsSectionState extends State<TransactionsSection> {
             );
           }
 
-          // Display only the 5 latest entries
+          // Statement to display the 5 most recent transactions
           int endIndex = box.length - 1;
-          int startIndex = endIndex - 4; // Display the latest 5 entries
+          int startIndex = endIndex - 4;
           if (startIndex < 0) {
             startIndex = 0;
           }
@@ -127,7 +144,6 @@ class _TransactionsSectionState extends State<TransactionsSection> {
 
   Widget _buildTransactionItem(Box<Transaction> box, int index) {
     final transaction = box.getAt(index);
-    // Determine the transaction type
     String transactionType = '';
     Color amountColor = Colors.black;
     String amount = '';
@@ -385,11 +401,9 @@ class _AllTransactionsSectionState extends State<AllTransactionsSection> {
     return Column(
       children: [
         Container(
-            padding: const EdgeInsets.symmetric(
-                horizontal: 10), // Add horizontal padding
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(
-                  medium), // Adjust the corner radius as needed
+              borderRadius: BorderRadius.circular(medium),
               color: lgray,
             ),
             child: Column(
@@ -452,7 +466,6 @@ class _AllTransactionsSectionState extends State<AllTransactionsSection> {
 
   Widget _buildTransactionItem(Box<Transaction> box, int index) {
     final transaction = box.getAt(index);
-    // Determine the transaction type
     String transactionType = '';
     Color amountColor = Colors.black;
     String amount = '';
@@ -504,8 +517,10 @@ class _AllTransactionsSectionState extends State<AllTransactionsSection> {
         children: [
           Row(
             children: [
+              // Category Icon
               Icon(iconData, color: amountColor),
-              const SizedBox(width: 8),
+              SizedBox(width: xsmall),
+              // Category Name
               Text(
                 '${transaction?.category}',
                 style: transactxt,
@@ -515,6 +530,7 @@ class _AllTransactionsSectionState extends State<AllTransactionsSection> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
+              // Amount
               Text(amount, style: unique),
               // Date and Time
               Text(
@@ -660,7 +676,7 @@ class _AllTransactionsSectionState extends State<AllTransactionsSection> {
   }
 
   bool _shouldShowTransaction(Transaction? transaction) {
-    if (widget.selectedFilter == 'All Transactions') {
+    if (widget.selectedFilter == 'All') {
       return true;
     } else if (widget.selectedFilter == 'Pera In' && transaction is PeraIn) {
       return true;
