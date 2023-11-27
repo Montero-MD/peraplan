@@ -8,28 +8,39 @@ import 'package:peraplan/components/transactions_section.dart';
 import 'package:peraplan/components/heading_section.dart';
 import 'package:peraplan/utils/styles.dart';
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+      onWillPop: () async {
+        // Handle back button press
+        navigatorKey.currentState?.popUntil((route) => route.isFirst);
+        return false; // Prevent default behavior
+      },
+      child: Scaffold(
         backgroundColor: white,
         body: SafeArea(
-            child: Padding(
-          padding: EdgeInsets.only(left: small, top: small, right: small),
-          child: Column(
-            children: [
-              const HeadingSection(),
-              SizedBox(height: small),
-              const BalanceSection(),
-              const QuickActions(),
-              SizedBox(height: small),
-              const Transaction_Title(),
-              SizedBox(height: small),
-              const TransactionsSection(),
-            ],
+          child: Padding(
+            padding: EdgeInsets.only(left: small, top: small, right: small),
+            child: Column(
+              children: [
+                const HeadingSection(),
+                SizedBox(height: small),
+                const BalanceSection(),
+                const QuickActions(),
+                SizedBox(height: small),
+                const Transaction_Title(),
+                SizedBox(height: small),
+                const TransactionsSection(),
+              ],
+            ),
           ),
-        )));
+        ),
+      ),
+    );
   }
 }
