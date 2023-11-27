@@ -74,7 +74,7 @@ class _TransactionsSectionState extends State<TransactionsSection> {
 
   Widget _buildTransactionData() {
     return Container(
-      width: 80.w, // Set a fixed width
+      width: 80.w,
       height: 30.h,
       padding: const EdgeInsets.all(20.0),
       decoration: BoxDecoration(
@@ -96,7 +96,7 @@ class _TransactionsSectionState extends State<TransactionsSection> {
             return Center(
               child: Text(
                 'No Transactions Available',
-                style: transacBold,
+                style: txt,
                 textAlign: TextAlign.center,
               ),
             );
@@ -104,7 +104,7 @@ class _TransactionsSectionState extends State<TransactionsSection> {
 
           // Display only the 5 latest entries
           int endIndex = box.length - 1;
-          int startIndex = endIndex - 4; // Display the latest 5 entries
+          int startIndex = endIndex - 3; // Display the latest 5 entries
           if (startIndex < 0) {
             startIndex = 0;
           }
@@ -115,7 +115,7 @@ class _TransactionsSectionState extends State<TransactionsSection> {
                 Column(
                   children: [
                     _buildTransactionItem(box, index),
-                    const SizedBox(height: 16.0),
+                    SizedBox(height: xsmall),
                   ],
                 ),
             ],
@@ -129,21 +129,35 @@ class _TransactionsSectionState extends State<TransactionsSection> {
     final transaction = box.getAt(index);
     // Determine the transaction type
     String transactionType = '';
-    String imageAsset = '';
     Color amountColor = Colors.black;
     String amount = '';
 
     if (transaction is PeraIn) {
       transactionType = 'Pera In';
-      imageAsset = 'assets/images/perain.png';
-      amountColor = Colors.green;
+      amountColor = green;
       amount = "+₱${transaction.amount}";
     } else if (transaction is PeraOut) {
       transactionType = 'Pera Out';
-      imageAsset = 'assets/images/peraout.png';
-      amountColor = Colors.red;
+      amountColor = red;
       amount = "-₱${transaction.amount}";
     }
+
+    Map<String, IconData> categoryIcons = {
+      'Salary': Icons.payment,
+      'Allowance': Icons.account_balance_wallet_rounded,
+      'Investments': Icons.account_balance,
+      'Others': Icons.category,
+      'Food': Icons.restaurant,
+      'Travel': Icons.directions_bus,
+      'School': Icons.account_balance,
+      'Shopping': Icons.shopping_cart_checkout,
+      'Bills': Icons.bolt,
+      'Fitness': Icons.fitness_center_rounded,
+      'Subscriptions': Icons.credit_card,
+      'Vacation': Icons.card_travel,
+    };
+
+    IconData iconData = categoryIcons[transaction?.category] ?? Icons.category;
 
     TextStyle unique = GoogleFonts.lexend(
       fontSize: 14,
@@ -151,21 +165,22 @@ class _TransactionsSectionState extends State<TransactionsSection> {
       color: amountColor,
     );
 
-    return GestureDetector(
-      onLongPress: () {
-        // Show delete confirmation or directly delete the transaction
+    return Dismissible(
+      key: Key(transaction.hashCode.toString()),
+      confirmDismiss: (direction) async {
         _showDeleteDialog(transaction, index);
+        return null;
       },
+      background: Container(
+        color: red,
+        child: Icon(Icons.delete, color: white),
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
             children: [
-              Image.asset(
-                imageAsset,
-                width: 32, // Adjust the width as needed
-                height: 32, // Adjust the height as needed
-              ),
+              Icon(iconData, color: amountColor),
               const SizedBox(width: 8),
               Text(
                 '${transaction?.category}',
@@ -410,7 +425,7 @@ class _AllTransactionsSectionState extends State<AllTransactionsSection> {
             return Center(
               child: Text(
                 'No Transactions Available',
-                style: transacBold,
+                style: txt,
                 textAlign: TextAlign.center,
               ),
             );
@@ -439,21 +454,34 @@ class _AllTransactionsSectionState extends State<AllTransactionsSection> {
     final transaction = box.getAt(index);
     // Determine the transaction type
     String transactionType = '';
-    String imageAsset = '';
     Color amountColor = Colors.black;
     String amount = '';
 
     if (transaction is PeraIn) {
       transactionType = 'Pera In';
-      imageAsset = 'assets/images/perain.png';
       amountColor = green;
       amount = "+₱${transaction.amount}";
     } else if (transaction is PeraOut) {
       transactionType = 'Pera Out';
-      imageAsset = 'assets/images/peraout.png';
       amountColor = red;
       amount = "-₱${transaction.amount}";
     }
+    Map<String, IconData> categoryIcons = {
+      'Salary': Icons.payment,
+      'Allowance': Icons.account_balance_wallet_rounded,
+      'Investments': Icons.account_balance,
+      'Others': Icons.category,
+      'Food': Icons.restaurant,
+      'Travel': Icons.directions_bus,
+      'School': Icons.account_balance,
+      'Shopping': Icons.shopping_cart_checkout,
+      'Bills': Icons.bolt,
+      'Fitness': Icons.fitness_center_rounded,
+      'Subscriptions': Icons.credit_card,
+      'Vacation': Icons.card_travel,
+    };
+
+    IconData iconData = categoryIcons[transaction?.category] ?? Icons.category;
 
     TextStyle unique = GoogleFonts.lexend(
       fontSize: 16,
@@ -461,21 +489,22 @@ class _AllTransactionsSectionState extends State<AllTransactionsSection> {
       color: amountColor,
     );
 
-    return GestureDetector(
-      onLongPress: () {
-        // Show delete confirmation or directly delete the transaction
+    return Dismissible(
+      key: Key(transaction.hashCode.toString()),
+      confirmDismiss: (direction) async {
         _showDeleteDialog(transaction, index);
+        return null;
       },
+      background: Container(
+        color: red,
+        child: Icon(Icons.delete, color: white),
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
             children: [
-              Image.asset(
-                imageAsset,
-                width: 32, // Adjust the width as needed
-                height: 32, // Adjust the height as needed
-              ),
+              Icon(iconData, color: amountColor),
               const SizedBox(width: 8),
               Text(
                 '${transaction?.category}',
