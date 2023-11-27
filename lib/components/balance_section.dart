@@ -8,9 +8,13 @@ import 'package:peraplan/data/database.dart';
 class BalanceSection extends StatefulWidget {
   const BalanceSection({Key? key}) : super(key: key);
 
+  
+
   @override
   _DynamicBalanceDisplayState createState() => _DynamicBalanceDisplayState();
 }
+
+
 
 class _DynamicBalanceDisplayState extends State<BalanceSection> {
   @override
@@ -37,6 +41,8 @@ class _RoundedTextBackgroundState extends State<RoundedTextBackground> {
 
   late PeraPlanDB _peraPlanDB;
 
+  bool _showBalance = true;
+
   @override
   void initState() {
     super.initState();
@@ -58,47 +64,85 @@ class _RoundedTextBackgroundState extends State<RoundedTextBackground> {
     return peraInTotal - peraOutTotal;
   }
 
-  @override
-  Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double balanceAmount = calculateBalance();
+String generateMaskedBalance(double amount) {
+  return '*' * amount.toString().length;
+}
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text.rich(TextSpan(
-          children: [
-            TextSpan(text: 'Your ', style: lNormal),
-            TextSpan(
-              text: 'Balance',
-              style: lBold,
+@override
+Widget build(BuildContext context) {
+  double screenWidth = MediaQuery.of(context).size.width;
+  double balanceAmount = calculateBalance();
+
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Row(
+        children: [
+          Text(
+            'Your ',
+            style: lNormal,
+          ),
+          Text(
+            'Balance',
+            style: lBold,
+          ),
+          const SizedBox(width:1), 
+          IconButton(
+            icon: Icon(
+              _showBalance ? Icons.visibility : Icons.visibility_off,
+              size: 20,
+              color: Colors.black.withOpacity(0.62),
             ),
-          ],
-        )),
-        Container(
+            onPressed: () {
+              setState(() {
+                _showBalance = !_showBalance;
+              });
+            },
+          ),
+        ],
+      ),
+
+      GestureDetector(
+        onTap: () {
+          setState(() {
+            _showBalance = !_showBalance;
+          });
+        },
+        child: Container(
           padding: const EdgeInsets.all(20.0),
           decoration: BoxDecoration(
             gradient: LinearGradient(colors: [hlblue, text]),
             borderRadius: BorderRadius.circular(20.0),
             boxShadow: [
               BoxShadow(
-                  color: dgray,
-                  blurRadius: 5,
-                  spreadRadius: 1,
-                  offset: const Offset(0, 4)),
-            ],
-          ),
-          width: screenWidth,
-          child: Column(
-            children: <Widget>[
-              Text(
-                '₱$balanceAmount',
-                style: balAmt,
+                color: dgray,
+                blurRadius: 5,
+                spreadRadius: 1,
+                offset: const Offset(2, 2),
               ),
             ],
           ),
+          width: screenWidth,
+          child: _showBalance
+              ? Column(
+                  children: <Widget>[
+                    Text(
+                      '₱$balanceAmount',
+                      style: balAmt,
+                    ),
+                  ],
+                )
+              : Column(
+                  children: <Widget>[
+                    Text(
+                      '₱${generateMaskedBalance(balanceAmount)}',
+                      style: balAmt,
+                    ),
+                  ],
+                ),
         ),
-      ],
-    );
-  }
+      ),
+    ],
+  );
+}
 }
