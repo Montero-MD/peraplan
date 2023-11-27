@@ -1,6 +1,5 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:peraplan/components/balance_section.dart';
 import 'package:peraplan/components/quick_actions.dart';
 import 'package:peraplan/components/transaction_latest.dart';
@@ -8,17 +7,38 @@ import 'package:peraplan/components/transactions_section.dart';
 import 'package:peraplan/components/heading_section.dart';
 import 'package:peraplan/utils/styles.dart';
 
-final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  const HomePage({Key? key});
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        // Handle back button press
-        navigatorKey.currentState?.popUntil((route) => route.isFirst);
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Are you sure?'),
+              content: Text('Do you want to exit the app?'),
+              actions: [
+                TextButton(
+                  child: Text('No'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                TextButton(
+                  child: Text('Yes'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    // Close the app
+                    SystemNavigator.pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
         return false; // Prevent default behavior
       },
       child: Scaffold(
