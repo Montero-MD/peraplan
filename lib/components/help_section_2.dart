@@ -391,7 +391,7 @@ class PeraInHelp extends StatelessWidget {
                   Navigator.of(context).push(
                     PageRouteBuilder(
                       pageBuilder: (context, animation, secondaryAnimation) {
-                        return const HomePage();
+                        return const HomePage(); // change to HelpPage1
                       },
                       transitionDuration: const Duration(
                           milliseconds: 100), // Set a shorter duration
