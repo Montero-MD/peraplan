@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:peraplan/pages/help_page_2.dart';
-import 'package:peraplan/pages/home_page.dart';
+import 'package:peraplan/pages/help_page_4.dart';
 import 'package:peraplan/utils/styles.dart';
 
 class PeraOutHelp extends StatelessWidget {
@@ -71,7 +71,7 @@ class PeraOutHelp extends StatelessWidget {
                       text: 'deduct ',
                       style: helpRed,
                     ),
-                    TextSpan(text: 'to your balance', style: helpText),
+                    TextSpan(text: 'to your balance.', style: helpText),
                   ],
                 ),
               ),
@@ -256,7 +256,7 @@ class PeraOutHelp extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  'Automatically enters the current date and time but editable by tapping on the field.\n\nChoose the category of your transaction\n\nPress the button to finish your transaction',
+                  'Automatically enters the current date and time but editable by tapping on the field.\n\nChoose the category of your transaction.\n\nPress the button to finish your transaction.',
                   style: helpText,
                 ),
               ),
@@ -376,13 +376,12 @@ class PeraOutHelp extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  'A confirmation message of your transaction',
+                  'A confirmation message of your transaction.',
                   style: helpText,
                 ),
               ),
             ],
           ),
-          SizedBox(height: large),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -393,8 +392,7 @@ class PeraOutHelp extends StatelessWidget {
                       pageBuilder: (context, animation, secondaryAnimation) {
                         return const HelpPage2();
                       },
-                      transitionDuration: const Duration(
-                          milliseconds: 100), // Set a shorter duration
+                      transitionDuration: const Duration(milliseconds: 100),
                       transitionsBuilder:
                           (context, animation, secondaryAnimation, child) {
                         const Offset begin = Offset(-1.0, 0.0);
@@ -430,10 +428,9 @@ class PeraOutHelp extends StatelessWidget {
                   Navigator.of(context).push(
                     PageRouteBuilder(
                       pageBuilder: (context, animation, secondaryAnimation) {
-                        return const HomePage(); // replace with HelpPage4
+                        return const HelpPage4();
                       },
-                      transitionDuration: const Duration(
-                          milliseconds: 100), // Set a shorter duration
+                      transitionDuration: const Duration(milliseconds: 100),
                       transitionsBuilder:
                           (context, animation, secondaryAnimation, child) {
                         const Offset begin = Offset(1.0, 0.0);
@@ -465,7 +462,7 @@ class PeraOutHelp extends StatelessWidget {
                 ),
               )
             ],
-          )
+          ),
         ],
       ),
     );
