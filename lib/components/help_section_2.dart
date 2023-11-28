@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:peraplan/pages/help_page_1.dart';
 import 'package:peraplan/pages/help_page_3.dart';
-import 'package:peraplan/pages/home_page.dart';
 import 'package:peraplan/utils/styles.dart';
 
 class PeraInHelp extends StatelessWidget {
@@ -71,7 +71,7 @@ class PeraInHelp extends StatelessWidget {
                       text: 'add ',
                       style: helpGreen,
                     ),
-                    TextSpan(text: 'to your balance', style: helpText),
+                    TextSpan(text: 'to your balance.', style: helpText),
                   ],
                 ),
               ),
@@ -256,7 +256,7 @@ class PeraInHelp extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  'Automatically enters the current date and time but editable by tapping on the field.\n\nChoose the category of your transaction\n\nPress the button to finish your transaction',
+                  'Automatically enters the current date and time but editable by tapping on the field.\n\nChoose the category of your transaction.\n\nPress the button to finish your transaction.',
                   style: helpText,
                 ),
               ),
@@ -376,13 +376,12 @@ class PeraInHelp extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  'A confirmation message of your transaction',
+                  'A confirmation message of your transaction.',
                   style: helpText,
                 ),
               ),
             ],
           ),
-          SizedBox(height: large),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -391,7 +390,7 @@ class PeraInHelp extends StatelessWidget {
                   Navigator.of(context).push(
                     PageRouteBuilder(
                       pageBuilder: (context, animation, secondaryAnimation) {
-                        return const HomePage(); // change to HelpPage1
+                        return const HelpPage1(); // change to HelpPage1
                       },
                       transitionDuration: const Duration(
                           milliseconds: 100), // Set a shorter duration
