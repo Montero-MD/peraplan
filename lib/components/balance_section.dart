@@ -34,6 +34,7 @@ class RoundedTextBackground extends StatefulWidget {
 
 class _RoundedTextBackgroundState extends State<RoundedTextBackground> {
   late Box<Transaction> _transactionBox;
+  bool _showBalance = true;
 
   @override
   void initState() {
@@ -58,46 +59,82 @@ class _RoundedTextBackgroundState extends State<RoundedTextBackground> {
     return peraInTotal - peraOutTotal;
   }
 
+  String generateMaskedBalance(double amount) {
+    return '*' * amount.toString().length;
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double balanceAmount = calculateBalance();
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text.rich(TextSpan(
-          children: [
-            TextSpan(text: 'Your ', style: lNormal),
-            TextSpan(
-              text: 'Balance',
-              style: lBold,
-            ),
-          ],
-        )),
-        Container(
-          padding: const EdgeInsets.all(20.0),
-          decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [hlblue, text]),
-              borderRadius: BorderRadius.circular(20.0),
-              boxShadow: [
-                BoxShadow(
-                    color: dgray,
-                    blurRadius: 5,
-                    spreadRadius: 1,
-                    offset: const Offset(2, 2)),
-              ]),
-          width: screenWidth,
-          child: Column(
-            children: <Widget>[
-              Text(
-                '₱$balanceAmount',
-                style: balAmt,
-              ),
-            ],
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Text.rich(TextSpan(
+        children: [
+          TextSpan(text: 'Your ', style: lNormal),
+          TextSpan(
+            text: 'Balance',
+            style: lBold,
           ),
-        ),
-      ],
-    );
+        ],
+      )),
+      Container(
+        padding: const EdgeInsets.all(20.0),
+        decoration: BoxDecoration(
+            gradient: LinearGradient(colors: [hlblue, text]),
+            borderRadius: BorderRadius.circular(20.0),
+            boxShadow: [
+              BoxShadow(
+                  color: dgray,
+                  blurRadius: 5,
+                  spreadRadius: 1,
+                  offset: const Offset(2, 2)),
+            ]),
+        width: screenWidth,
+        child: _showBalance
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    '₱$balanceAmount',
+                    style: balAmt,
+                  ),
+                  IconButton(
+                    icon: Icon(
+                      _showBalance ? Icons.visibility : Icons.visibility_off,
+                      size: 20,
+                      color: white,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _showBalance = !_showBalance;
+                      });
+                    },
+                  ),
+                ],
+              )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    '₱${generateMaskedBalance(balanceAmount)}',
+                    style: balAmt,
+                  ),
+                  IconButton(
+                    icon: Icon(
+                      _showBalance ? Icons.visibility : Icons.visibility_off,
+                      size: 20,
+                      color: white,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _showBalance = !_showBalance;
+                      });
+                    },
+                  ),
+                ],
+              ),
+      ),
+    ]);
   }
 }

@@ -91,8 +91,7 @@ class _TransactionsSectionState extends State<TransactionsSection> {
 
   Widget _buildTransactionData() {
     return Container(
-      width: 80.w,
-      height: 30.h,
+      constraints: BoxConstraints(maxWidth: 90.w, maxHeight: 45.h),
       padding: const EdgeInsets.all(20.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
@@ -126,16 +125,18 @@ class _TransactionsSectionState extends State<TransactionsSection> {
             startIndex = 0;
           }
 
-          return Column(
-            children: [
-              for (int index = endIndex; index >= startIndex; index--)
-                Column(
-                  children: [
-                    _buildTransactionItem(box, index),
-                    SizedBox(height: xsmall),
-                  ],
-                ),
-            ],
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                for (int index = endIndex; index >= startIndex; index--)
+                  Column(
+                    children: [
+                      _buildTransactionItem(box, index),
+                      SizedBox(height: xsmall),
+                    ],
+                  ),
+              ],
+            ),
           );
         },
       ),
@@ -417,8 +418,7 @@ class _AllTransactionsSectionState extends State<AllTransactionsSection> {
 
   Widget _buildTransactionData() {
     return Container(
-      width: 90.w,
-      height: 50.h,
+      constraints: BoxConstraints(maxWidth: 90.w, maxHeight: 55.h),
       padding: const EdgeInsets.all(20.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
@@ -439,6 +439,30 @@ class _AllTransactionsSectionState extends State<AllTransactionsSection> {
             return Center(
               child: Text(
                 'No Transactions Available',
+                style: txt,
+                textAlign: TextAlign.center,
+              ),
+            );
+          }
+
+          // Check for Pera In and Pera Out transactions
+          bool hasPeraIn =
+              box.values.any((transaction) => transaction is PeraIn);
+          bool hasPeraOut =
+              box.values.any((transaction) => transaction is PeraOut);
+
+          if (widget.selectedFilter == 'Pera In' && !hasPeraIn) {
+            return Center(
+              child: Text(
+                'No Pera In Transactions Available',
+                style: txt,
+                textAlign: TextAlign.center,
+              ),
+            );
+          } else if (widget.selectedFilter == 'Pera Out' && !hasPeraOut) {
+            return Center(
+              child: Text(
+                'No Pera Out Transactions Available',
                 style: txt,
                 textAlign: TextAlign.center,
               ),

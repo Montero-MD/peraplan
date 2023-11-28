@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:peraplan/utils/styles.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class TransactionsButtons extends StatefulWidget {
   final Function(String) onFilterChanged;
@@ -18,15 +19,35 @@ class _TransactionsButtonsState extends State<TransactionsButtons> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          _buildFilterButton(context, 'All', tCat, text),
-          _buildFilterButton(context, 'Pera In', tIn, green),
-          _buildFilterButton(context, 'Pera Out', tOut, red),
-        ],
-      ),
+    double width = MediaQuery.of(context).size.width;
+    return Column(
+      children: [
+        SizedBox(
+          width: width,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('History', style: transacBold),
+              const SizedBox(width: 5),
+              Image.asset(
+                'assets/images/transaction.png',
+                height: 30,
+              )
+            ],
+          ),
+        ),
+        Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _buildFilterButton(context, 'All', tCat, text),
+              _buildFilterButton(context, 'Pera In', tIn, green),
+              _buildFilterButton(context, 'Pera Out', tOut, red),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
@@ -41,18 +62,26 @@ class _TransactionsButtonsState extends State<TransactionsButtons> {
         });
       },
       child: Container(
+        width: 25.w,
         margin: const EdgeInsets.all(10),
         padding: const EdgeInsets.all(5),
         decoration: BoxDecoration(
-          shape: BoxShape.rectangle,
-          border:
-              isSelected ? Border.all(width: 2.5, color: borderColor) : null,
-          borderRadius: BorderRadius.circular(10),
-          color: lgray,
-        ),
+            shape: BoxShape.rectangle,
+            border:
+                isSelected ? Border.all(width: 2.5, color: borderColor) : null,
+            borderRadius: BorderRadius.circular(10),
+            color: white,
+            boxShadow: [
+              BoxShadow(
+                  color: dgray,
+                  blurRadius: 5,
+                  spreadRadius: 1,
+                  offset: const Offset(2, 2)),
+            ]),
         child: Text(
           filter,
           style: textStyle.copyWith(color: isSelected ? borderColor : null),
+          textAlign: TextAlign.center,
         ),
       ),
     );

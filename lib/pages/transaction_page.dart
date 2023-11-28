@@ -13,7 +13,7 @@ class TransactionPage extends StatefulWidget {
 }
 
 class _TransactionPageState extends State<TransactionPage> {
-  String filter = 'All Transactions';
+  String filter = 'All';
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +27,7 @@ class _TransactionPageState extends State<TransactionPage> {
               const HeadingSection(),
               SizedBox(height: small),
               const BalanceSection(),
+              SizedBox(height: small),
               TransactionsButtons(onFilterChanged: (String newFilter) {
                 setState(() {
                   filter = newFilter;
