@@ -95,6 +95,17 @@ TextStyle subRed =
 TextStyle tagline = GoogleFonts.lexend(
     fontSize: 12, fontWeight: FontWeight.normal, color: text);
 
+TextStyle helpGreen =
+    GoogleFonts.lexend(fontSize: 12, fontWeight: FontWeight.bold, color: green);
+TextStyle helpRed =
+    GoogleFonts.lexend(fontSize: 12, fontWeight: FontWeight.bold, color: red);
+TextStyle helpText =
+    GoogleFonts.lexend(fontSize: 12, fontWeight: FontWeight.bold, color: text);
+TextStyle helpPage = GoogleFonts.lexendDeca(
+    fontSize: 24, fontWeight: FontWeight.w700, color: hlblue);
+TextStyle helpPage2 = GoogleFonts.lexendDeca(
+    fontSize: 24, fontWeight: FontWeight.w700, color: text);
+
 // Gaps
 var xxxlarge = 200.0;
 var xxlarge = 150.0;

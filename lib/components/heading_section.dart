@@ -1,6 +1,7 @@
 // ignore_for_file: use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
+import 'package:peraplan/pages/help_page_2.dart';
 import 'package:peraplan/pages/home_page.dart';
 import 'package:peraplan/utils/styles.dart';
 
@@ -68,7 +69,28 @@ class HeadingSection extends StatelessWidget {
         ),
         InkWell(
           onTap: () {
-            // Navigator.of(context).pop();
+            Navigator.of(context).push(
+              PageRouteBuilder(
+                pageBuilder: (context, animation, secondaryAnimation) {
+                  return const HelpPage2(); // change to HelpPage1
+                },
+                transitionDuration:
+                    const Duration(milliseconds: 100), // Set a shorter duration
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
+                  const Offset begin = Offset(-1.0, 0.0);
+                  const Offset end = Offset.zero;
+                  const Curve curve = Curves.easeInOut;
+                  var tween = Tween(begin: begin, end: end)
+                      .chain(CurveTween(curve: curve));
+                  var offsetAnimation = animation.drive(tween);
+                  return SlideTransition(
+                    position: offsetAnimation,
+                    child: child,
+                  );
+                },
+              ),
+            );
           },
           borderRadius: BorderRadius.circular(50), // Make the border circular
           child: Container(
