@@ -72,7 +72,7 @@ class _TransactionsSectionState extends State<TransactionsSection> {
           ],
         ),
         SizedBox(
-          height: xxsmall,
+          height: xsmall,
         ),
         Container(
             padding: const EdgeInsets.symmetric(horizontal: 10),
