@@ -27,7 +27,7 @@ class HelpPage1 extends StatelessWidget {
                     Text.rich(
                       TextSpan(
                         children: [
-                          TextSpan(text: 'Help ', style: transacNormal),
+                          TextSpan(text: 'Help ', style: transacBold),
                           TextSpan(
                             text: 'Page',
                             style: textBold,
