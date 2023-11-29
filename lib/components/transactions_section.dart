@@ -72,7 +72,7 @@ class _TransactionsSectionState extends State<TransactionsSection> {
           ],
         ),
         SizedBox(
-          height: xxsmall,
+          height: xsmall,
         ),
         Container(
             padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -152,11 +152,11 @@ class _TransactionsSectionState extends State<TransactionsSection> {
     if (transaction is PeraIn) {
       transactionType = 'Pera In';
       amountColor = green;
-      amount = "+₱${transaction.amount}";
+      amount = "+₱${transaction.amount.toStringAsFixed(2)}";
     } else if (transaction is PeraOut) {
       transactionType = 'Pera Out';
       amountColor = red;
-      amount = "-₱${transaction.amount}";
+      amount = "-₱${transaction.amount.toStringAsFixed(2)}";
     }
 
     Map<String, IconData> categoryIcons = {
@@ -208,6 +208,7 @@ class _TransactionsSectionState extends State<TransactionsSection> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
+              // Amount
               Text(amount, style: unique),
               // Date and Time
               Text(
@@ -497,11 +498,11 @@ class _AllTransactionsSectionState extends State<AllTransactionsSection> {
     if (transaction is PeraIn) {
       transactionType = 'Pera In';
       amountColor = green;
-      amount = "+₱${transaction.amount}";
+      amount = "+₱${transaction.amount.toStringAsFixed(2)}";
     } else if (transaction is PeraOut) {
       transactionType = 'Pera Out';
       amountColor = red;
-      amount = "-₱${transaction.amount}";
+      amount = "-₱${transaction.amount.toStringAsFixed(2)}";
     }
     Map<String, IconData> categoryIcons = {
       'Salary': Icons.payment,

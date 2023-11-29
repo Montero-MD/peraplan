@@ -41,7 +41,7 @@ class _TransactionsButtonsState extends State<TransactionsButtons> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _buildFilterButton(context, 'All', tCat, text),
+              _buildFilterButton(context, 'All', tCat, hlblue),
               _buildFilterButton(context, 'Pera In', tIn, green),
               _buildFilterButton(context, 'Pera Out', tOut, red),
             ],

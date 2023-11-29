@@ -1,12 +1,12 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:peraplan/components/help_section_2.dart';
+import 'package:peraplan/components/help_section_1.dart';
 import 'package:peraplan/utils/styles.dart';
 import 'package:peraplan/components/heading_section.dart';
 
-class HelpPage2 extends StatelessWidget {
-  const HelpPage2({super.key});
+class HelpPage1 extends StatelessWidget {
+  const HelpPage1({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,7 @@ class HelpPage2 extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: small),
-                PeraInHelp(),
+                HomePageHelp()
               ],
             ),
           ),

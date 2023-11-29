@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:peraplan/pages/help_page_2.dart';
-import 'package:peraplan/pages/home_page.dart';
+import 'package:peraplan/pages/help_page_4.dart';
 import 'package:peraplan/utils/styles.dart';
 
 class PeraOutHelp extends StatelessWidget {
@@ -71,7 +71,7 @@ class PeraOutHelp extends StatelessWidget {
                       text: 'deduct ',
                       style: helpRed,
                     ),
-                    TextSpan(text: 'to your balance', style: helpText),
+                    TextSpan(text: 'to your balance.', style: helpText),
                   ],
                 ),
               ),
@@ -108,11 +108,12 @@ class PeraOutHelp extends StatelessWidget {
                     Text('Date', style: subHeaders),
                     SizedBox(width: xsmall),
                     Flexible(
-                      child: Row(
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Container(
+                            padding: const EdgeInsets.all(10.0),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
                                 color: white,
@@ -123,19 +124,22 @@ class PeraOutHelp extends StatelessWidget {
                                       spreadRadius: 1,
                                       offset: const Offset(2, 2)),
                                 ]),
-                            child: OutlinedButton(
-                                onPressed: () {},
-                                style: OutlinedButton.styleFrom(
-                                    backgroundColor: Colors.transparent,
-                                    fixedSize: const Size(100, 30),
-                                    side: const BorderSide(
-                                      color: Colors.transparent,
-                                      width: 1.0,
-                                    )),
-                                child: Text(
-                                  "${_selectedDate.month}/${_selectedDate.day}/${_selectedDate.year}",
-                                  style: hltxt,
-                                )),
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10),
+                                    decoration: BoxDecoration(
+                                      color: lgray,
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                  ),
+                                  Text(
+                                    "${_selectedDate.month}/${_selectedDate.day}/${_selectedDate.year}",
+                                    style: hltxt,
+                                  )
+                                ]),
                           ),
                         ],
                       ),
@@ -144,11 +148,12 @@ class PeraOutHelp extends StatelessWidget {
                     Text('Time', style: subHeaders),
                     SizedBox(width: xsmall),
                     Flexible(
-                      child: Row(
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
+                        mainAxisSize: MainAxisSize.max,
                         children: [
                           Container(
+                            padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
                                 color: white,
@@ -159,18 +164,20 @@ class PeraOutHelp extends StatelessWidget {
                                       spreadRadius: 1,
                                       offset: const Offset(2, 2)),
                                 ]),
-                            child: OutlinedButton(
-                                onPressed: () {},
-                                style: OutlinedButton.styleFrom(
-                                    backgroundColor: Colors.transparent,
-                                    fixedSize: const Size(100, 30),
-                                    side: const BorderSide(
-                                      color: Colors.transparent,
-                                      width: 1.0,
-                                    )),
-                                child: Text(
-                                    _selectedTime.format(context).toString(),
-                                    style: hltxt)),
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10),
+                                    decoration: BoxDecoration(
+                                      color: lgray,
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                  ),
+                                  Text(_selectedTime.format(context).toString(),
+                                      style: hltxt)
+                                ]),
                           ),
                         ],
                       ),
@@ -187,6 +194,7 @@ class PeraOutHelp extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
+                            padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
                                 color: white,
@@ -197,14 +205,28 @@ class PeraOutHelp extends StatelessWidget {
                                       spreadRadius: 1,
                                       offset: const Offset(2, 2)),
                                 ]),
-                            child: Row(
+                            child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text(
-                                    'Select Category',
-                                    style: txt,
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10),
+                                    decoration: BoxDecoration(
+                                      color: lgray,
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
                                   ),
-                                  Icon(Icons.keyboard_arrow_down, color: hlblue)
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'Select Category',
+                                        style: txt,
+                                      ),
+                                      Icon(Icons.keyboard_arrow_down,
+                                          color: hlblue)
+                                    ],
+                                  ),
                                 ]),
                           ),
                         ],
@@ -236,7 +258,7 @@ class PeraOutHelp extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text('Pera Out', style: hintAmt),
-                          SizedBox(width: small),
+                          SizedBox(width: xsmall),
                           Icon(
                             Icons.arrow_forward,
                             size: 32,
@@ -256,7 +278,7 @@ class PeraOutHelp extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  'Automatically enters the current date and time but editable by tapping on the field.\n\nChoose the category of your transaction\n\nPress the button to finish your transaction',
+                  'Automatically enters the current date and time but editable by tapping on the field.\n\nChoose the category of your transaction.\n\nPress the button to finish your transaction.',
                   style: helpText,
                 ),
               ),
@@ -376,13 +398,12 @@ class PeraOutHelp extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  'A confirmation message of your transaction',
+                  'A confirmation message of your transaction.',
                   style: helpText,
                 ),
               ),
             ],
           ),
-          SizedBox(height: large),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -393,8 +414,7 @@ class PeraOutHelp extends StatelessWidget {
                       pageBuilder: (context, animation, secondaryAnimation) {
                         return const HelpPage2();
                       },
-                      transitionDuration: const Duration(
-                          milliseconds: 100), // Set a shorter duration
+                      transitionDuration: const Duration(milliseconds: 100),
                       transitionsBuilder:
                           (context, animation, secondaryAnimation, child) {
                         const Offset begin = Offset(-1.0, 0.0);
@@ -430,10 +450,9 @@ class PeraOutHelp extends StatelessWidget {
                   Navigator.of(context).push(
                     PageRouteBuilder(
                       pageBuilder: (context, animation, secondaryAnimation) {
-                        return const HomePage(); // replace with HelpPage4
+                        return const HelpPage4();
                       },
-                      transitionDuration: const Duration(
-                          milliseconds: 100), // Set a shorter duration
+                      transitionDuration: const Duration(milliseconds: 100),
                       transitionsBuilder:
                           (context, animation, secondaryAnimation, child) {
                         const Offset begin = Offset(1.0, 0.0);
@@ -465,7 +484,7 @@ class PeraOutHelp extends StatelessWidget {
                 ),
               )
             ],
-          )
+          ),
         ],
       ),
     );

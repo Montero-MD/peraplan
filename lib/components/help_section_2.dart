@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:peraplan/pages/help_page_1.dart';
 import 'package:peraplan/pages/help_page_3.dart';
-import 'package:peraplan/pages/home_page.dart';
 import 'package:peraplan/utils/styles.dart';
 
 class PeraInHelp extends StatelessWidget {
@@ -71,7 +71,7 @@ class PeraInHelp extends StatelessWidget {
                       text: 'add ',
                       style: helpGreen,
                     ),
-                    TextSpan(text: 'to your balance', style: helpText),
+                    TextSpan(text: 'to your balance.', style: helpText),
                   ],
                 ),
               ),
@@ -108,11 +108,12 @@ class PeraInHelp extends StatelessWidget {
                     Text('Date', style: subHeaders),
                     SizedBox(width: xsmall),
                     Flexible(
-                      child: Row(
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Container(
+                            padding: const EdgeInsets.all(10.0),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
                                 color: white,
@@ -123,19 +124,22 @@ class PeraInHelp extends StatelessWidget {
                                       spreadRadius: 1,
                                       offset: const Offset(2, 2)),
                                 ]),
-                            child: OutlinedButton(
-                                onPressed: () {},
-                                style: OutlinedButton.styleFrom(
-                                    backgroundColor: Colors.transparent,
-                                    fixedSize: const Size(100, 30),
-                                    side: const BorderSide(
-                                      color: Colors.transparent,
-                                      width: 1.0,
-                                    )),
-                                child: Text(
-                                  "${_selectedDate.month}/${_selectedDate.day}/${_selectedDate.year}",
-                                  style: hltxt,
-                                )),
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10),
+                                    decoration: BoxDecoration(
+                                      color: lgray,
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                  ),
+                                  Text(
+                                    "${_selectedDate.month}/${_selectedDate.day}/${_selectedDate.year}",
+                                    style: hltxt,
+                                  )
+                                ]),
                           ),
                         ],
                       ),
@@ -144,11 +148,12 @@ class PeraInHelp extends StatelessWidget {
                     Text('Time', style: subHeaders),
                     SizedBox(width: xsmall),
                     Flexible(
-                      child: Row(
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
+                        mainAxisSize: MainAxisSize.max,
                         children: [
                           Container(
+                            padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
                                 color: white,
@@ -159,18 +164,20 @@ class PeraInHelp extends StatelessWidget {
                                       spreadRadius: 1,
                                       offset: const Offset(2, 2)),
                                 ]),
-                            child: OutlinedButton(
-                                onPressed: () {},
-                                style: OutlinedButton.styleFrom(
-                                    backgroundColor: Colors.transparent,
-                                    fixedSize: const Size(100, 30),
-                                    side: const BorderSide(
-                                      color: Colors.transparent,
-                                      width: 1.0,
-                                    )),
-                                child: Text(
-                                    _selectedTime.format(context).toString(),
-                                    style: hltxt)),
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10),
+                                    decoration: BoxDecoration(
+                                      color: lgray,
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                  ),
+                                  Text(_selectedTime.format(context).toString(),
+                                      style: hltxt)
+                                ]),
                           ),
                         ],
                       ),
@@ -187,6 +194,7 @@ class PeraInHelp extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
+                            padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
                                 color: white,
@@ -197,14 +205,28 @@ class PeraInHelp extends StatelessWidget {
                                       spreadRadius: 1,
                                       offset: const Offset(2, 2)),
                                 ]),
-                            child: Row(
+                            child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text(
-                                    'Select Category',
-                                    style: txt,
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10),
+                                    decoration: BoxDecoration(
+                                      color: lgray,
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
                                   ),
-                                  Icon(Icons.keyboard_arrow_down, color: hlblue)
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'Select Category',
+                                        style: txt,
+                                      ),
+                                      Icon(Icons.keyboard_arrow_down,
+                                          color: hlblue)
+                                    ],
+                                  ),
                                 ]),
                           ),
                         ],
@@ -256,7 +278,7 @@ class PeraInHelp extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  'Automatically enters the current date and time but editable by tapping on the field.\n\nChoose the category of your transaction\n\nPress the button to finish your transaction',
+                  'Automatically enters the current date and time but editable by tapping on the field.\n\nChoose the category of your transaction.\n\nPress the button to finish your transaction.',
                   style: helpText,
                 ),
               ),
@@ -376,13 +398,12 @@ class PeraInHelp extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  'A confirmation message of your transaction',
+                  'A confirmation message of your transaction.',
                   style: helpText,
                 ),
               ),
             ],
           ),
-          SizedBox(height: large),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -391,7 +412,7 @@ class PeraInHelp extends StatelessWidget {
                   Navigator.of(context).push(
                     PageRouteBuilder(
                       pageBuilder: (context, animation, secondaryAnimation) {
-                        return const HomePage(); // change to HelpPage1
+                        return const HelpPage1(); // change to HelpPage1
                       },
                       transitionDuration: const Duration(
                           milliseconds: 100), // Set a shorter duration

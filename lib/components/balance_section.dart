@@ -43,8 +43,8 @@ class _RoundedTextBackgroundState extends State<RoundedTextBackground> {
   }
 
   double calculateBalance() {
-    double peraInTotal = 0.0;
-    double peraOutTotal = 0.0;
+    double peraInTotal = 0.00;
+    double peraOutTotal = 0.00;
 
     for (int i = 0; i < _transactionBox.length; i++) {
       final transaction = _transactionBox.getAt(i);
@@ -96,7 +96,7 @@ class _RoundedTextBackgroundState extends State<RoundedTextBackground> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    '₱$balanceAmount',
+                    '₱${balanceAmount.toStringAsFixed(2)}',
                     style: balAmt,
                   ),
                   IconButton(
