@@ -1,62 +1,113 @@
+// ignore_for_file: use_key_in_widget_constructors
+
 import 'package:flutter/material.dart';
+import 'package:peraplan/pages/help_page_1.dart';
 import 'package:peraplan/pages/home_page.dart';
 import 'package:peraplan/utils/styles.dart';
 
 class HeadingSection extends StatelessWidget {
-  const HeadingSection({super.key});
-
+  const HeadingSection({Key? key});
   @override
   Widget build(BuildContext context) {
-    return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-      GestureDetector(
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        InkWell(
           onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => const HomePage(),
-            ));
+            Navigator.of(context).push(
+              PageRouteBuilder(
+                pageBuilder: (context, animation, secondaryAnimation) {
+                  return const HomePage();
+                },
+                transitionDuration: const Duration(milliseconds: 200),
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
+                  const Offset begin = Offset(-1.0, 0.0);
+                  const Offset end = Offset.zero;
+                  const Curve curve = Curves.easeInOut;
+                  var tween = Tween(begin: begin, end: end)
+                      .chain(CurveTween(curve: curve));
+                  var offsetAnimation = animation.drive(tween);
+                  return SlideTransition(
+                    position: offsetAnimation,
+                    child: child,
+                  );
+                },
+              ),
+            );
           },
+          borderRadius: BorderRadius.circular(50),
           child: Container(
             margin: const EdgeInsets.all(10),
             padding: const EdgeInsets.all(5),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(50),
-                border: Border.all(width: 2.5, color: text)),
-            child: Icon(
-              Icons.other_houses_rounded,
-              color: text,
-              size: 35,
+              shape: BoxShape.circle,
+              border: Border.all(width: 2.5, color: hlblue),
             ),
-          )),
-      Row(
-        children: [
-          Text.rich(
-            TextSpan(
-              children: [
-                TextSpan(text: 'Pera', style: subPera),
-                TextSpan(
-                  text: 'Plan',
-                  style: subPlan,
-                ),
-              ],
+            child: Icon(
+              Icons.house_rounded,
+              color: hlblue,
+              size: 35,
             ),
           ),
-        ],
-      ),
-      GestureDetector(
+        ),
+        Row(
+          children: [
+            Text.rich(
+              TextSpan(
+                children: [
+                  TextSpan(text: 'Pera', style: subPera),
+                  TextSpan(
+                    text: 'Plan',
+                    style: subPlan,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        InkWell(
           onTap: () {
-            //Navigator.of(context).pop();
+            Navigator.of(context).push(
+              PageRouteBuilder(
+                pageBuilder: (context, animation, secondaryAnimation) {
+                  return const HelpPage1();
+                },
+                transitionDuration: const Duration(milliseconds: 200),
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
+                  Offset begin = const Offset(1.0, 0.0);
+                  Offset end = Offset.zero;
+                  Curve curve = Curves.easeInOut;
+                  var tween = Tween(begin: begin, end: end)
+                      .chain(CurveTween(curve: curve));
+                  var offsetAnimation = animation.drive(tween);
+
+                  return SlideTransition(
+                    position: offsetAnimation,
+                    child: child,
+                  );
+                },
+              ),
+            );
           },
+
+          borderRadius: BorderRadius.circular(50), // Make the border circular
           child: Container(
             margin: const EdgeInsets.all(10),
             padding: const EdgeInsets.all(5),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(50),
-                border: Border.all(width: 2.5, color: text)),
+              shape: BoxShape.circle, // Make the container circular
+              border: Border.all(width: 2.5, color: hlblue),
+            ),
             child: Icon(
               Icons.question_mark,
-              color: text,
+              color: hlblue,
               size: 35,
             ),
-          )),
-    ]);
+          ),
+        ),
+      ],
+    );
   }
 }
