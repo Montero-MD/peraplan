@@ -13,7 +13,6 @@ This project is made in partial fulfillment of the requirements of the subject S
 * **Project Manager:** Allana Yzabelle Diaz
 * **UI/UX Developers:** 
   * Allana Yzabelle Diaz
-  * John Lorenz Leonor
 * **Frontend Developers:**
   * Allana Yzabelle Diaz
   * Matthew David Montero
@@ -21,3 +20,4 @@ This project is made in partial fulfillment of the requirements of the subject S
   * Matthew David Montero
   * Regino Gallena
   * John Lorenz Leonor
+  * Aaron Torres
