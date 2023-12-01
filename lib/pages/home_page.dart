@@ -115,21 +115,25 @@ class HomePage extends StatelessWidget {
         return false;
       },
       child: Scaffold(
-          backgroundColor: white,
-          body: SafeArea(
-              child: Padding(
+        backgroundColor: white,
+        body: SafeArea(
+          child: Padding(
             padding: EdgeInsets.only(left: small, top: small, right: small),
-            child: Column(
-              children: [
-                const HeadingSectionHome(),
-                SizedBox(height: small),
-                const BalanceSection(),
-                const QuickActions(),
-                SizedBox(height: small),
-                const TransactionsSection(),
-              ],
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  const HeadingSectionHome(),
+                  SizedBox(height: small),
+                  const BalanceSection(),
+                  const QuickActions(),
+                  SizedBox(height: small),
+                  const TransactionsSection(),
+                ],
+              ),
             ),
-          ))),
+          ),
+        ),
+      ),
     );
   }
 }
