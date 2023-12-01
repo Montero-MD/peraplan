@@ -55,12 +55,29 @@ class _TransactionsSectionState extends State<TransactionsSection> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text.rich(
+              TextSpan(
+                children: [
+                  TextSpan(text: 'Latest ', style: transacBold),
+                  TextSpan(
+                    text: 'Transactions',
+                    style: transacNormal,
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+        SizedBox(
+          height: xsmall,
+        ),
         Container(
-            padding: const EdgeInsets.symmetric(
-                horizontal: 10), // Add horizontal padding
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(
-                  medium), // Adjust the corner radius as needed
+              borderRadius: BorderRadius.circular(medium),
               color: lgray,
             ),
             child: Column(
@@ -74,8 +91,7 @@ class _TransactionsSectionState extends State<TransactionsSection> {
 
   Widget _buildTransactionData() {
     return Container(
-      width: 80.w, // Set a fixed width
-      height: 30.h,
+      constraints: BoxConstraints(maxWidth: 90.w, maxHeight: 45.h),
       padding: const EdgeInsets.all(20.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
@@ -96,29 +112,31 @@ class _TransactionsSectionState extends State<TransactionsSection> {
             return Center(
               child: Text(
                 'No Transactions Available',
-                style: transacBold,
+                style: txt,
                 textAlign: TextAlign.center,
               ),
             );
           }
 
-          // Display only the 5 latest entries
+          // Statement to display the 5 most recent transactions
           int endIndex = box.length - 1;
-          int startIndex = endIndex - 4; // Display the latest 5 entries
+          int startIndex = endIndex - 4;
           if (startIndex < 0) {
             startIndex = 0;
           }
 
-          return Column(
-            children: [
-              for (int index = endIndex; index >= startIndex; index--)
-                Column(
-                  children: [
-                    _buildTransactionItem(box, index),
-                    const SizedBox(height: 16.0),
-                  ],
-                ),
-            ],
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                for (int index = endIndex; index >= startIndex; index--)
+                  Column(
+                    children: [
+                      _buildTransactionItem(box, index),
+                      SizedBox(height: xsmall),
+                    ],
+                  ),
+              ],
+            ),
           );
         },
       ),
@@ -127,23 +145,36 @@ class _TransactionsSectionState extends State<TransactionsSection> {
 
   Widget _buildTransactionItem(Box<Transaction> box, int index) {
     final transaction = box.getAt(index);
-    // Determine the transaction type
     String transactionType = '';
-    String imageAsset = '';
     Color amountColor = Colors.black;
     String amount = '';
 
     if (transaction is PeraIn) {
       transactionType = 'Pera In';
-      imageAsset = 'assets/images/perain.png';
-      amountColor = Colors.green;
-      amount = "+₱${transaction.amount}";
+      amountColor = green;
+      amount = "+₱${transaction.amount.toStringAsFixed(2)}";
     } else if (transaction is PeraOut) {
       transactionType = 'Pera Out';
-      imageAsset = 'assets/images/peraout.png';
-      amountColor = Colors.red;
-      amount = "-₱${transaction.amount}";
+      amountColor = red;
+      amount = "-₱${transaction.amount.toStringAsFixed(2)}";
     }
+
+    Map<String, IconData> categoryIcons = {
+      'Salary': Icons.payment,
+      'Allowance': Icons.account_balance_wallet_rounded,
+      'Investments': Icons.account_balance,
+      'Others': Icons.category,
+      'Food': Icons.restaurant,
+      'Travel': Icons.directions_bus,
+      'School': Icons.account_balance,
+      'Shopping': Icons.shopping_cart_checkout,
+      'Bills': Icons.bolt,
+      'Fitness': Icons.fitness_center_rounded,
+      'Subscriptions': Icons.credit_card,
+      'Vacation': Icons.card_travel,
+    };
+
+    IconData iconData = categoryIcons[transaction?.category] ?? Icons.category;
 
     TextStyle unique = GoogleFonts.lexend(
       fontSize: 14,
@@ -151,21 +182,22 @@ class _TransactionsSectionState extends State<TransactionsSection> {
       color: amountColor,
     );
 
-    return GestureDetector(
-      onLongPress: () {
-        // Show delete confirmation or directly delete the transaction
+    return Dismissible(
+      key: Key(transaction.hashCode.toString()),
+      confirmDismiss: (direction) async {
         _showDeleteDialog(transaction, index);
+        return null;
       },
+      background: Container(
+        color: red,
+        child: Icon(Icons.delete, color: white),
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
             children: [
-              Image.asset(
-                imageAsset,
-                width: 32, // Adjust the width as needed
-                height: 32, // Adjust the height as needed
-              ),
+              Icon(iconData, color: amountColor),
               const SizedBox(width: 8),
               Text(
                 '${transaction?.category}',
@@ -176,6 +208,7 @@ class _TransactionsSectionState extends State<TransactionsSection> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
+              // Amount
               Text(amount, style: unique),
               // Date and Time
               Text(
@@ -370,11 +403,9 @@ class _AllTransactionsSectionState extends State<AllTransactionsSection> {
     return Column(
       children: [
         Container(
-            padding: const EdgeInsets.symmetric(
-                horizontal: 10), // Add horizontal padding
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(
-                  medium), // Adjust the corner radius as needed
+              borderRadius: BorderRadius.circular(medium),
               color: lgray,
             ),
             child: Column(
@@ -388,8 +419,7 @@ class _AllTransactionsSectionState extends State<AllTransactionsSection> {
 
   Widget _buildTransactionData() {
     return Container(
-      width: 90.w,
-      height: 50.h,
+      constraints: BoxConstraints(maxWidth: 90.w, maxHeight: 45.h),
       padding: const EdgeInsets.all(20.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
@@ -410,7 +440,31 @@ class _AllTransactionsSectionState extends State<AllTransactionsSection> {
             return Center(
               child: Text(
                 'No Transactions Available',
-                style: transacBold,
+                style: txt,
+                textAlign: TextAlign.center,
+              ),
+            );
+          }
+
+          // Check for Pera In and Pera Out transactions
+          bool hasPeraIn =
+              box.values.any((transaction) => transaction is PeraIn);
+          bool hasPeraOut =
+              box.values.any((transaction) => transaction is PeraOut);
+
+          if (widget.selectedFilter == 'Pera In' && !hasPeraIn) {
+            return Center(
+              child: Text(
+                'No Pera In Transactions Available',
+                style: txt,
+                textAlign: TextAlign.center,
+              ),
+            );
+          } else if (widget.selectedFilter == 'Pera Out' && !hasPeraOut) {
+            return Center(
+              child: Text(
+                'No Pera Out Transactions Available',
+                style: txt,
                 textAlign: TextAlign.center,
               ),
             );
@@ -437,23 +491,35 @@ class _AllTransactionsSectionState extends State<AllTransactionsSection> {
 
   Widget _buildTransactionItem(Box<Transaction> box, int index) {
     final transaction = box.getAt(index);
-    // Determine the transaction type
     String transactionType = '';
-    String imageAsset = '';
     Color amountColor = Colors.black;
     String amount = '';
 
     if (transaction is PeraIn) {
       transactionType = 'Pera In';
-      imageAsset = 'assets/images/perain.png';
       amountColor = green;
-      amount = "+₱${transaction.amount}";
+      amount = "+₱${transaction.amount.toStringAsFixed(2)}";
     } else if (transaction is PeraOut) {
       transactionType = 'Pera Out';
-      imageAsset = 'assets/images/peraout.png';
       amountColor = red;
-      amount = "-₱${transaction.amount}";
+      amount = "-₱${transaction.amount.toStringAsFixed(2)}";
     }
+    Map<String, IconData> categoryIcons = {
+      'Salary': Icons.payment,
+      'Allowance': Icons.account_balance_wallet_rounded,
+      'Investments': Icons.account_balance,
+      'Others': Icons.category,
+      'Food': Icons.restaurant,
+      'Travel': Icons.directions_bus,
+      'School': Icons.account_balance,
+      'Shopping': Icons.shopping_cart_checkout,
+      'Bills': Icons.bolt,
+      'Fitness': Icons.fitness_center_rounded,
+      'Subscriptions': Icons.credit_card,
+      'Vacation': Icons.card_travel,
+    };
+
+    IconData iconData = categoryIcons[transaction?.category] ?? Icons.category;
 
     TextStyle unique = GoogleFonts.lexend(
       fontSize: 16,
@@ -461,22 +527,25 @@ class _AllTransactionsSectionState extends State<AllTransactionsSection> {
       color: amountColor,
     );
 
-    return GestureDetector(
-      onLongPress: () {
-        // Show delete confirmation or directly delete the transaction
+    return Dismissible(
+      key: Key(transaction.hashCode.toString()),
+      confirmDismiss: (direction) async {
         _showDeleteDialog(transaction, index);
+        return null;
       },
+      background: Container(
+        color: red,
+        child: Icon(Icons.delete, color: white),
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
             children: [
-              Image.asset(
-                imageAsset,
-                width: 32, // Adjust the width as needed
-                height: 32, // Adjust the height as needed
-              ),
-              const SizedBox(width: 8),
+              // Category Icon
+              Icon(iconData, color: amountColor),
+              SizedBox(width: xsmall),
+              // Category Name
               Text(
                 '${transaction?.category}',
                 style: transactxt,
@@ -486,6 +555,7 @@ class _AllTransactionsSectionState extends State<AllTransactionsSection> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
+              // Amount
               Text(amount, style: unique),
               // Date and Time
               Text(
@@ -631,7 +701,7 @@ class _AllTransactionsSectionState extends State<AllTransactionsSection> {
   }
 
   bool _shouldShowTransaction(Transaction? transaction) {
-    if (widget.selectedFilter == 'All Transactions') {
+    if (widget.selectedFilter == 'All') {
       return true;
     } else if (widget.selectedFilter == 'Pera In' && transaction is PeraIn) {
       return true;
