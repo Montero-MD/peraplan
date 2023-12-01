@@ -65,10 +65,22 @@ class HeadingSectionHelp extends StatelessWidget {
             ),
           ],
         ),
-        Icon(
-          Icons.question_mark,
-          color: white,
-          size: 35,
+        Row(
+          children: [
+            Container(
+              margin: const EdgeInsets.all(10),
+              padding: const EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(width: 2.5, color: white),
+              ),
+              child: Icon(
+                Icons.question_mark,
+                color: white,
+                size: 35,
+              ),
+            ),
+          ],
         ),
       ],
     );

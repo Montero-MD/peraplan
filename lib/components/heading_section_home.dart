@@ -11,10 +11,18 @@ class HeadingSectionHome extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Icon(
-          Icons.house_rounded,
-          color: white,
-          size: 35,
+        Container(
+          margin: const EdgeInsets.all(10),
+          padding: const EdgeInsets.all(5),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(width: 2.5, color: white),
+          ),
+          child: Icon(
+            Icons.question_mark,
+            color: white,
+            size: 35,
+          ),
         ),
         Row(
           children: [
