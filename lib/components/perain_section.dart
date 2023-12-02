@@ -4,6 +4,7 @@ import 'package:hive/hive.dart';
 import 'package:peraplan/data/database.dart';
 import 'package:peraplan/pages/home_page.dart';
 import 'package:peraplan/utils/styles.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class PeraInSection extends StatefulWidget {
   const PeraInSection({super.key});
@@ -129,7 +130,7 @@ class _PeraInSectionState extends State<PeraInSection> {
                                 hintText: 'Enter Amount...',
                                 hintStyle: hintAmt,
                                 border: InputBorder.none,
-                                prefixText: '+    ₱',
+                                prefixText: '₱',
                               ),
                               inputFormatters: [
                                 FilteringTextInputFormatter.allow(
@@ -154,9 +155,10 @@ class _PeraInSectionState extends State<PeraInSection> {
                 children: [Text('Details', style: headers)],
               ),
             ),
+            SizedBox(height: xsmall),
             Container(
               padding: const EdgeInsets.all(20.0),
-              width: width * .9,
+              width: 90.w,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   color: white,
@@ -202,8 +204,7 @@ class _PeraInSectionState extends State<PeraInSection> {
                                         (BuildContext context, Widget? child) {
                                       return Theme(
                                         data: ThemeData.light().copyWith(
-                                          primaryColor:
-                                              hlblue, // Change the primary color
+                                          primaryColor: hlblue,
                                           colorScheme: ColorScheme.light(
                                               primary: hlblue),
                                           buttonTheme: const ButtonThemeData(
@@ -222,11 +223,10 @@ class _PeraInSectionState extends State<PeraInSection> {
                                 },
                                 style: OutlinedButton.styleFrom(
                                   backgroundColor: Colors.transparent,
-                                  fixedSize: const Size(100, 30),
+                                  fixedSize: Size(25.w, 3.h),
                                   side: const BorderSide(
-                                    color: Colors
-                                        .transparent, // Set the outline color to transparent
-                                    width: 1.0, // Set the outline width
+                                    color: Colors.transparent,
+                                    width: 1.0,
                                   ),
                                 ),
                                 child: Text(
@@ -271,8 +271,7 @@ class _PeraInSectionState extends State<PeraInSection> {
                                         ),
                                         child: Theme(
                                           data: ThemeData.light().copyWith(
-                                            primaryColor:
-                                                hlblue, // Change the primary color
+                                            primaryColor: hlblue,
                                             colorScheme: ColorScheme.light(
                                                 primary: hlblue),
                                             buttonTheme: const ButtonThemeData(
@@ -292,11 +291,10 @@ class _PeraInSectionState extends State<PeraInSection> {
                                 },
                                 style: OutlinedButton.styleFrom(
                                   backgroundColor: Colors.transparent,
-                                  fixedSize: const Size(100, 30),
+                                  fixedSize: Size(25.w, 3.h),
                                   side: const BorderSide(
-                                    color: Colors
-                                        .transparent, // Set the outline color to transparent
-                                    width: 1.0, // Set the outline width
+                                    color: Colors.transparent,
+                                    width: 1.0,
                                   ),
                                 ),
                                 child: Text(
@@ -320,17 +318,22 @@ class _PeraInSectionState extends State<PeraInSection> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Container(
+                              constraints: const BoxConstraints(
+                                  maxWidth: double.infinity),
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: white,
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: dgray,
-                                        blurRadius: 5,
-                                        spreadRadius: 1,
-                                        offset: const Offset(2, 2)),
-                                  ]),
+                                borderRadius: BorderRadius.circular(20),
+                                color: white,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: dgray,
+                                    blurRadius: 5,
+                                    spreadRadius: 1,
+                                    offset: const Offset(2, 2),
+                                  ),
+                                ],
+                              ),
                               child: DropdownButtonFormField<String>(
+                                isExpanded: true,
                                 value: _selectedCategory,
                                 hint: Text(
                                   'Select Category',
@@ -346,9 +349,8 @@ class _PeraInSectionState extends State<PeraInSection> {
                                   'Salary',
                                   'Allowance',
                                   'Investments',
-                                  'Others'
+                                  'Others',
                                 ].map<DropdownMenuItem<String>>((String value) {
-                                  // Map each category to its respective icon
                                   Map<String, IconData> categoryIcons = {
                                     'Salary': Icons.payment,
                                     'Allowance':
@@ -357,8 +359,7 @@ class _PeraInSectionState extends State<PeraInSection> {
                                     'Others': Icons.category,
                                   };
                                   Map<String, Color> categoryColors = {
-                                    'Salary':
-                                        green, // Replace with your green color
+                                    'Salary': green,
                                     'Allowance': green,
                                     'Investments': green,
                                     'Others': green,
@@ -370,10 +371,7 @@ class _PeraInSectionState extends State<PeraInSection> {
                                         Icon(categoryIcons[value]!,
                                             color: categoryColors[value]),
                                         SizedBox(width: xsmall),
-                                        Text(
-                                          value,
-                                          style: tCat,
-                                        ),
+                                        Text(value, style: tCat),
                                       ],
                                     ),
                                   );
@@ -543,8 +541,8 @@ class _PeraInSectionState extends State<PeraInSection> {
                         child: Container(
                           margin: const EdgeInsets.all(10),
                           padding: const EdgeInsets.all(5),
-                          width: 185,
-                          height: 50,
+                          width: 50.w,
+                          height: 6.h,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(35),
                               gradient: LinearGradient(colors: [hlblue, text]),

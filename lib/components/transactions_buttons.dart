@@ -37,6 +37,7 @@ class _TransactionsButtonsState extends State<TransactionsButtons> {
             ],
           ),
         ),
+        SizedBox(height: xsmall),
         Center(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -62,7 +63,7 @@ class _TransactionsButtonsState extends State<TransactionsButtons> {
         });
       },
       child: Container(
-        width: 25.w,
+        constraints: BoxConstraints(maxWidth: 30.w, minWidth: 20.w),
         margin: const EdgeInsets.all(10),
         padding: const EdgeInsets.all(5),
         decoration: BoxDecoration(

@@ -34,6 +34,7 @@ class _TransactionPageState extends State<TransactionPage> {
                     filter = newFilter;
                   });
                 }),
+                SizedBox(height: xsmall),
                 AllTransactionsSection(selectedFilter: filter),
               ],
             ),

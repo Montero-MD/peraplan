@@ -126,7 +126,7 @@ class HomePage extends StatelessWidget {
                   SizedBox(height: small),
                   const BalanceSection(),
                   const QuickActions(),
-                  SizedBox(height: small),
+                  SizedBox(height: medium),
                   const TransactionsSection(),
                 ],
               ),
