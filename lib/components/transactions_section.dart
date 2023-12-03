@@ -69,6 +69,7 @@ class _TransactionsSectionState extends State<TransactionsSection> {
                 ],
               ),
             )
+            // implement icon here
           ],
         ),
         SizedBox(
@@ -346,6 +347,107 @@ class _TransactionsSectionState extends State<TransactionsSection> {
 
   void _deleteTransaction(int index) {
     _transactionBox.deleteAt(index);
+
+    setState(() {});
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const HomePage()),
+    );
+  }
+
+  void _showDeleteAllDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          title: Row(
+            children: [
+              Text('Delete All Transactions?', style: pOut),
+              const SizedBox(width: 5),
+              Icon(Icons.delete, color: red),
+            ],
+          ),
+          content: Text('Are you sure you want to delete All Transactions?',
+              style: transactxt),
+          actions: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.all(5),
+                    padding: const EdgeInsets.all(5),
+                    width: 120,
+                    height: 40,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: hlblue, width: 1),
+                        borderRadius: BorderRadius.circular(35),
+                        color: white,
+                        boxShadow: [
+                          BoxShadow(
+                              color: dgray,
+                              blurRadius: 5,
+                              spreadRadius: 1,
+                              offset: const Offset(2, 2)),
+                        ]),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text('Cancel', style: headers),
+                      ],
+                    ),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    _deleteAllTransactions();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                          content:
+                              Text('Deleted All Transactions Successfully!')),
+                    );
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.all(5),
+                    padding: const EdgeInsets.all(5),
+                    width: 120,
+                    height: 40,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(35),
+                        color: red,
+                        boxShadow: [
+                          BoxShadow(
+                              color: dgray,
+                              blurRadius: 5,
+                              spreadRadius: 1,
+                              offset: const Offset(2, 2)),
+                        ]),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text('Delete', style: dialogConfirm),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _deleteAllTransactions() {
+    _transactionBox.clear(); // Clear all transactions
 
     setState(() {});
     Navigator.pushReplacement(
