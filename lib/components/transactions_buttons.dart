@@ -6,7 +6,6 @@ import 'package:peraplan/data/database.dart';
 import 'package:peraplan/pages/transaction_page.dart';
 import 'package:peraplan/utils/styles.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:peraplan/components/transactions_section.dart';
 
 class TransactionsButtons extends StatefulWidget {
   final Function(String) onFilterChanged;

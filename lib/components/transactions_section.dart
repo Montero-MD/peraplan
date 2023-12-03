@@ -374,12 +374,12 @@ class _TransactionsSectionState extends State<TransactionsSection> {
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           title: Row(
             children: [
-              Text('Delete All Transactions?', style: pOut),
+              Flexible(child: Text('Delete All Transactions?', style: pOut)),
               const SizedBox(width: 5),
-              Icon(Icons.delete, color: red),
+              Icon(Icons.delete, color: red, size: 35),
             ],
           ),
-          content: Text('Are you sure you want to delete All Transactions?',
+          content: Text('Are you sure you want to delete all transactions?',
               style: transactxt),
           actions: [
             Row(

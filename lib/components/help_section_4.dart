@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:peraplan/pages/help_page_3.dart';
 import 'package:peraplan/utils/styles.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class HistorPageHelp extends StatelessWidget {
   const HistorPageHelp({
@@ -179,6 +180,191 @@ class HistorPageHelp extends StatelessWidget {
             ),
           ],
         ),
+        SizedBox(height: medium),
+        SizedBox(
+          width: width,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Flexible(
+                child: Text.rich(
+                  TextSpan(
+                    children: [
+                      TextSpan(text: 'Deleting ', style: pOut),
+                      TextSpan(
+                        text: 'Transactions ',
+                        style: transacBold,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(width: 5),
+              Icon(Icons.delete, color: red, size: 35),
+            ],
+          ),
+        ),
+        SizedBox(height: medium),
+        Container(
+          width: 90.w,
+          height: 9.h,
+          padding: const EdgeInsets.all(20.0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: white,
+            boxShadow: [
+              BoxShadow(
+                color: dgray,
+                blurRadius: 5,
+                spreadRadius: 1,
+                offset: const Offset(2, 2),
+              ),
+            ],
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Icon(Icons.account_balance_wallet_rounded, color: green),
+                  const SizedBox(width: 8),
+                  Text(
+                    'Allowance',
+                    style: transactxt,
+                  ),
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  // Amount
+                  Text('+₱1000', style: alertPeraIn),
+                  // Date and Time
+                  Text(
+                    'December 03, 9:38 PM',
+                    style: dateTime,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        SizedBox(height: xsmall),
+        Row(
+          children: [
+            Flexible(
+              child: Text.rich(
+                TextSpan(
+                  children: [
+                    TextSpan(text: 'To ', style: helpText),
+                    TextSpan(
+                      text: 'delete ',
+                      style: helpRed,
+                    ),
+                    TextSpan(
+                        text:
+                            'a transaction, simply swipe it to either left or right edge of the screen.',
+                        style: helpText),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: xsmall),
+        Container(
+          width: 90.w,
+          height: 9.h,
+          padding: const EdgeInsets.all(20.0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: white,
+            boxShadow: [
+              BoxShadow(
+                color: dgray,
+                blurRadius: 5,
+                spreadRadius: 1,
+                offset: const Offset(2, 2),
+              ),
+            ],
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                width: 43.w,
+                height: 9.h,
+                color: red,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.delete, color: white),
+                  ],
+                ),
+              ),
+              Row(
+                children: [
+                  Icon(Icons.account_balance_wallet_rounded, color: green),
+                  const SizedBox(width: 8),
+                  Text(
+                    'Allowance',
+                    style: transactxt,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        SizedBox(height: small),
+        Container(
+          width: 90.w,
+          height: 9.h,
+          padding: const EdgeInsets.all(20.0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: white,
+            boxShadow: [
+              BoxShadow(
+                color: dgray,
+                blurRadius: 5,
+                spreadRadius: 1,
+                offset: const Offset(2, 2),
+              ),
+            ],
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  // Amount
+                  Text('+₱1000', style: alertPeraIn),
+                  // Date and Time
+                  Text(
+                    'December 03, 9:38 PM',
+                    style: dateTime,
+                  ),
+                ],
+              ),
+              Container(
+                width: 43.w,
+                height: 9.h,
+                color: red,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.delete, color: white),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
+        SizedBox(height: medium),
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
