@@ -103,7 +103,7 @@ class _TransactionsSectionState extends State<TransactionsSection> {
   Widget _buildTransactionData() {
     return Container(
       width: 90.w,
-      height: 35.h,
+      height: 30.h,
       padding: const EdgeInsets.all(20.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
