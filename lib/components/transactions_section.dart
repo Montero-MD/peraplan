@@ -379,10 +379,8 @@ class _TransactionsSectionState extends State<TransactionsSection> {
               Icon(Icons.delete, color: red, size: 35),
             ],
           ),
-          content: Flexible(
-            child: Text('Are you sure you want to delete all transactions?',
-                style: transactxt),
-          ),
+          content: Text('Are you sure you want to delete all transactions?',
+              style: transactxt),
           actions: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

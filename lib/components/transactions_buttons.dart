@@ -127,10 +127,8 @@ class _TransactionsButtonsState extends State<TransactionsButtons> {
               Icon(Icons.delete, color: red, size: 35),
             ],
           ),
-          content: Flexible(
-            child: Text('Are you sure you want to delete All Transactions?',
-                style: transactxt),
-          ),
+          content: Text('Are you sure you want to delete All Transactions?',
+              style: transactxt),
           actions: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
