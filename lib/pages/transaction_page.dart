@@ -22,22 +22,20 @@ class _TransactionPageState extends State<TransactionPage> {
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.only(left: small, top: small, right: small),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                const HeadingSection(),
-                SizedBox(height: small),
-                const BalanceSection(),
-                SizedBox(height: small),
-                TransactionsButtons(onFilterChanged: (String newFilter) {
-                  setState(() {
-                    filter = newFilter;
-                  });
-                }),
-                SizedBox(height: xsmall),
-                AllTransactionsSection(selectedFilter: filter),
-              ],
-            ),
+          child: Column(
+            children: [
+              const HeadingSection(),
+              SizedBox(height: small),
+              const BalanceSection(),
+              SizedBox(height: small),
+              TransactionsButtons(onFilterChanged: (String newFilter) {
+                setState(() {
+                  filter = newFilter;
+                });
+              }),
+              SizedBox(height: xsmall),
+              AllTransactionsSection(selectedFilter: filter),
+            ],
           ),
         ),
       ),

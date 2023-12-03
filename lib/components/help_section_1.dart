@@ -307,7 +307,7 @@ class HomePageHelp extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(height: small),
+        SizedBox(height: medium),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

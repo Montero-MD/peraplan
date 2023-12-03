@@ -33,36 +33,49 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
-            width: double.infinity,
-            decoration: const BoxDecoration(
-              color: Colors.white,
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const SizedBox(height: 270),
-                Text.rich(
-                  TextSpan(
-                    children: [
-                      TextSpan(text: 'Pera', style: titlePera),
-                      TextSpan(
-                        text: 'Plan',
-                        style: titlePlan,
-                      ),
-                    ],
+      body: SafeArea(
+        child: Container(
+          width: double.infinity,
+          decoration: const BoxDecoration(
+            color: Colors.white,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Center(
+                  child: Text.rich(
+                    TextSpan(
+                      children: [
+                        TextSpan(text: 'Pera', style: titlePera),
+                        TextSpan(
+                          text: 'Plan',
+                          style: titlePlan,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                const SizedBox(height: 270),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
+              ),
+              Padding(
+                padding: EdgeInsets.only(bottom: medium),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
                       'Empowering your pesos with precision: Tracking finances the Filipino way, making every centavo count!',
                       style: tagline,
-                      textAlign: TextAlign.center),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
                 ),
-              ],
-            )));
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

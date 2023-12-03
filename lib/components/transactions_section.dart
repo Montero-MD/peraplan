@@ -91,7 +91,8 @@ class _TransactionsSectionState extends State<TransactionsSection> {
 
   Widget _buildTransactionData() {
     return Container(
-      constraints: BoxConstraints(maxWidth: 90.w, maxHeight: 45.h),
+      width: 90.w,
+      height: 35.h,
       padding: const EdgeInsets.all(20.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
@@ -419,7 +420,8 @@ class _AllTransactionsSectionState extends State<AllTransactionsSection> {
 
   Widget _buildTransactionData() {
     return Container(
-      constraints: BoxConstraints(maxWidth: 90.w, maxHeight: 45.h),
+      width: 90.w,
+      height: 45.h,
       padding: const EdgeInsets.all(20.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),

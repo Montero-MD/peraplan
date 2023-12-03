@@ -11,11 +11,10 @@ class HelpPage1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: false,
-        backgroundColor: white,
-        body: SafeArea(
-            child: Padding(
-          padding: EdgeInsets.only(left: small, top: small, right: small),
+      backgroundColor: white,
+      body: Padding(
+        padding: EdgeInsets.only(left: small, top: small, right: small),
+        child: SafeArea(
           child: SingleChildScrollView(
             child: Column(
               children: [
@@ -38,10 +37,12 @@ class HelpPage1 extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: small),
-                HomePageHelp()
+                HomePageHelp(),
               ],
             ),
           ),
-        )));
+        ),
+      ),
+    );
   }
 }

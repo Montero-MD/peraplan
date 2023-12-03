@@ -116,9 +116,9 @@ class HomePage extends StatelessWidget {
       },
       child: Scaffold(
         backgroundColor: white,
-        body: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.only(left: small, top: small, right: small),
+        body: Padding(
+          padding: EdgeInsets.only(left: small, top: small, right: small),
+          child: SafeArea(
             child: SingleChildScrollView(
               child: Column(
                 children: [
