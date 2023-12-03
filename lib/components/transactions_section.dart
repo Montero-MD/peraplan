@@ -261,9 +261,9 @@ class _TransactionsSectionState extends State<TransactionsSection> {
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           title: Row(
             children: [
-              Text('Delete $transactionType?', style: pOut),
+              Flexible(child: Text('Delete $transactionType?', style: pOut)),
               const SizedBox(width: 5),
-              Icon(Icons.delete, color: red),
+              Icon(Icons.delete, color: red, size: 35),
             ],
           ),
           content: Text.rich(
@@ -379,8 +379,10 @@ class _TransactionsSectionState extends State<TransactionsSection> {
               Icon(Icons.delete, color: red, size: 35),
             ],
           ),
-          content: Text('Are you sure you want to delete all transactions?',
-              style: transactxt),
+          content: Flexible(
+            child: Text('Are you sure you want to delete all transactions?',
+                style: transactxt),
+          ),
           actions: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -710,9 +712,9 @@ class _AllTransactionsSectionState extends State<AllTransactionsSection> {
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           title: Row(
             children: [
-              Text('Delete $transactionType?', style: pOut),
+              Flexible(child: Text('Delete $transactionType?', style: pOut)),
               const SizedBox(width: 5),
-              Icon(Icons.delete, color: red),
+              Icon(Icons.delete, color: red, size: 35),
             ],
           ),
           content: Text.rich(

@@ -188,24 +188,35 @@ class HistorPageHelp extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Flexible(
-                child: Text.rich(
-                  TextSpan(
-                    children: [
-                      TextSpan(text: 'Deleting ', style: pOut),
-                      TextSpan(
-                        text: 'Transactions ',
-                        style: transacBold,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+                  child: Text('Deleting a Transaction', style: transacBold)),
               const SizedBox(width: 5),
               Icon(Icons.delete, color: red, size: 35),
             ],
           ),
         ),
         SizedBox(height: medium),
+        Row(
+          children: [
+            Flexible(
+              child: Text.rich(
+                TextSpan(
+                  children: [
+                    TextSpan(text: 'To ', style: helpText),
+                    TextSpan(
+                      text: 'delete ',
+                      style: helpRed,
+                    ),
+                    TextSpan(
+                        text:
+                            'a transaction, simply swipe it to either left or right edge of the screen.',
+                        style: helpText),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: small),
         Container(
           width: 90.w,
           height: 9.h,
@@ -250,29 +261,26 @@ class HistorPageHelp extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox(height: xsmall),
+        SizedBox(height: medium),
         Row(
           children: [
             Flexible(
               child: Text.rich(
                 TextSpan(
                   children: [
-                    TextSpan(text: 'To ', style: helpText),
+                    TextSpan(text: 'A swipe to the ', style: helpText),
                     TextSpan(
-                      text: 'delete ',
-                      style: helpRed,
+                      text: 'right',
+                      style: helpBlue,
                     ),
-                    TextSpan(
-                        text:
-                            'a transaction, simply swipe it to either left or right edge of the screen.',
-                        style: helpText),
+                    TextSpan(text: ':', style: helpText),
                   ],
                 ),
               ),
             ),
           ],
         ),
-        SizedBox(height: xsmall),
+        SizedBox(height: small),
         Container(
           width: 90.w,
           height: 9.h,
@@ -318,6 +326,25 @@ class HistorPageHelp extends StatelessWidget {
           ),
         ),
         SizedBox(height: small),
+        Row(
+          children: [
+            Flexible(
+              child: Text.rich(
+                TextSpan(
+                  children: [
+                    TextSpan(text: 'A swipe to the ', style: helpText),
+                    TextSpan(
+                      text: 'left',
+                      style: helpBlue,
+                    ),
+                    TextSpan(text: ':', style: helpText),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: small),
         Container(
           width: 90.w,
           height: 9.h,
@@ -361,6 +388,263 @@ class HistorPageHelp extends StatelessWidget {
                   ],
                 ),
               )
+            ],
+          ),
+        ),
+        SizedBox(height: medium),
+        Row(
+          children: [
+            Flexible(
+              child: Text.rich(
+                TextSpan(
+                  children: [
+                    TextSpan(text: 'An ', style: helpText),
+                    TextSpan(
+                      text: 'alert dialog ',
+                      style: helpBlue,
+                    ),
+                    TextSpan(
+                        text: 'will then appear to confirm the action.',
+                        style: helpText),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: small),
+        Container(
+          padding: const EdgeInsets.all(20.0),
+          width: width * .9,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: white,
+              boxShadow: [
+                BoxShadow(
+                    color: dgray,
+                    blurRadius: 5,
+                    spreadRadius: 1,
+                    offset: const Offset(2, 2)),
+              ]),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Flexible(child: Text('Delete Pera In?', style: pOut)),
+                  const SizedBox(width: 5),
+                  Icon(Icons.delete, color: red),
+                ],
+              ),
+              SizedBox(height: small),
+              Row(
+                children: [
+                  Expanded(
+                    child: Text.rich(
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                              text: 'Are you sure you want to delete this ',
+                              style: transactxt),
+                          TextSpan(
+                            text: 'Pera In',
+                            style: alertPeraIn,
+                          ),
+                          TextSpan(
+                            text: ' transaction?',
+                            style: transactxt,
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              SizedBox(height: small),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(5),
+                    width: 120,
+                    height: 40,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(35),
+                        border: Border.all(color: hlblue, width: 1),
+                        color: white,
+                        boxShadow: [
+                          BoxShadow(
+                              color: dgray,
+                              blurRadius: 5,
+                              spreadRadius: 1,
+                              offset: const Offset(2, 2)),
+                        ]),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text('Cancel', style: headers),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(5),
+                    width: 120,
+                    height: 40,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(35),
+                        color: red,
+                        boxShadow: [
+                          BoxShadow(
+                              color: dgray,
+                              blurRadius: 5,
+                              spreadRadius: 1,
+                              offset: const Offset(2, 2)),
+                        ]),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text('Delete', style: dialogConfirm),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        SizedBox(height: medium),
+        SizedBox(
+          width: width,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Flexible(
+                  child: Text('Deleting All Transactions', style: transacBold)),
+              const SizedBox(width: 5),
+              Icon(Icons.delete, color: red, size: 35),
+            ],
+          ),
+        ),
+        Row(
+          children: [
+            Flexible(
+              child: Text.rich(
+                TextSpan(
+                  children: [
+                    TextSpan(text: 'To ', style: helpText),
+                    TextSpan(
+                      text: 'delete ',
+                      style: helpRed,
+                    ),
+                    TextSpan(
+                        text: 'all transactions, simply tap the ',
+                        style: helpText),
+                    TextSpan(text: '"trash can" icon.', style: helpRed),
+                    TextSpan(text: 'and an ', style: helpText),
+                    TextSpan(text: 'alert dialog ', style: helpBlue),
+                    TextSpan(
+                        text: 'will then appear to confirm the action.',
+                        style: helpText),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: small),
+        Container(
+          padding: const EdgeInsets.all(20.0),
+          width: width * .9,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: white,
+              boxShadow: [
+                BoxShadow(
+                    color: dgray,
+                    blurRadius: 5,
+                    spreadRadius: 1,
+                    offset: const Offset(2, 2)),
+              ]),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Flexible(
+                      child: Text('Delete All Transactions?', style: pOut)),
+                  const SizedBox(width: 5),
+                  Icon(Icons.delete, color: red, size: 35),
+                ],
+              ),
+              SizedBox(height: small),
+              Row(
+                children: [
+                  Expanded(
+                    child: Flexible(
+                        child: Text(
+                            'Are you sure you want to delete all transactions?',
+                            style: transactxt)),
+                  )
+                ],
+              ),
+              SizedBox(height: small),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(5),
+                    width: 120,
+                    height: 40,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(35),
+                        border: Border.all(color: hlblue, width: 1),
+                        color: white,
+                        boxShadow: [
+                          BoxShadow(
+                              color: dgray,
+                              blurRadius: 5,
+                              spreadRadius: 1,
+                              offset: const Offset(2, 2)),
+                        ]),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text('Cancel', style: headers),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(5),
+                    width: 120,
+                    height: 40,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(35),
+                        color: red,
+                        boxShadow: [
+                          BoxShadow(
+                              color: dgray,
+                              blurRadius: 5,
+                              spreadRadius: 1,
+                              offset: const Offset(2, 2)),
+                        ]),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text('Delete', style: dialogConfirm),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
