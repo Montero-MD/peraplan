@@ -57,6 +57,7 @@ class _TransactionsSectionState extends State<TransactionsSection> {
       children: [
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text.rich(
               TextSpan(
@@ -68,8 +69,17 @@ class _TransactionsSectionState extends State<TransactionsSection> {
                   ),
                 ],
               ),
-            )
-            // implement icon here
+            ),
+            InkWell(
+              onTap: () {
+                _showDeleteAllDialog();
+              },
+              child: Icon(
+                Icons.delete,
+                color: red,
+                size: 35,
+              ),
+            ),
           ],
         ),
         SizedBox(
