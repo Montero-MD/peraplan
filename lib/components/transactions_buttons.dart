@@ -204,8 +204,8 @@ class _TransactionsButtonsState extends State<TransactionsButtons> {
     );
   }
 
-  void _deleteAllTransactions() {
-    _transactionBox.clear(); // Clear all transactions
+  void _deleteAllTransactions() async {
+    await _transactionBox.clear(); // Clear all transactions
 
     setState(() {});
     Navigator.pushReplacement(
